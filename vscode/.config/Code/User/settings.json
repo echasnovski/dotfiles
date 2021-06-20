@@ -1,0 +1,113 @@
+{
+    "telemetry.enableTelemetry": false,
+    "workbench.sideBar.location": "left",
+    "editor.minimap.enabled": false,
+    "python.formatting.provider": "black",
+    "vscode-neovim.neovimPath": "/usr/bin/nvim",
+    "terminal.integrated.inheritEnv": false,
+    "editor.renderWhitespace": "none",
+    "python.globalModuleInstallation": true,
+    "editor.tabCompletion": "on",
+    "workbench.colorTheme": "Solarized Dark",
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.codeLens.enabled": false,
+    "python.linting.ignorePatterns": [
+        ".vscode/*.py",
+        "**/site-packages/**/*.py"
+    ],
+    "git.suggestSmartCommit": false,
+    "autoDocstring.docstringFormat": "numpy",
+    "update.mode": "manual",
+    "r.lsp.path": "/usr/bin/R",
+    "r.bracketedPaste": true,
+    "r.rterm.linux": "$HOME/miniconda3/bin/radian",
+    "[python]": {
+        "editor.rulers": [
+            88
+        ]
+    },
+    "[r]": {
+        "editor.rulers": [
+            80
+        ],
+        "editor.formatOnSave": false
+    },
+    "[rmd]": {
+        "editor.rulers": [
+            80
+        ],
+        "editor.formatOnSave": false
+    },
+    "r.alwaysUseActiveTerminal": true,
+    "editor.tokenColorCustomizations": {
+        "[Solarized Dark]": {
+            "textMateRules": [
+                {
+                    "scope": [
+                        "punctuation.definition.arguments"
+                        // Other examples of punctuation
+                        // "punctuation.parenthesis",
+                        // "punctuation.definition",
+                        // "punctuation.definition.dict",
+                        // "punctuation.definition.list",
+                        // "punctuation.separator.period.python"
+                    ],
+                    "settings": {
+                        "foreground": "#b58900"
+                    }
+                },
+                {
+                    "scope": "punctuation.separator",
+                    "settings": {
+                        "foreground": "#fdf6e3",
+                        "fontStyle": "bold"
+                    }
+                },
+                {
+                    "scope": "keyword",
+                    "settings": {
+                        "fontStyle": "bold"
+                    }
+                }
+            ]
+        },
+        "[Gruvbox Dark Medium]": {
+            "textMateRules": [
+                {
+                    "scope": [
+                        "punctuation.definition.arguments"
+                    ],
+                    "settings": {
+                        "foreground": "#fabd2f"
+                    }
+                },
+                {
+                    "scope": "punctuation.separator",
+                    "settings": {
+                        "foreground": "#ffffff",
+                        "fontStyle": "bold"
+                    }
+                },
+                {
+                    "scope": "keyword",
+                    "settings": {
+                        "fontStyle": "bold"
+                    }
+                }
+            ]
+        }
+    },
+    "editor.snippetSuggestions": "bottom",
+    "python.diagnostics.sourceMapsEnabled": false,
+    "editor.fontSize": 13,
+    "editor.formatOnSave": true,
+    "python.formatting.blackPath": "~/.local/bin/black",
+    "jupyter.sendSelectionToInteractiveWindow": true,
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ]
+}

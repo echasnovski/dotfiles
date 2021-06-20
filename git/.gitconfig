@@ -1,0 +1,15 @@
+[user]
+	name = Evgeni Chasnovski
+	email = evgeni.chasnovski@gmail.com
+[alias]
+  s = status -sb
+  l = log -5 --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'
+  b = branch -a
+[core]
+	pager = less -F -X
+[commit]
+	gpgsign = true
+[credential "https://github.com"]
+	helper = !pass github
+[credential]
+	helper = cache

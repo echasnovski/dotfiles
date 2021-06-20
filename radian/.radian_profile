@@ -1,0 +1,29 @@
+options(
+  radian.color_scheme = "monokai",
+  radian.highlight_matching_bracket = TRUE,
+  radian.tab_size = 2,
+  radian.global_history_file = "~/.config/radian/.radian_history",
+  radian.force_reticulate_python = TRUE,
+  radian.editing_mode = "vim",
+  radian.escape_key_map = list(
+    # Map in both regurlar "r" and browser (debugging) "browse" modes
+    list(key = "i", value = " <- ", mode = "r"),
+    list(key = "i", value = " <- ", mode = "browse"),
+    list(key = "p", value = " %>%", mode = "r"),
+    list(key = "p", value = " %>%", mode = "browse")
+  ),
+  radian.on_load_hooks = list(function() {
+    getOption("rchitect.py_tools")$attach()
+
+    radian <- import("radian")
+    app <- radian$get_app()$session$app
+
+    # Modify timeout length (in seconds): time to wait after pressing <Esc> for
+    # another key pressing. Very useful to reduce delay when going in Normal
+    # mode under "vim" editing mode.
+    app$ttimeoutlen <- 0.05
+    # This shouldn't be too small, as it is used when inserting operator
+    # sequence in normal mode
+    app$timeoutlen  <- 0.25
+  })
+)

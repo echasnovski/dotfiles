@@ -1,0 +1,6 @@
+{
+  "insertAssignmentOperator": "Alt+I",
+  "insertPipeOperator": "Alt+P",
+  "fold": "Ctrl+Alt+L|Alt+Cmd+L|Cmd+F1",
+  "unfold": "Ctrl+Alt+Shift+L|Alt+Shift+Cmd+L|Shift+Cmd+F1"
+}

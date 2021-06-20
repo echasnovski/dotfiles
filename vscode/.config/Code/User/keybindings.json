@@ -1,0 +1,176 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "alt+l",
+        "command": "cursorRight"
+    },
+    {
+        "key": "alt+h",
+        "command": "cursorLeft"
+    },
+    {
+        "key": "alt+i",
+        "command": "editor.action.insertSnippet",
+        "when": "editorLangId == 'python' || editorLangId == 'jupyter'",
+        "args": {
+            "snippet": " = "
+        }
+    },
+    {
+        "key": "alt+i",
+        "command": "editor.action.insertSnippet",
+        "when": "resourceExtname == '.R' || || resourceExtname == '.r' || resourceExtname == '.Rmd'",
+        "args": {
+            "snippet": " <- "
+        }
+    },
+    {
+        "key": "alt+k",
+        "command": "editor.action.insertSnippet",
+        "when": "resourceExtname == '.R' || || resourceExtname == '.r' || resourceExtname == '.Rmd'",
+        "args": {
+            "snippet": " %>%"
+        }
+    },
+    {
+        "key": "ctrl+alt+i",
+        "command": "editor.action.insertSnippet",
+        "when": "resourceExtname == '.Rmd'",
+        "args": {
+            "snippet": "```{${1:r} $2}\n$0\n```"
+        }
+    },
+    {
+        "key": "ctrl+k i",
+        "command": "editor.action.insertSnippet",
+        "when": "editorLangId == 'python' || editorLangId == 'jupyter'",
+        "args": {
+            "snippet": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt"
+        }
+    },
+    {
+        "key": "ctrl+k ctrl+c",
+        "command": "-editor.action.addCommentLine",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+k c",
+        "command": "editor.action.insertSnippet",
+        "when": "editorLangId == 'python' || editorLangId == 'jupyter'",
+        "args": {
+            "snippet": "\n#%% $0\n"
+        }
+    },
+    {
+        "key": "ctrl+k m",
+        "command": "editor.action.insertSnippet",
+        "when": "editorLangId == 'python' || editorLangId == 'jupyter'",
+        "args": {
+            "snippet": "\n#%% [markdown] $0\n"
+        }
+    },
+    {
+        "key": "ctrl+[BracketLeft]",
+        "command": "vscode-neovim.escape",
+        "when": "editorTextFocus && neovim.init"
+    },
+    {
+        "key": "ctrl+c",
+        "command": "-vscode-neovim.escape",
+        "when": "editorTextFocus && neovim.init"
+    },
+    {
+        "key": "ctrl+tab",
+        "command": "workbench.action.nextEditorInGroup"
+    },
+    {
+        "key": "ctrl+k ctrl+pagedown",
+        "command": "-workbench.action.nextEditorInGroup"
+    },
+    {
+        "key": "ctrl+shift+tab",
+        "command": "workbench.action.previousEditorInGroup"
+    },
+    {
+        "key": "ctrl+k ctrl+pageup",
+        "command": "-workbench.action.previousEditorInGroup"
+    },
+    {
+        "key": "ctrl+shift+x",
+        "command": "python.runCurrentTestFile"
+    },
+    {
+        "key": "ctrl+shift+c",
+        "command": "python.runFailedTests"
+    },
+    {
+        "key": "ctrl+alt+c",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            // Insert into terminal commands to run coverage of Python package
+            // which should be a subdirectory with the same name as workspace
+            // directory
+            "text": "py.test ${workspaceFolderBasename} --doctest-modules --cov ${workspaceFolderBasename} --cov-report xml:cov.xml"
+        }
+    },
+    {
+        "key": "ctrl+shift+t",
+        "command": "python.runtests"
+    },
+    {
+        "key": "ctrl+shift+l",
+        "command": "r.loadAll"
+    },
+    {
+        "key": "ctrl+shift+t",
+        "command": "r.test"
+    },
+    {
+        "key": "ctrl+shift+d",
+        "command": "r.document"
+    },
+    {
+        "key": "ctrl+1",
+        "command": "-r.nrow",
+        "when": "editorTextFocus && editorLangId == 'r'"
+    },
+    {
+        "key": "ctrl+2",
+        "command": "-r.length",
+        "when": "editorTextFocus && editorLangId == 'r'"
+    },
+    {
+        "key": "ctrl+3",
+        "command": "-r.head",
+        "when": "editorTextFocus && editorLangId == 'r'"
+    },
+    {
+        "key": "ctrl+4",
+        "command": "-r.thead",
+        "when": "editorTextFocus && editorLangId == 'r'"
+    },
+    {
+        "key": "ctrl+5",
+        "command": "-r.names",
+        "when": "editorTextFocus && editorLangId == 'r'"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-workbench.action.reloadWindow",
+        "when": "isDevelopment"
+    },
+    {
+        "key": "ctrl+shift+k",
+        "command": "-editor.action.deleteLines",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+v",
+        "command": "-markdown.extension.togglePreview",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+k t",
+        "command": "workbench.action.terminal.runSelectedText"
+    }
+]
