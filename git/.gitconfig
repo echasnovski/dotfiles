@@ -7,6 +7,7 @@
   b = branch -a
 [core]
 	pager = less -F -X
+	excludesfile = ~/.gitignore
 [commit]
 	gpgsign = true
 [credential "https://github.com"]
