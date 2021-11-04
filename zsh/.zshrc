@@ -23,7 +23,7 @@ bindkey -v
 KEYTIMEOUT=5
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -130,9 +130,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS='--layout=reverse --inline-info --height 25%'
 
-# Environment variable for 'radian' (may vary on different systems)
-export R_HOME="/usr/lib/R"
-
 # Add Miniconda to PATH
 . ~/miniconda3/etc/profile.d/conda.sh
 
@@ -165,3 +162,5 @@ autoload -U compinit && compinit
 
 # Set up GnuPG
 export GPG_TTY=$(tty)
+
+export PATH="$PATH:$HOME/.local/bin"
