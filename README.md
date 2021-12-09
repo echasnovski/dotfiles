@@ -12,10 +12,10 @@ NOTE: Neovim package is a Git submodule to my [personal Neovim configuration](ht
 
 A (probably not full) list of (at least once in a while) used tools (in alphabetical order; asterisk indicates crucial ones):
 
-- [Alacritty](https://github.com/alacritty/alacritty) (currently [not supports undercurls](https://github.com/alacritty/alacritty/issues/1628), which is why basic Gnome Terminal is better)
 - [Git](http://git-scm.com/) \*
 - [GnuPG](https://gnupg.org/) \*
 - [Ipython](https://ipython.org/)
+- [Kitty](https://sw.kovidgoyal.net/kitty/binary/#manually-installing)
 - [Neovim](https://github.com/neovim/neovim) \*
 - [Oh My Zsh](https://ohmyz.sh/) \*
 - [Powerlevel10k](https://github.com/romkatv/powerlevel10k) \*
@@ -27,3 +27,22 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [pass](https://www.passwordstore.org/) \*
 - [radian](https://github.com/randy3k/radian)
 - [ranger](https://github.com/ranger/ranger) \*
+
+## Notes for tools
+
+### General
+
+- Current general recommendation for installing applications is to prefer binary `appimage` (like with Neovim, Kitty, etc.):
+    - Put binary in '/opt/<app-name>/<app-binary>' (like '/opt/neovim/nvim_0.6.0').
+    - Make it executable with `sudo chmod u+x` (like `sudo chmod u+x /opt/neovim/nvim_0.6.0`).
+    - Make soft link to '/usr/local/bin' (like `sudo ln -s /opt/neovim/nvim_0.6.0 /usr/local/bin/nvim`).
+- Prefer [pipx](https://github.com/pypa/pipx) for installation python-written applications (like `radian`, `ranger` with `ranger-fm`).
+
+### Kitty
+
+- Image preview requires [imagemagick](https://imagemagick.org/script/download.php). Use appimage.
+- Use `kitty +kitten ssh <path>` to make ssh connection. Among other things, it makes `tmux` work.
+
+### ranger
+
+- To support image preview with kitty, add `pillow` package: `pipx inject ranger-fm pillow`.

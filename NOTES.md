@@ -139,7 +139,7 @@ Summary of steps:
 
     conda install numpy pandas matplotlig scikit-learn ipython jupyter notebook
 
-# Install R on Linux server
+# Install R on Linux
 
 Source: https://docs.rstudio.com/resources/install-r/
 
