@@ -24,9 +24,12 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [VS Code](https://code.visualstudio.com/)
 - [Vim](https://www.vim.org/) \*
 - [Zsh](https://www.zsh.org/) \*
+- [fzf](https://github.com/junegunn/fzf)
+- [i3](https://i3wm.org/) \*
 - [pass](https://www.passwordstore.org/) \*
 - [radian](https://github.com/randy3k/radian)
 - [ranger](https://github.com/ranger/ranger) \*
+- [rofi](https://github.com/davatorium/rofi) \*
 
 ## Notes for tools
 
