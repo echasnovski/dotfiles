@@ -14,6 +14,9 @@ fi
 ## keybindings)
 bindkey -v
 
+## Change cursor depending on Vi mode (comes from vi-mode plugin)
+VI_MODE_SET_CURSOR=true
+
 ## The time the shell waits, in hundredths of seconds, for another key
 ## to be pressed when reading bound multi-character sequences.
 ##
