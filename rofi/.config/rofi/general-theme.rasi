@@ -1,0 +1,32 @@
+* {
+  text-color: @col-fg;
+  background-color: @col-bg;
+}
+
+#window {
+  font: "Ubuntu Mono Nerd Font 13";
+  location: center;
+  border-color: @col-accent;
+  border: 1;
+  border-radius: 0;
+  padding: 0 0;
+  width: 33%;
+}
+
+#element {
+  padding: 0.5%;
+}
+
+#element.selected {
+  background-color: @col-selection;
+}
+
+#prompt {
+  color: @col-bg;
+  background-color: @col-accent;
+  padding: 0.5%;
+}
+
+#entry {
+  padding: 0.5%;
+}
