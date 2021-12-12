@@ -133,12 +133,12 @@ new_window normal 1
 hide_edge_borders smart
 
 # Colors
-# class                 border         bground        text         indicator    child_border
-client.focused          $col-selection $col-selection $col-fg  $col-accent3 $col-accent
-client.focused_inactive $col-bg        $col-bg        $col-accent2 $col-accent3 $col-accent2
-client.unfocused        $col-bg        $col-bg        $col-fg      $col-accent3 $col-bg
-client.urgent           $col-bg        $col-bg        $col-urgent  $col-accent3 $col-urgent
-client.placeholder      $col-bg        $col-bg        $col-fg      $col-accent3 $col-bg
+# class                 border       bground      text    indicator    child_border
+client.focused          $col-accent  $col-accent  $col-bg $col-accent3 $col-accent
+client.focused_inactive $col-accent2 $col-accent2 $col-bg $col-accent3 $col-accent2
+client.unfocused        $col-bg      $col-bg      $col-fg $col-accent3 $col-bg
+client.urgent           $col-urgent  $col-urgent  $col-bg $col-accent3 $col-urgent
+client.placeholder      $col-bg      $col-bg      $col-fg $col-accent3 $col-bg
 
 client.background       $col-bg
 
