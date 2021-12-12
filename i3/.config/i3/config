@@ -2,10 +2,11 @@
 # Dependencies:
 # - `i3lock`
 # - `openssl`
-# - `Kitty` terminal emulator
+# - `Kitty` terminal emulator (should enable its configuration)
 # - `rofi` launcher (dmenu replacement)
 # - `feh` image viewer (for setting background images)
 # - `maim` screenshot maker (with `xdotool` dependency to make window screenshots)
+# - `compton` for reduced screen tearing (should enable its configuration)
 
 ### Color scheme ###
 
@@ -120,6 +121,9 @@ exec "setxkbmap -option 'grp:alt_shift_toggle'"
 # certain directory, see script)
 set $wallpapers ~/.config/i3/random-wallpapers.sh
 exec --no-startup-id chmod u+x $wallpapers; $wallpapers
+
+# Start `compton` to reduce screen tearing
+exec --no-startup-id compton --config ~/.config/compton.conf -b
 
 ### Appearance ###
 
