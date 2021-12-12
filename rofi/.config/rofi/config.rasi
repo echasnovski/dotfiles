@@ -8,6 +8,7 @@ configuration {
   hide-scrollbar: true;
   window-format: "{w} {t}";
   combi-hide-mode-prefix: true;
+  matching: "fuzzy";
   display-window: "Windows";
   display-windowcd: "Windows";
   display-run: "Commands";

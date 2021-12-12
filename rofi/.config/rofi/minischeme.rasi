@@ -1,7 +1,6 @@
 * {
   col-fg: #e2e98f;
   col-bg: #112641;
-  col-selection: #606b81;
   col-accent: #00a5c5;
 }
 

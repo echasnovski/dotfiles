@@ -18,7 +18,12 @@
 }
 
 #element.selected {
-  background-color: @col-selection;
+  background-color: @col-accent;
+  text-color: @col-bg;
+}
+
+#inputbar {
+  children: [entry];
 }
 
 #prompt {
