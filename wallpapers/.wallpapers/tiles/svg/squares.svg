@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g id="squares" fill="#FFCC66" fill-opacity="0.05" fill-rule="evenodd" stroke="none" stroke-width="1">
+    <path d="M6 18h12V6H6v12zM4 4h16v16H4V4z"/>
+  </g>
+</svg>
