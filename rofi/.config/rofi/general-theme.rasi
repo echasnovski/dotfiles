@@ -7,7 +7,7 @@
   font: "Ubuntu Mono Nerd Font 13";
   location: center;
   border-color: @col-accent;
-  border: 1;
+  border: 2;
   border-radius: 0;
   padding: 0 0;
   width: 33%;
