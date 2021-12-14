@@ -24,6 +24,7 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [VS Code](https://code.visualstudio.com/)
 - [Vim](https://www.vim.org/) \*
 - [Zsh](https://www.zsh.org/) \*
+- [btop](https://github.com/aristocratos/btop)
 - [fzf](https://github.com/junegunn/fzf)
 - [i3](https://i3wm.org/) \*
 - [pass](https://www.passwordstore.org/) \*
@@ -35,7 +36,7 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 
 ### General
 
-- Current general recommendation for installing applications is to prefer binary `appimage` (like with Neovim, Kitty, etc.):
+- Current general recommendation for installing applications is to prefer binary `appimage` (like with `Neovim`, `Kitty`, `btop`, etc.):
     - Put binary in '/opt/<app-name>/<app-binary>' (like '/opt/neovim/nvim_0.6.0').
     - Make it executable with `sudo chmod u+x` (like `sudo chmod u+x /opt/neovim/nvim_0.6.0`).
     - Make soft link to '/usr/local/bin' (like `sudo ln -s /opt/neovim/nvim_0.6.0 /usr/local/bin/nvim`).
