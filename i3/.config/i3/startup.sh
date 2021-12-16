@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ### Code for custom i3 startup actions ###
 

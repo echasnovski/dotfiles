@@ -58,24 +58,25 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-    position top
-    status_command i3status
-
-    colors {
-        background $col-bg
-        separator $col-bglight
-
-        # class            border       bg           text
-        focused_workspace  $col-accent3 $col-accent3 $col-bg
-        active_workspace   $col-accent2 $col-accent2 $col-bg
-        inactive_workspace $col-bg      $col-bg      $col-fg
-        urgent_workspace   $col-urgent  $col-urgent  $col-bg
-        binding_mode       $col-accent  $col-accent  $col-bg
-    }
-}
+# # Configuration of i3bar (if used instead of `polybar`)
+# # Start i3bar to display a workspace bar (plus the system information i3status
+# # finds out, if available)
+# bar {
+#     position top
+#     status_command i3status
+#
+#     colors {
+#         background $col-bg
+#         separator $col-bglight
+#
+#         # class            border       bg           text
+#         focused_workspace  $col-accent3 $col-accent3 $col-bg
+#         active_workspace   $col-accent2 $col-accent2 $col-bg
+#         inactive_workspace $col-bg      $col-bg      $col-fg
+#         urgent_workspace   $col-urgent  $col-urgent  $col-bg
+#         binding_mode       $col-accent  $col-accent  $col-bg
+#     }
+# }
 
 ### Workspaces ###
 
@@ -313,3 +314,8 @@ bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow)
 
 # Execute startup script
 exec --no-startup-id chmod u+x ~/.config/i3/startup.sh; ~/.config/i3/startup.sh
+
+# Show status bar
+# NOTE: use `exec_always` to refresh it when this config refreshes
+exec_always chmod u+x ~/.config/polybar/launch.sh
+exec_always ~/.config/polybar/launch.sh

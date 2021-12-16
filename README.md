@@ -28,6 +28,7 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [fzf](https://github.com/junegunn/fzf)
 - [i3](https://i3wm.org/) \*
 - [pass](https://www.passwordstore.org/) \*
+- [polybar](https://github.com/polybar/polybar) \*
 - [radian](https://github.com/randy3k/radian)
 - [ranger](https://github.com/ranger/ranger) \*
 - [rofi](https://github.com/davatorium/rofi) \*
@@ -46,6 +47,10 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 
 - Image preview requires [imagemagick](https://imagemagick.org/script/download.php). Use appimage.
 - Use `kitty +kitten ssh <path>` to make ssh connection. Among other things, it makes `tmux` work.
+
+### Polybar
+
+Installation might require compilation from source (at least on Ubuntu). Using [official instructions](https://github.com/polybar/polybar/wiki/Compiling) helped.
 
 ### ranger
 
