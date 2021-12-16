@@ -10,8 +10,11 @@ setxkbmap -option 'grp:alt_shift_toggle'
 compton --config ~/.config/compton.conf -b
 
 # Start process of showing regularly changed wallpapers
-chmod u+x ~/.config/i3/random-wallpapers.sh
-~/.config/i3/random-wallpapers.sh &
+if [[ -f ~/.wallpapers/random-wallpapers.sh ]]
+then
+  chmod u+x ~/.wallpapers/random-wallpapers.sh
+  ~/.wallpapers/random-wallpapers.sh &
+fi
 
 # Open predefined windows
 ## Main terminal
