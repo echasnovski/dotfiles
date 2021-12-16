@@ -102,24 +102,6 @@ assign [class="(?i)telegram"] $ws10
 
 for_window [class="(?i)vlc|(?i)firefox"] focus
 
-### Startup ###
-
-# # Execute startup script
-# set $startup-script ~/.config/i3/startup.sh
-# exec --no-startup-id chmod u+x $startup-script; $startup-script
-
-# Start process that regularly changes wallpapers (all of them should be in
-# certain directory, see script)
-set $wallpapers ~/.config/i3/random-wallpapers.sh
-exec --no-startup-id chmod u+x $wallpapers; $wallpapers
-
-# Start `compton` to reduce screen tearing
-exec --no-startup-id compton --config ~/.config/compton.conf -b
-
-# Manage keyboard layout
-exec "setxkbmap -layout us,ru"
-exec "setxkbmap -option 'grp:alt_shift_toggle'"
-
 ### Appearance ###
 
 # Use tabbed layout by default
@@ -323,9 +305,9 @@ bindsym --release button2 kill
 bindsym --whole-window $mod+button2 kill
 
 # Make screenshot
-bindsym Print exec --no-startup-id maim "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S)" && notify-send 'Made screenshot'
-bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S)" && notify-send 'Made screenshot'
-bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S)" && notify-send 'Made screenshot'
+bindsym Print exec --no-startup-id maim "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot'
+bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot'
+bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot'
 
 ### Startup ###
 

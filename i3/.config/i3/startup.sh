@@ -15,7 +15,7 @@ chmod u+x ~/.config/i3/random-wallpapers.sh
 
 # Open predefined windows
 ## Main terminal
-i3-msg 'workspace "1:main"; layout tabbed'
+i3-msg 'workspace "1:main"'
 sleep 0.5
 
 kitty &
