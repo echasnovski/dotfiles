@@ -28,6 +28,15 @@ set $col-accent #FFCC66
 set $col-accent2 #BBE67E
 set $col-accent3 #5CCFE6
 
+# # Ayu light
+# set $col-fg #5C6773
+# set $col-bg #FAFAFA
+# set $col-bglight #F0EEE4
+# set $col-urgent #FF3333
+# set $col-accent #FF6A00
+# set $col-accent2 #86B300
+# set $col-accent3 #36A3D9
+
 # # Minischeme
 # set $col-fg #E2E98F
 # set $col-bg #112641
@@ -36,6 +45,15 @@ set $col-accent3 #5CCFE6
 # set $col-accent #00A5C5
 # set $col-accent2 #CA6ECF
 # set $col-accent3 #46A436
+
+# # Minischeme light
+# set $col-fg #002A83
+# set $col-bg #E2E5CA
+# set $col-bglight #979A7E
+# set $col-urgent #A86400
+# set $col-accent #0086ae
+# set $col-accent2 #B34AAD
+# set $col-accent3 #008818
 
 ### General ###
 
