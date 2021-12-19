@@ -210,10 +210,10 @@ bindsym $mod+Shift+f floating toggle
 
 # Change container layout
 ## Between tabbed and split
-bindsym $mod+x layout toggle tabbed split
+bindsym $mod+x layout toggle tabbed splith
 
 ## Between horizontal and vertical split
-bindsym $mod+Shift+x layout toggle split
+bindsym $mod+Shift+x layout toggle splith splitv
 
 # Focus the parent/child container
 bindsym $mod+a focus parent
