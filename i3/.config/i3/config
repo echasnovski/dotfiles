@@ -114,10 +114,9 @@ set $ws10 "10:permanent"
 
 # Workspace rules
 assign [class="(?i)firefox"] $ws2
-assign [class="(?i)vlc"] $ws3
-## Libre office
-assign [class="(?i)soffice"] $ws3
-assign [class="(?i)telegram"] $ws10
+assign [class="(?i)vlc|(?i)soffice"] $ws3
+assign [class="(?i)telegram|(?i)thunderbird"] $ws10
+assign [instance="permanent-btop"] $ws10
 
 for_window [class="(?i)vlc|(?i)firefox"] focus
 
@@ -143,8 +142,7 @@ client.placeholder      $col-bg      $col-bg      $col-fg $col-accent3 $col-bgli
 client.background       $col-bg
 
 # Don't show full title when private browsing
-for_window [class="(?i)firefox" title="(?i)private"] title_format "Mozilla Firefox"
-for_window [class="(?i)firefox" title="(?i)приватный"] title_format "Mozilla Firefox"
+for_window [class="(?i)firefox" title="(?i)private|(?i)приватный"] title_format "Mozilla Firefox"
 
 ### Keybindings ###
 
