@@ -8,7 +8,7 @@
 # - `maim` screenshot maker (with `xdotool` dependency to make window screenshots)
 # - `compton` for reduced screen tearing (should enable its configuration)
 
-### Color scheme ###
+# Color scheme ================================================================
 
 # # Ayu dark
 # set $col-fg #E6E1CF
@@ -55,7 +55,7 @@ set $col-accent3 #5CCFE6
 # set $col-accent2 #B34AAD
 # set $col-accent3 #008818
 
-### General ###
+# General =====================================================================
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -96,7 +96,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 #     }
 # }
 
-### Workspaces ###
+# Workspaces ==================================================================
 
 # Define names for default workspaces for which we configure key bindings later on.
 # Use variables to avoid repeating the names in multiple places.
@@ -118,9 +118,15 @@ assign [class="(?i)vlc|(?i)soffice"] $ws3
 assign [class="(?i)telegram|(?i)thunderbird"] $ws10
 assign [instance="permanent-btop"] $ws10
 
+# Window rules ================================================================
+
+# Automatically focus certain aplications
 for_window [class="(?i)vlc|(?i)firefox"] focus
 
-### Appearance ###
+# Show manually called calendar in floating window
+for_window [class="kitty-cal" title="Calendar"] floating enable, resize set 600px 250px, move position center
+
+# Appearance ==================================================================
 
 # Use tabbed layout by default
 workspace_layout tabbed
@@ -144,7 +150,7 @@ client.background       $col-bg
 # Don't show full title when private browsing
 for_window [class="(?i)firefox" title="(?i)private|(?i)приватный"] title_format "Mozilla Firefox"
 
-### Keybindings ###
+# Keybindings =================================================================
 
 # Set main modifier to *Super*
 set $mod Mod4
@@ -326,7 +332,7 @@ bindsym Print exec --no-startup-id maim "/home/$USER/screenshot_$(date +%Y-%m-%d
 bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot'
 bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot'
 
-### Startup ###
+# Startup =====================================================================
 
 # Execute startup script
 exec --no-startup-id chmod u+x ~/.config/i3/startup.sh; ~/.config/i3/startup.sh
