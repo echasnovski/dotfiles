@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DATE="WDAY:$(date +"%w, %Y-%m-%d %H:%M:%S")"
+DATE="WDAY=$(date +"%w %Y-%m-%d %H:%M:%S")"
 
 case "$1" in
 --popup)
