@@ -126,19 +126,10 @@ fi
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# Environment variable for 'radian'
-export R_HOME="/usr/lib/R"
-
-# Add Miniconda to PATH
-. ~/miniconda3/etc/profile.d/conda.sh
-
 # Add pyenv to PATH
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-
-# Add poetry to PATH
-source ~/.poetry/env
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

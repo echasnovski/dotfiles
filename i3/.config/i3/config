@@ -1,6 +1,7 @@
 # This config is a modified version of auto-generated config
 # Dependencies:
 # - `i3lock`
+# - `i3-sensible-terminal` (set `TERMINAL` variable in `~/.profile`)
 # - `openssl`
 # - `Kitty` terminal emulator (should enable its configuration)
 # - `rofi` launcher (dmenu replacement)
@@ -159,7 +160,7 @@ set $mod Mod4
 floating_modifier $mod
 
 # Start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec i3-sensible-terminal
 
 # Close focused window with possibility of undo
 set $kill "99:Killed"
