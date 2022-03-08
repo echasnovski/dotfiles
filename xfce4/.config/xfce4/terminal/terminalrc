@@ -1,0 +1,51 @@
+[Configuration]
+FontName=UbuntuMono NF 12
+
+; Colors
+; Ayu
+ColorBackground=#212733
+ColorForeground=#D9D7CE
+ColorPalette=#212733;#FF3333;#B8CC52;#F29718;#36A3D9;#A37ACC;#4CBF99;#FFFFFF;#607080;#F07178;#BBE67E;#FFCC66;#5CCFE6;#D4BFFF;#95E6CB;#5C6773
+
+; ; Ayu light
+; ColorBackground=#FAFAFA
+; ColorForeground=#5C6773
+; ColorPalette=#FAFAFA;#FF3333;#86B300;#FF6A00;#36A3D9;#A37ACC;#4CBF99;#FFFFFF;#828C99;#F07178;#BBE67E;#FFCC66;#5CCFE6;#D4BFFF;#95E6CB;#5C6773
+
+; ; Minischeme
+; ColorBackground=#112641
+; ColorForeground=#E2E98F
+; ColorPalette=#112641;#FFCFA0;#9FF895;#46A436;#42F7FF;#FFC4FF;#CA6ECF;#E2E98F;#8691A7;#CC7E46;#9FF895;#46A436;#00A5C5;#FFC4FF;#CA6ECF;#FCFFAA
+
+; ; Minischeme light
+; ColorBackground=#E2E5CA
+; ColorForeground=#002a83
+; ColorPalette=#E2E5CA;#5E2200;#004500;#008818;#004B76;#7D0077;#B34AAD;#002A83;#73765A;#A86400;#004500;#008818;#0086AE;#7D0077;#B34AAD;#080500
+
+MiscAlwaysShowTabs=FALSE
+MiscBell=FALSE
+MiscBellUrgent=FALSE
+MiscBordersDefault=TRUE
+MiscCursorBlinks=FALSE
+MiscCursorShape=TERMINAL_CURSOR_SHAPE_BLOCK
+MiscDefaultGeometry=80x24
+MiscInheritGeometry=FALSE
+MiscMenubarDefault=FALSE
+MiscMouseAutohide=FALSE
+MiscMouseWheelZoom=TRUE
+MiscToolbarDefault=FALSE
+MiscConfirmClose=TRUE
+MiscCycleTabs=TRUE
+MiscTabCloseButtons=TRUE
+MiscTabCloseMiddleClick=TRUE
+MiscTabPosition=GTK_POS_TOP
+MiscHighlightUrls=TRUE
+MiscMiddleClickOpensUri=FALSE
+MiscCopyOnSelect=FALSE
+MiscShowRelaunchDialog=TRUE
+MiscRewrapOnResize=TRUE
+MiscUseShiftArrowsToScroll=FALSE
+MiscSlimTabs=FALSE
+MiscNewTabAdjacent=FALSE
+MiscSearchDialogOpacity=100
+MiscShowUnsafePasteDialog=TRUE
