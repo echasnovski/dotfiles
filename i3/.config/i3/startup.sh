@@ -30,9 +30,5 @@ fi
 i3-msg 'workspace "10:permanent"; layout splith'
 sleep 1
 
-telegram-desktop &
-sleep 1
-thunderbird &
-sleep 1
-kitty --name=permanent-btop btop &
+xfce4-terminal -e btop &
 sleep 1

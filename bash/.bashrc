@@ -140,3 +140,6 @@ export GPG_TTY=$(tty)
 
 # Allow usage of `<C-s>` in Vim/Neovim (disable flow control)
 stty -ixon -ixoff
+
+# Add `~/.local/bin`
+export PATH="$PATH:$HOME/.local/bin"

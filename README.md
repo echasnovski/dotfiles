@@ -16,6 +16,7 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [GnuPG](https://gnupg.org/) \*
 - [Ipython](https://ipython.org/)
 - [Kitty](https://sw.kovidgoyal.net/kitty/binary/#manually-installing)
+- [xfce4-terminal](https://docs.xfce.org/apps/terminal/start)
 - [Neovim](https://github.com/neovim/neovim) \*
 - [Oh My Zsh](https://ohmyz.sh/) \*
 - [Powerlevel10k](https://github.com/romkatv/powerlevel10k) \*

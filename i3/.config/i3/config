@@ -3,7 +3,7 @@
 # - `i3lock`
 # - `i3-sensible-terminal` (set `TERMINAL` variable in `~/.profile`)
 # - `openssl`
-# - `Kitty` terminal emulator (should enable its configuration)
+# - `Kitty` or `xfce4` terminal emulator (should enable its configuration)
 # - `rofi` launcher (dmenu replacement)
 # - `feh` image viewer (for setting background images)
 # - `maim` screenshot maker (with `xdotool` dependency to make window screenshots)
@@ -116,8 +116,6 @@ set $ws10 "10:permanent"
 # Workspace rules
 assign [class="(?i)firefox"] $ws2
 assign [class="(?i)vlc|(?i)soffice"] $ws3
-assign [class="(?i)telegram|(?i)thunderbird"] $ws10
-assign [instance="permanent-btop"] $ws10
 
 # Window rules ================================================================
 
@@ -125,7 +123,7 @@ assign [instance="permanent-btop"] $ws10
 for_window [class="(?i)vlc|(?i)firefox"] focus
 
 # Show manually called calendar in floating window
-for_window [class="kitty-cal" title="Calendar"] floating enable, resize set 600px 250px, move position center
+for_window [title="Popup-Calendar"] floating enable, resize set 600px 250px, move position center
 
 # Appearance ==================================================================
 
