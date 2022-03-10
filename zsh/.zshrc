@@ -93,6 +93,10 @@ SAVEHIST=1000
 setopt appendhistory
 setopt HIST_FIND_NO_DUPS
 
+# Make 'Up' and 'Down' arrows respect search beginning
+bindkey "\eOA" history-beginning-search-backward
+bindkey "\eOB" history-beginning-search-forward
+
 # Aliases
 alias ll='ls -alF --color=auto'
 alias la='ls -A --color=auto'
