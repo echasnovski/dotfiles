@@ -16,7 +16,6 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [GnuPG](https://gnupg.org/) \*
 - [Ipython](https://ipython.org/)
 - [Kitty](https://sw.kovidgoyal.net/kitty/binary/#manually-installing)
-- [xfce4-terminal](https://docs.xfce.org/apps/terminal/start)
 - [Neovim](https://github.com/neovim/neovim) \*
 - [Oh My Zsh](https://ohmyz.sh/) \*
 - [Powerlevel10k](https://github.com/romkatv/powerlevel10k) \*
@@ -28,11 +27,17 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [btop](https://github.com/aristocratos/btop)
 - [fzf](https://github.com/junegunn/fzf)
 - [i3](https://i3wm.org/) \*
+- [nnn](https://github.com/jarun/nnn) \*
 - [pass](https://www.passwordstore.org/) \*
 - [polybar](https://github.com/polybar/polybar) \*
 - [radian](https://github.com/randy3k/radian)
-- [ranger](https://github.com/ranger/ranger) \*
+- [ranger](https://github.com/ranger/ranger)
 - [rofi](https://github.com/davatorium/rofi) \*
+- [xfce4-terminal](https://docs.xfce.org/apps/terminal/start)
+
+## Notes
+
+- Think about creating '~/.profile' file with only relevant local environment variables. Like `TERMINAL`, `EDITOR`, `PAGER`, etc.
 
 ## Notes for tools
 
@@ -56,3 +61,16 @@ Installation might require compilation from source (at least on Ubuntu). Using [
 ### ranger
 
 - To support image preview with kitty, add `pillow` package: `pipx inject ranger-fm pillow`.
+
+### nnn
+
+- To enable nerd font icons: clone, make and move to `/usr/local/bin`:
+
+```bash
+git clone --depth 1 https://github.com/jarun/nnn
+sudo mv nnn /opt
+cd /opt/nnn
+# Needs basic 'make' prerequisites (see github repo for more details)
+sudo make O_NERD=1
+sudo ln -s /opt/nnn/nnn /usr/local/bin/nnn
+```

@@ -81,7 +81,7 @@ if [ -d "${PYENV_ROOT}" ]; then
 fi
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -114,3 +114,12 @@ export GPG_TTY=$(tty)
 
 # Add `~/.local/bin`
 export PATH="$PATH:$HOME/.local/bin"
+
+# NNN file manager
+export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+export NNN_FIFO="/tmp/nnn.fifo"
+export NNN_PLUG="p:preview-tui"
+export NNN_BMS="n:$HOME/.config/nvim;m:$HOME/.config/nvim/pack/plugins/opt/mini"
+export NNN_OPTS="He"
+
+alias n='nnn'
