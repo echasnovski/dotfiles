@@ -1,6 +1,5 @@
 configuration {
   modi: "combi,drun,run,window";
-  lines: 10;
   show-icons: true;
   terminal: "kitty";
   run-shell-command: "{terminal} --window -- bash";

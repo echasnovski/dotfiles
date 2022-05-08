@@ -13,6 +13,19 @@
   width: 33%;
 }
 
+#listview {
+  lines: 10;
+}
+
+element-text {
+  background-color: inherit;
+  text-color:       inherit;
+}
+
+element-icon {
+  background-color: inherit;
+}
+
 #element {
   padding: 0.5%;
 }
