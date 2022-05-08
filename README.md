@@ -31,7 +31,6 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [pass](https://www.passwordstore.org/) \*
 - [polybar](https://github.com/polybar/polybar) \*
 - [radian](https://github.com/randy3k/radian)
-- [ranger](https://github.com/ranger/ranger)
 - [rofi](https://github.com/davatorium/rofi) \*
 - [xfce4-terminal](https://docs.xfce.org/apps/terminal/start)
 
@@ -57,10 +56,6 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 ### Polybar
 
 Installation might require compilation from source (at least on Ubuntu). Using [official instructions](https://github.com/polybar/polybar/wiki/Compiling) helped.
-
-### ranger
-
-- To support image preview with kitty, add `pillow` package: `pipx inject ranger-fm pillow`.
 
 ### nnn
 

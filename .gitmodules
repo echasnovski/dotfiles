@@ -1,6 +1,3 @@
 [submodule "neovim/.config/nvim"]
 	path = neovim/.config/nvim
 	url = https://github.com/echasnovski/nvim
-[submodule "ranger/.config/ranger/plugins/ranger_devicons"]
-	path = ranger/.config/ranger/plugins/ranger_devicons
-	url = https://github.com/alexanderjeurissen/ranger_devicons
