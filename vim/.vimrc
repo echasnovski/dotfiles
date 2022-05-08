@@ -490,7 +490,7 @@ hi! link diffAdded String
 
 " This is needed for some reason: {{{2
 
-let &background = s:style
+" let &background = s:style
 
 " }}}2
 " }}}
