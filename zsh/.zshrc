@@ -3,6 +3,10 @@
 # throws error about 'standard input' and 'ioctl'
 stty -ixon -ixoff
 
+# Set up GnuPG. Should go before 'p10k-instant-promt' because otherwise
+# `GPG_TTY` will be `not a tty`.
+export GPG_TTY=$(tty)
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -93,9 +97,10 @@ SAVEHIST=1000
 setopt appendhistory
 setopt HIST_FIND_NO_DUPS
 
-# Make 'Up' and 'Down' arrows respect search beginning
-bindkey "\eOA" history-beginning-search-backward
-bindkey "\eOB" history-beginning-search-forward
+# Make 'Up' and 'Down' arrows respect search beginning. Other possible values
+# which worked previously for binding arrows are "\eOA" and "\eOB"
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
 
 # Aliases
 alias ll='ls -alF --color=auto'
@@ -103,15 +108,14 @@ alias la='ls -A --color=auto'
 alias l='ls -CF --color=auto'
 alias untar='tar -zxvf' # Unpack .tar file
 
-# alias ra='ranger' # Run 'ranger' file manager
-# alias cdra='. ranger' # Change directory with 'ranger'
+alias pacup='sudo pacman -Syu'
+alias paccleanup='sudo pacman -Sc'
+alias yayup='yay -Syu'
+alias yaycleanup='yay -Sc'
 
 # Add custom completions
 fpath=($ZSH/completions $fpath)
 autoload -U compinit && compinit
-
-# Set up GnuPG
-export GPG_TTY=$(tty)
 
 # Add `~/.local/bin`
 export PATH="$PATH:$HOME/.local/bin"
