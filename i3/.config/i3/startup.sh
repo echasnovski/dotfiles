@@ -13,6 +13,9 @@ setxkbmap -option 'grp:alt_shift_toggle'
 # `compton` to reduce screen tearing
 compton --config ~/.config/compton.conf -b
 
+# `dunst` notification daemon
+dunst -config ~/.config/dunst/dunstrc &
+
 # Process of showing regularly changed wallpapers
 if [[ -f ~/.wallpapers/random-wallpapers.sh ]]
 then

@@ -24,6 +24,7 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [Vim](https://www.vim.org/) \*
 - [Zsh](https://www.zsh.org/) \*
 - [btop](https://github.com/aristocratos/btop)
+- [dunst](https://dunst-project.org/)
 - [fzf](https://github.com/junegunn/fzf)
 - [i3](https://i3wm.org/) \*
 - [nnn](https://github.com/jarun/nnn) \*
@@ -60,7 +61,7 @@ Approximate guidance steps for Arch-based system:
 sudo pacman -Syu
 yay -Syu
 
-sudo pacman -S btop feh git gnupg i3-wm i3lock imagemagick maim openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal zsh
+sudo pacman -S btop dunst feh fzf git gnupg i3-wm i3lock imagemagick maim openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal zsh
 yay -S pyenv-virtualenv
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 python -m pip install pipx
