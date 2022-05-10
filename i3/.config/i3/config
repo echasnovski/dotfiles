@@ -327,9 +327,9 @@ bindsym --release button2 kill
 bindsym --whole-window $mod+button2 kill
 
 # Make screenshot
-bindsym Print exec --no-startup-id maim "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot'
-bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot'
-bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot'
+bindsym Print exec --no-startup-id maim "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot of whole screen'
+bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot of selected area'
+bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot of active window'
 
 # Startup =====================================================================
 
