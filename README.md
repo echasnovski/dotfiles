@@ -50,11 +50,6 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 
 Approximate guidance steps for Arch-based system:
 
-- Install patched fonts (that support icons). Recommended 'UbuntuMono Nerd Font':
-    - Download a [Nerd Font](https://www.nerdfonts.com/).
-    - Unzip and copy to '~/.local/share/fonts'.
-    - Run the command `fc-cache -fv` to manually rebuild the font cache.
-
 - Install tools:
 
 ```bash
@@ -79,7 +74,7 @@ git submodule update --init --recursive --depth 1
 - Stow dotfiles Run from `~/dotfiles` (something may fail due to some files being auto-created during app installation; remove them):
 
 ```bash
-stow -t ~ -vS bash btop compton fzf git gpg i3 ipython neovim nnn polybar radian rofi vim wallpapers xfce4 zsh
+stow -t ~ -vS bash btop compton fonts fzf git gpg i3 ipython neovim nnn polybar radian rofi vim wallpapers xfce4 zsh
 ```
 
 - Restore backup:
@@ -97,6 +92,7 @@ export TERMINAL=xfce4-terminal
 - Generate wallpaper `png`s. See '~/.wallpapers/tiles/README.md'.
 - Tweak polybar temperature sensor. See '~/.config/polybar/config_template.ini' in `[module/temperature]`.
 - Set up Neovim. See '~/.config/nvim/README.md'.
+- Enable fonts with `fc-cache -fv`.
 
 ## Notes for tools
 
