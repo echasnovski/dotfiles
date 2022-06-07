@@ -60,7 +60,11 @@ sudo pacman -S btop dunst feh fzf git gnupg i3-wm i3lock imagemagick maim openss
 yay -S pyenv-virtualenv
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 python -m pip install pipx
+
+# After pipx is in PATH
 pipx install ipython pre-commit radian
+pipx install pre-commit
+pipx install radian
 ```
 
 - Clone this repository with its submodules:
@@ -80,7 +84,7 @@ stow -t ~ -vS bash btop compton fonts fzf git gpg i3 ipython neovim nnn polybar 
 - Restore backup:
   - GPG key: `gpg --import /path/to/private.key`.
   - Copy backed up directories: '~/.mozilla/firefox', '~/.password-store', '~/.config/transmission'.
-  - Copy `/opt` subdirectories and mack symbolic links to `/usr/local/bin` (see later general advices).
+  - Copy `/opt` subdirectories and make symbolic links to `/usr/local/bin` (see later general advices).
 
 - Create '~/.profile' with only relevant local environment variables. Like `TERMINAL`, `EDITOR`, `PAGER`, etc. Example:
 
@@ -89,10 +93,11 @@ export EDITOR=vim
 export TERMINAL=xfce4-terminal
 ```
 
+- Change default shell: `chsh -s $(which zsh)` (takes effect after logout).
+- Enable fonts with `fc-cache -fv`.
 - Generate wallpaper `png`s. See '~/.wallpapers/tiles/README.md'.
 - Tweak polybar temperature sensor. See '~/.config/polybar/config_template.ini' in `[module/temperature]`.
 - Set up Neovim. See '~/.config/nvim/README.md'.
-- Enable fonts with `fc-cache -fv`.
 
 ## Notes for tools
 
