@@ -7,7 +7,8 @@
 # - `rofi` launcher (dmenu replacement)
 # - `feh` image viewer (for setting background images)
 # - `maim` screenshot maker (with `xdotool` dependency to make window screenshots)
-# - `compton` for reduced screen tearing (should enable its configuration)
+# - `picom` for reduced screen tearing and enabling opacity
+# - `acpilight` for managing backlight/brightness (or `xorg-xbacklight`)
 
 # Color scheme ================================================================
 
@@ -111,7 +112,7 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10:permanent"
+set $ws10 "10:monitor"
 
 # Workspace rules
 assign [class="(?i)firefox"] $ws2
@@ -123,7 +124,10 @@ assign [class="(?i)vlc|(?i)soffice"] $ws3
 for_window [class="(?i)vlc|(?i)firefox"] focus
 
 # Show manually called calendar in floating window
-for_window [title="Popup-Calendar"] floating enable, resize set 600px 250px, move position center
+for_window [title="Popup-Calendar"] floating enable, resize set 40ppt 40ppt, move position center
+
+# Show screenkey in floating window
+for_window [title="^screenkey$"] floating enable, border none
 
 # Appearance ==================================================================
 
@@ -160,17 +164,11 @@ floating_modifier $mod
 # Start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
-# Close focused window with possibility of undo
-set $kill "99:Killed"
-set $saved "98:Resurrected"
-bindsym $mod+q move container to workspace $kill; exec bash -c 'sleep 15 && i3-msg "[workspace=$kill] kill"'
-bindsym $mod+u rename workspace $kill to $saved; workspace $saved
-
 # Force close focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
-# Start program launcher
-bindsym $mod+space exec rofi -show combi
+# Start program launcher (set DPI environment variable for preferred dpi)
+bindsym $mod+space exec rofi -show combi -dpi ${DPI:0}
 
 # Go to next/previous workspace
 bindsym $mod+Tab workspace next
@@ -264,8 +262,6 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 bindsym $mod+Shift+c reload
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# Exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # Lock screen with random non-bright, mostly blue-greenish color.
 # Not using `$RANDOM` because it can behave strangely in zsh.
@@ -291,7 +287,7 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+Delete mode "$mode_system"
+bindsym $mod+Escape mode "$mode_system"
 
 # Resize window (you can also use the mouse for that)
 mode "resize" {
@@ -330,6 +326,10 @@ bindsym --whole-window $mod+button2 kill
 bindsym Print exec --no-startup-id maim "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot of whole screen'
 bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot of selected area'
 bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png" && notify-send 'Made screenshot of active window'
+
+# Define change in monitor brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
 # Startup =====================================================================
 

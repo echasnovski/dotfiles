@@ -56,8 +56,8 @@ Approximate guidance steps for Arch-based system:
 sudo pacman -Syu
 yay -Syu
 
-sudo pacman -S btop dunst feh fzf git gnupg i3-wm i3lock imagemagick maim openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal zsh
-yay -S pyenv-virtualenv
+sudo pacman -S acpilight btop dunst feh fzf git gnupg i3-wm i3lock imagemagick maim openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal xsel zsh
+yay -S pyenv-virtualenv skypeforlinux-stable-bin visual-studio-code-bin
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 python -m pip install pipx
 
@@ -78,7 +78,7 @@ git submodule update --init --recursive --depth 1
 - Stow dotfiles Run from `~/dotfiles` (something may fail due to some files being auto-created during app installation; remove them):
 
 ```bash
-stow -t ~ -vS bash btop compton fonts fzf git gpg i3 ipython neovim nnn polybar radian rofi vim wallpapers xfce4 zsh
+stow -t ~ -vS bash btop dunst fonts fzf git gpg i3 ipython neovim nnn picom polybar radian rofi vim wallpapers xfce4 xorg zsh
 ```
 
 - Restore backup:
@@ -91,12 +91,25 @@ stow -t ~ -vS bash btop compton fonts fzf git gpg i3 ipython neovim nnn polybar 
 ```bash
 export EDITOR=vim
 export TERMINAL=xfce4-terminal
+export DPI=168
 ```
 
+- Tweak DPI. For that:
+    - Update '~/.Xresources' with `Xft.dpi: <value>`. Helpful additional configuration:
+      ```
+      ! Adjust DPI with additional rendering instructions
+      Xft.dpi: 168
+      Xft.autohint: 0
+      Xft.lcdfilter:  lcddefault
+      Xft.hintstyle:  hintfull
+      Xft.hinting: 1
+      Xft.antialias: 1
+      Xft.rgba: rgb
+      ```
 - Change default shell: `chsh -s $(which zsh)` (takes effect after logout).
 - Enable fonts with `fc-cache -fv`.
 - Generate wallpaper `png`s. See '~/.wallpapers/tiles/README.md'.
-- Tweak polybar temperature sensor. See '~/.config/polybar/config_template.ini' in `[module/temperature]`.
+- Tweak polybar sources. See header of '~/.config/polybar/config_template.ini'.
 - Set up Neovim. See '~/.config/nvim/README.md'.
 
 ## Notes for tools
@@ -115,6 +128,15 @@ export TERMINAL=xfce4-terminal
 
 - Image preview requires [imagemagick](https://imagemagick.org/script/download.php). Use appimage.
 - Use `kitty +kitten ssh <path>` to make ssh connection. Among other things, it makes `tmux` work.
+
+### Xfce4 terminal
+
+- To remove border around opened apps, update '~/.config/gtk-3.0/gtk.css' with:
+```
+VteTerminal, vte-terminal {
+  padding: 0px;
+}
+```
 
 ### Polybar
 

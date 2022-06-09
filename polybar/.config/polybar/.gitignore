@@ -1,2 +1,4 @@
 config.ini
-temperature-hwmon-path
+definition-temperature
+definition-battery
+definition-backlight

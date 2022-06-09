@@ -10,8 +10,8 @@ setxkbmap -layout us,ru
 setxkbmap -option 'grp:alt_shift_toggle'
 
 # Start processes ============================================================
-# `compton` to reduce screen tearing
-compton --config ~/.config/compton.conf -b
+# `picom` to reduce screen tearing
+picom --config ~/.config/picom/picom.conf -b
 
 # `dunst` notification daemon
 dunst -config ~/.config/dunst/dunstrc &
@@ -30,7 +30,7 @@ fi
 #   should still execute the rest.
 # - Tried to do custom saved layout but decided to go simpler because not all
 #   programs might be present everywhere this setup is run.
-i3-msg 'workspace "10:permanent"; layout splith'
+i3-msg 'workspace "10:monitor"; layout splith'
 sleep 1
 
 xfce4-terminal -e btop &

@@ -17,6 +17,7 @@ fi
 ## Use Vi keybindings (should be placed before 'fzf' initialisation for correct
 ## keybindings)
 bindkey -v
+bindkey "^?" backward-delete-char
 
 ## Change cursor depending on Vi mode (comes from vi-mode plugin)
 VI_MODE_SET_CURSOR=true
