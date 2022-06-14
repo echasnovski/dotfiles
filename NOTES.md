@@ -222,3 +222,7 @@ plt.show()
 # Set up Canon LBP2900 printer on Ubuntu 18.04
 
 Source: http://alligator.work/установка-принтера-canon-lbp2900-на-ubuntu-mint-18/
+
+# Microphone is too quiet
+
+Check microphone sensitivity with `pavucontrol`. Increase if necessary.

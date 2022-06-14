@@ -114,6 +114,8 @@ alias paccleanup='sudo pacman -Sc'
 alias yayup='yay -Syu'
 alias yaycleanup='yay -Sc'
 
+alias lgit='lazygit --git-dir=$(git rev-parse --git-dir)'
+
 # Add custom completions
 fpath=($ZSH/completions $fpath)
 autoload -U compinit && compinit

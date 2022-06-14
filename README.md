@@ -12,27 +12,28 @@ NOTE: Neovim package is a Git submodule to my [personal Neovim configuration](ht
 
 A (probably not full) list of (at least once in a while) used tools (in alphabetical order; asterisk indicates crucial ones):
 
-- [Git](http://git-scm.com/) \*
-- [GnuPG](https://gnupg.org/) \*
-- [Ipython](https://ipython.org/)
-- [Kitty](https://sw.kovidgoyal.net/kitty/binary/#manually-installing)
-- [Neovim](https://github.com/neovim/neovim) \*
-- [Powerlevel10k](https://github.com/romkatv/powerlevel10k) \*
-- [RStudio](https://www.rstudio.com/)
-- [Stow](https://www.gnu.org/software/stow/) \*
-- [VS Code](https://code.visualstudio.com/)
-- [Vim](https://www.vim.org/) \*
-- [Zsh](https://www.zsh.org/) \*
 - [btop](https://github.com/aristocratos/btop)
 - [dunst](https://dunst-project.org/)
 - [fzf](https://github.com/junegunn/fzf)
+- [Git](http://git-scm.com/) \*
+- [GnuPG](https://gnupg.org/) \*
 - [i3](https://i3wm.org/) \*
+- [Ipython](https://ipython.org/)
+- [Kitty](https://sw.kovidgoyal.net/kitty/binary/#manually-installing)
+- [lazygit](https://github.com/jesseduffield/lazygit) \*
+- [Neovim](https://github.com/neovim/neovim) \*
 - [nnn](https://github.com/jarun/nnn) \*
 - [pass](https://www.passwordstore.org/) \*
 - [polybar](https://github.com/polybar/polybar) \*
+- [Powerlevel10k](https://github.com/romkatv/powerlevel10k) \*
 - [radian](https://github.com/randy3k/radian)
 - [rofi](https://github.com/davatorium/rofi) \*
+- [RStudio](https://www.rstudio.com/)
+- [Stow](https://www.gnu.org/software/stow/) \*
+- [Vim](https://www.vim.org/) \*
+- [VS Code](https://code.visualstudio.com/)
 - [xfce4-terminal](https://docs.xfce.org/apps/terminal/start)
+- [Zsh](https://www.zsh.org/) \*
 
 ## Back up
 
@@ -56,10 +57,12 @@ Approximate guidance steps for Arch-based system:
 sudo pacman -Syu
 yay -Syu
 
-sudo pacman -S acpilight btop dunst feh fzf git gnupg i3-wm i3lock imagemagick maim openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal xsel zsh
+sudo pacman -S acpilight btop dunst feh fzf git gnupg i3-wm i3lock imagemagick lazygit maim openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal xsel zsh
 yay -S pyenv-virtualenv skypeforlinux-stable-bin visual-studio-code-bin
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 python -m pip install pipx
+
+# Manually install `nnn` with Nerd font support (see `nnn` section later)
 
 # After pipx is in PATH
 pipx install ipython pre-commit radian
@@ -78,7 +81,7 @@ git submodule update --init --recursive --depth 1
 - Stow dotfiles Run from `~/dotfiles` (something may fail due to some files being auto-created during app installation; remove them):
 
 ```bash
-stow -t ~ -vS bash btop dunst fonts fzf git gpg i3 ipython neovim nnn picom polybar radian rofi vim wallpapers xfce4 xorg zsh
+stow -t ~ -vS bash btop dunst fonts fzf git gpg i3 ipython lazygit neovim nnn picom polybar r radian rofi vim wallpapers xfce4 xorg zsh
 ```
 
 - Restore backup:

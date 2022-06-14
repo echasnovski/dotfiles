@@ -1,0 +1,20 @@
+gui:
+  showFileTree: false
+  timeFormat: '2006-01-02 15:04:05 MST'
+  theme:
+    selectedLineBgColor:
+      - reverse
+    selectedRangeBgColor:
+      - reverse
+git:
+  showGraph: 'always'
+  branchLogCmd: 'git log --graph --color=always --abbrev-commit --decorate --date=iso --pretty=medium {{branchName}} --'
+  allBranchesLogCmd: 'git log --graph --all --color=always --abbrev-commit --decorate --date=iso  --pretty=medium'
+update:
+  method: never
+promptToReturnFromSubprocess: false
+keybinding:
+  files:
+    # swap default bindings
+    commitChanges: 'C'
+    commitChangesWithEditor: 'c'

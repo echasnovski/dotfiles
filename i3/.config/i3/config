@@ -116,7 +116,6 @@ set $ws10 "10:monitor"
 
 # Workspace rules
 assign [class="(?i)firefox"] $ws2
-assign [class="(?i)vlc|(?i)soffice"] $ws3
 
 # Window rules ================================================================
 
