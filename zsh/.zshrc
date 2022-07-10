@@ -120,7 +120,7 @@ alias lgit='lazygit --git-dir=$(git rev-parse --git-dir)'
 fpath=($ZSH/completions $fpath)
 autoload -U compinit && compinit
 
-# Add `~/.local/bin`
+# Add important directories to PATH
 export PATH="$PATH:$HOME/.local/bin"
 
 # NNN file manager

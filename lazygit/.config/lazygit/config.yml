@@ -18,3 +18,4 @@ keybinding:
     # swap default bindings
     commitChanges: 'C'
     commitChangesWithEditor: 'c'
+    toggleStagedAll: '<c-8>' # virtually disable stage/unstage all
