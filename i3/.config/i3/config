@@ -21,14 +21,14 @@
 # set $col-accent2 #B8CC52
 # set $col-accent3 #36A3D9
 
-# Ayu mirage
-set $col-fg #D9D7CE
-set $col-bg #212733
-set $col-bglight #343F4C
-set $col-urgent #FF3333
-set $col-accent #FFCC66
-set $col-accent2 #BBE67E
-set $col-accent3 #5CCFE6
+# # Ayu mirage
+# set $col-fg #D9D7CE
+# set $col-bg #212733
+# set $col-bglight #343F4C
+# set $col-urgent #FF3333
+# set $col-accent #FFCC66
+# set $col-accent2 #BBE67E
+# set $col-accent3 #5CCFE6
 
 # # Ayu light
 # set $col-fg #5C6773
@@ -39,23 +39,23 @@ set $col-accent3 #5CCFE6
 # set $col-accent2 #86B300
 # set $col-accent3 #36A3D9
 
-# # Minischeme
-# set $col-fg #E2E98F
-# set $col-bg #112641
-# set $col-bglight #606B81
-# set $col-urgent #CC7E46
-# set $col-accent #00A5C5
-# set $col-accent2 #CA6ECF
-# set $col-accent3 #46A436
+# Minischeme
+set $col-fg #E2E98F
+set $col-bg #112641
+set $col-bglight #606B81
+set $col-urgent #CC7E46
+set $col-accent #46A436
+set $col-accent2 #00A5C5
+set $col-accent3 #CA6ECF
 
 # # Minischeme light
 # set $col-fg #002A83
 # set $col-bg #E2E5CA
 # set $col-bglight #979A7E
 # set $col-urgent #A86400
-# set $col-accent #0086ae
-# set $col-accent2 #B34AAD
-# set $col-accent3 #008818
+# set $col-accent #008818
+# set $col-accent2 #0086ae
+# set $col-accent3 #B34AAD
 
 # General =====================================================================
 

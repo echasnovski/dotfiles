@@ -13,7 +13,7 @@ Currently preferred usage:
 - Convert all `svg` files to `png` and place them in separate 'png' directory. Convenient tool for this is [ImageMagick](https://imagemagick.org/index.php) which enables bulk conversion (change background color to your liking):
     ```bash
     mkdir -p png
-    convert -background "#212733" 'svg/*.svg' -set filename:fn '%[basename]' 'png/%[filename:fn].png'
+    convert -background "#112641" 'svg/*.svg' -set filename:fn '%[basename]' 'png/%[filename:fn].png'
     ```
 - Make image to be background with tiling option. Using `feh`:
     ```bash
