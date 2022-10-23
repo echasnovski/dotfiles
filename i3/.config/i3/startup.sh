@@ -33,5 +33,5 @@ fi
 i3-msg 'workspace "10:monitor"; layout splith'
 sleep 1
 
-xfce4-terminal -e btop &
+i3-sensible-terminal -e btop &
 sleep 1

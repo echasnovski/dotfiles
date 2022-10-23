@@ -3,7 +3,7 @@
 # - `i3lock`
 # - `i3-sensible-terminal` (set `TERMINAL` variable in `~/.profile`)
 # - `openssl`
-# - `Kitty` or `xfce4` terminal emulator (should enable its configuration)
+# - Terminal emulator: `st`, `xfce4-terminal`, or `Kitty` (enable its configuration)
 # - `rofi` launcher (dmenu replacement)
 # - `feh` image viewer (for setting background images)
 # - `maim` screenshot maker (with `xdotool` dependency to make window screenshots)

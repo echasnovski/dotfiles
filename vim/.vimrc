@@ -49,6 +49,9 @@ set foldlevel=0        " Display all folds
 set foldnestmax=3      " Create folds only for some number of nested levels
 set foldcolumn=0       " Disable fold column
 
+" Set Vim-specific sequences for RGB colors (needed to work in `st` terminal)
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
 " Set up persistent undo
 let vimDir = '$HOME/.vim'

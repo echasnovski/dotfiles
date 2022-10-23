@@ -81,8 +81,10 @@ git submodule update --init --recursive --depth 1
 - Stow dotfiles Run from `~/dotfiles` (something may fail due to some files being auto-created during app installation; remove them):
 
 ```bash
-stow -t ~ -vS bash btop dunst fonts fzf git gpg i3 ipython lazygit neovim nnn picom polybar r radian rofi vim wallpapers xfce4 xorg zsh
+stow -t ~ -vS bash btop dunst fonts fzf git gpg i3 ipython lazygit neovim nnn picom polybar r radian rofi st vim wallpapers xfce4 xorg zsh
 ```
+
+- Enable fonts with `fc-cache -fv`.
 
 - Restore backup:
   - GPG key: `gpg --import /path/to/private.key`.
@@ -93,7 +95,7 @@ stow -t ~ -vS bash btop dunst fonts fzf git gpg i3 ipython lazygit neovim nnn pi
 
 ```bash
 export EDITOR=vim
-export TERMINAL=xfce4-terminal
+export TERMINAL=st
 export DPI=168
 ```
 
@@ -109,10 +111,14 @@ export DPI=168
       Xft.antialias: 1
       Xft.rgba: rgb
       ```
+- Install `st` from source. Go to `~/st` and run `sudo make install`, which will install it system-wide in '/usr/local' directory (configured in 'config.mk'). Building it might require installation of special "building" software.
+
 - Change default shell: `chsh -s $(which zsh)` (takes effect after logout).
-- Enable fonts with `fc-cache -fv`.
+
 - Generate wallpaper `png`s. See '~/.wallpapers/tiles/README.md'.
+
 - Tweak polybar sources. See header of '~/.config/polybar/config_template.ini'.
+
 - Set up Neovim. See '~/.config/nvim/README.md'.
 
 ## Notes for tools
@@ -126,6 +132,10 @@ export DPI=168
       - Make it executable with `sudo chmod u+x` (like `sudo chmod u+x /opt/neovim/nvim_0.6.0`).
       - Make soft link to '/usr/local/bin' (like `sudo ln -s /opt/neovim/nvim_0.6.0 /usr/local/bin/nvim`).
     - Use [pipx](https://github.com/pypa/pipx) instead of `pip` to install python-written applications (again, if not on Arch-based systems).
+
+### st
+
+Whole source code for "simple terminal" is shipped with these dotfiles in 'st' directory ('~/st' after applying `stow`). Build and install system-wide from that source.
 
 ### Kitty
 
