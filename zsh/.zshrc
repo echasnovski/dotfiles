@@ -116,6 +116,8 @@ alias yaycleanup='yay -Sc'
 
 alias lgit='lazygit --git-dir=$(git rev-parse --git-dir)'
 
+alias videodown='yt-dlp -o "~/Videos/%(uploader)s - %(upload_date)s - %(title)s.%(ext)s" -f "bestvideo[height<=720]+bestaudio/best[height<=720]" -r "100M" --write-sub --sub-lang "en"'
+
 # Add custom completions
 fpath=($ZSH/completions $fpath)
 autoload -U compinit && compinit
@@ -156,3 +158,10 @@ n ()
         rm -f "$NNN_TMPFILE" > /dev/null
     fi
 }
+
+# Test if the shell is launched in Neovim's terminal
+if [[ -n "${NVIM}" ]]
+then
+  # Unset variables to allow calling `vim` inside Neovim's terminal
+  unset VIMRUNTIME VIM
+fi

@@ -30,6 +30,8 @@ set shortmess+=c       " Don't pass messages to |ins-completion-menu|
 set signcolumn=yes     " Always show the signcolumn, otherwise it would shift the text each time
 set updatetime=300     " Faster completion
 set timeoutlen=250     " By default timeoutlen is 1000 ms. Not 100, because vim-commentary breaks
+set ttimeout           " Enable latency descrease for typing `<Esc>`
+set ttimeoutlen=50     " Decrease latency for typing `<Esc>`
 set incsearch          " Show search results while typing
 set hlsearch           " Highlight search results
 set noshowmode         " Don't show things like -- INSERT -- (it is handled in statusline)
@@ -107,8 +109,11 @@ nmap З P
 nmap s <Nop>
 xmap s <Nop>
 
-" Copy to system clipboard
-vmap <C-c> "+y
+" Copy/paste with system clipboard
+nnoremap gy "+y
+xnoremap gy "+y
+nnoremap gp "+p
+xnoremap gp "+P
 
 " Write current buffer with sudo privileges
 cmap w!! w !sudo tee %
