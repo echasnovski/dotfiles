@@ -6,6 +6,11 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "Input:size=12:antialias=true:autohint=true";
+/* Spare fonts */
+static char *font2[] = {
+	"Symbols Nerd Font Mono:size=9:antialias=true:autohint=true",
+};
+
 static int borderpx = 2;
 
 /*
