@@ -114,7 +114,7 @@ alias paccleanup='sudo pacman -Sc'
 alias yayup='yay -Syu'
 alias yaycleanup='yay -Sc'
 
-alias lgit='lazygit --git-dir=$(git rev-parse --git-dir)'
+alias lgit='lazygit --git-dir=$(git rev-parse --git-dir) --work-tree=$(realpath .)'
 
 alias videodown='yt-dlp -o "~/Videos/%(uploader)s - %(upload_date)s - %(title)s.%(ext)s" -f "bestvideo[height<=720]+bestaudio/best[height<=720]" -r "100M" --write-sub --sub-lang "en"'
 
