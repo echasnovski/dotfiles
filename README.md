@@ -82,7 +82,7 @@ git submodule update --init --recursive --depth 1
 - Stow dotfiles Run from `~/dotfiles` (something may fail due to some files being auto-created during app installation; remove them):
 
 ```bash
-stow -t ~ -vS bash btop dunst fonts fzf git gpg i3 ipython lazygit neovim nnn picom polybar r radian rofi st vim wallpapers xfce4 xorg zathura zsh
+stow -t ~ -vS bash btop dunst fonts fzf git gpg i3 ipython lazygit neovim nnn picom polybar r radian ripgrep rofi st vim wallpapers xfce4 xorg zathura zsh
 ```
 
 - Enable fonts with `fc-cache -fv`.

@@ -165,3 +165,6 @@ then
   # Unset variables to allow calling `vim` inside Neovim's terminal
   unset VIMRUNTIME VIM
 fi
+
+# `rg` config
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/.ripgreprc"

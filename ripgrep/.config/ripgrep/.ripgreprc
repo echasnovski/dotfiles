@@ -1,0 +1,2 @@
+# Exclude directories.
+--glob=!.git/*
