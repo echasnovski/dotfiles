@@ -1,7 +1,7 @@
 # This config is a modified version of auto-generated config
 # Dependencies:
 # - `i3lock`
-# - `i3-sensible-terminal` (set `TERMINAL` variable in `~/.profile`)
+# - `i3-sensible-terminal` (set `TERMINAL` variable in '~/.profile' and/or '~/.xprofile')
 # - `openssl`
 # - Terminal emulator: `st`, `xfce4-terminal`, or `Kitty` (enable its configuration)
 # - `rofi` launcher (dmenu replacement)

@@ -1,17 +1,21 @@
 gui:
-  showFileTree: false
+  scrollHeight: 10
   timeFormat: '2006-01-02 15:04:05 MST'
   theme:
     selectedLineBgColor:
       - reverse
     selectedRangeBgColor:
       - reverse
+  showFileTree: false
+  nerdFontsVersion: 3
+  skipRewordInEditorWarning: true
+  border: 'double'
 git:
-  showGraph: 'always'
-  branchLogCmd: 'git log --graph --color=always --abbrev-commit --decorate --date=iso --pretty=medium {{branchName}} --'
-  allBranchesLogCmd: 'git log --graph --all --color=always --abbrev-commit --decorate --date=iso  --pretty=medium'
+  branchLogCmd:      'git log       --graph --color=always --abbrev-commit --decorate --date=iso --pretty=medium {{branchName}} --'
+  allBranchesLogCmd: 'git log --all --graph --color=always --abbrev-commit --decorate --date=iso  --pretty=medium'
 update:
   method: never
+notARepository: 'quit'
 promptToReturnFromSubprocess: false
 keybinding:
   files:

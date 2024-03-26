@@ -1,0 +1,69 @@
+# The font families to use.
+font-family = "Input"
+# font-family-bold = "Input Bold"
+# font-family-italic = "Input Italic"
+# font-family-bold-italic = "Input BoldIta"
+
+# Font size in points
+font-size = 12
+
+# All of the configurations behavior adjust various metrics determined by the
+# font. The values can be integers (1, -1, etc.) or a percentage (20%, -15%,
+# etc.). In each case, the values represent the amount to change the original
+# value.
+#
+# For example, a value of `1` increases the value by 1; it does not set it to
+# literally 1. A value of `20%` increases the value by 20%. And so on.
+#
+# There is little to no validation on these values so the wrong values (i.e.
+# `-100%`) can cause the terminal to be unusable. Use with caution and reason.
+#
+# Some values are clamped to minimum or maximum values. This can make it
+# appear that certain values are ignored. For example, the underline position
+# is clamped to the height of a cell. If you set the underline position so
+# high that it extends beyond the bottom of the cell size, it will be clamped
+# to the bottom of the cell.
+#
+# `adjust-cell-height` has some additional behaviors to describe:
+#
+#   * The font will be centered vertically in the cell.
+#
+#   * The cursor will remain the same size as the font.
+#
+#   * Powerline glyphs will be adjusted along with the cell height so
+#     that things like status lines continue to look aligned.
+adjust-cell-width =
+
+adjust-cell-height =
+adjust-font-baseline = 
+adjust-underline-position =
+adjust-underline-thickness = 100%
+adjust-strikethrough-position =
+adjust-strikethrough-thickness = 100%
+
+# A named theme to use.
+# To see a list of available themes, run `ghostty +list-themes`.
+# theme = Grey-green
+
+cursor-color =
+cursor-text =
+cursor-opacity = 0.6
+
+# If false, windows won't have native decorations, i.e. titlebar and
+# borders.
+window-decoration = false
+
+# Whether to automatically copy selected text to the clipboard
+copy-on-select = false
+
+# If `true` (default), applications running in the terminal can show desktop
+# notifications using certain escape sequences such as OSC 9 or OSC 777.
+desktop-notifications = true
+
+# If true, the Ghostty GTK application will run in single-instance mode:
+# each new `ghostty` process launched will result in a new window if there
+# is already a running process.
+gtk-single-instance = true
+
+# Swap the foreground and background colors of cells for selection.
+selection-invert-fg-bg = true

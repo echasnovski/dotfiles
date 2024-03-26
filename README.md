@@ -58,7 +58,7 @@ Approximate guidance steps for Arch-based system:
 sudo pacman -Syu
 yay -Syu
 
-sudo pacman -S acpilight btop dunst feh fzf git gnupg i3-wm i3lock imagemagick lazygit maim mupdf openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal xsel zathura zathura-djvu zathura-pdf-mupdf zsh
+sudo pacman -S acpilight btop dunst fd feh fzf git gnupg i3-wm i3lock imagemagick lazygit maim mupdf openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal xsel zathura zathura-djvu zathura-pdf-mupdf zsh
 yay -S pyenv-virtualenv skypeforlinux-stable-bin visual-studio-code-bin pandoc-bin
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 python -m pip install pipx

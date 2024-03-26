@@ -10,8 +10,10 @@ setxkbmap -layout us,ru
 setxkbmap -option 'grp:alt_shift_toggle'
 
 # Start processes ============================================================
-# `picom` to reduce screen tearing
-picom --config ~/.config/picom/picom.conf -b
+# Disable termporarily because it results into 100% usage of one CPU when
+# locking with monitor shut down
+# # `picom` to reduce screen tearing
+# picom --config ~/.config/picom/picom.conf -b
 
 # `dunst` notification daemon
 dunst -config ~/.config/dunst/dunstrc &

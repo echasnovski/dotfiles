@@ -168,3 +168,6 @@ fi
 
 # `rg` config
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/.ripgreprc"
+
+# `z` CLI
+. ~/scripts/z/z.sh
