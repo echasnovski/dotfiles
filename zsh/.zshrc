@@ -171,3 +171,8 @@ export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/.ripgreprc"
 
 # `z` CLI
 . ~/scripts/z/z.sh
+
+export MANPAGER='nvim -u NORC +Man!'
+export PAGER='nvim -u NORC +Man!'
+
+export GHOSTTY_RESOURCES_DIR="$HOME/.local/share/ghostty/ghostty"

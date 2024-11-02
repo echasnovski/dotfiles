@@ -10,7 +10,10 @@
 	excludesfile = ~/.gitignore
 [commit]
 	gpgsign = true
+	verbose = true
 [credential "https://github.com"]
 	helper = !pass github
 [credential]
 	helper = cache
+[init]
+	defaultBranch = main

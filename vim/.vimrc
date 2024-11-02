@@ -279,6 +279,7 @@ let s:fg_none = ' guifg=NONE ctermfg=NONE'
 for [key_name, d_value] in items(s:palette)
   call s:build_prim('bg', key_name)
   call s:build_prim('fg', key_name)
+  call s:build_prim('sp', key_name)
 endfor
 " }}}2
 
@@ -339,10 +340,10 @@ exe "hi! PmenuSel"      .s:fg_fg          .s:bg_selection   .s:fmt_revr
 exe "hi! Question"      .s:fg_string      .s:bg_none        .s:fmt_none
 exe "hi! Search"        .s:fg_bg          .s:bg_constant    .s:fmt_none
 exe "hi! SpecialKey"    .s:fg_selection   .s:bg_none        .s:fmt_none
-exe "hi! SpellCap"      .s:fg_tag         .s:bg_none        .s:fmt_undr
-exe "hi! SpellLocal"    .s:fg_keyword     .s:bg_none        .s:fmt_undr
-exe "hi! SpellBad"      .s:fg_error       .s:bg_none        .s:fmt_undr
-exe "hi! SpellRare"     .s:fg_regexp      .s:bg_none        .s:fmt_undr
+" exe "hi! SpellCap"      .s:fg_tag         .s:bg_none        .s:fmt_undr
+" exe "hi! SpellLocal"    .s:fg_keyword     .s:bg_none        .s:fmt_undr
+" exe "hi! SpellBad"      .s:fg_error       .s:bg_none        .s:fmt_undr
+" exe "hi! SpellRare"     .s:fg_regexp      .s:bg_none        .s:fmt_undr
 exe "hi! StatusLine"    .s:fg_fg          .s:bg_panel       .s:fmt_none
 exe "hi! StatusLineNC"  .s:fg_fg_idle     .s:bg_panel       .s:fmt_none
 exe "hi! WildMenu"      .s:fg_bg          .s:bg_markup      .s:fmt_none
@@ -449,28 +450,6 @@ else
   let g:terminal_ansi_colors += [s:palette.tag[s:style],     s:palette.constant[s:style]]
   let g:terminal_ansi_colors += [s:palette.regexp[s:style],  s:palette.comment[s:style]]
 endif
-
-
-" NerdTree
-" ---------
-exe "hi! NERDTreeOpenable"          .s:fg_fg_idle     .s:bg_none        .s:fmt_none
-exe "hi! NERDTreeClosable"          .s:fg_accent      .s:bg_none        .s:fmt_none
-" exe "hi! NERDTreeBookmarksHeader"   .s:fg_pink        .s:bg_none        .s:fmt_none
-" exe "hi! NERDTreeBookmarksLeader"   .s:fg_bg          .s:bg_none        .s:fmt_none
-" exe "hi! NERDTreeBookmarkName"      .s:fg_keyword     .s:bg_none        .s:fmt_none
-" exe "hi! NERDTreeCWD"               .s:fg_pink        .s:bg_none        .s:fmt_none
-exe "hi! NERDTreeUp"                .s:fg_fg_idle    .s:bg_none        .s:fmt_none
-exe "hi! NERDTreeDir"               .s:fg_function   .s:bg_none        .s:fmt_none
-exe "hi! NERDTreeFile"              .s:fg_none       .s:bg_none        .s:fmt_none
-exe "hi! NERDTreeDirSlash"          .s:fg_accent     .s:bg_none        .s:fmt_none
-
-
-" GitGutter
-" ---------
-exe "hi! GitGutterAdd"          .s:fg_string     .s:bg_none        .s:fmt_none
-exe "hi! GitGutterChange"       .s:fg_tag        .s:bg_none        .s:fmt_none
-exe "hi! GitGutterDelete"       .s:fg_markup     .s:bg_none        .s:fmt_none
-exe "hi! GitGutterChangeDelete" .s:fg_function   .s:bg_none        .s:fmt_none
 
 "}}}2
 

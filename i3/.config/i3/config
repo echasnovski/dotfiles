@@ -264,7 +264,7 @@ bindsym $mod+Shift+r restart
 
 # Lock screen with random non-bright, mostly blue-greenish color.
 # Not using `$RANDOM` because it can behave strangely in zsh.
-set $Locker i3lock -c $(openssl rand -base64 16 | cksum | cut -c 1-6) && sleep 3
+set $Locker i3lock --show-failed-attempts --show-keyboard-layout -c $(openssl rand -base64 16 | cksum | cut -c 1-6) && sleep 3
 
 ## Simply lock
 bindsym $mod+Ctrl+l exec --no-startup-id $Locker
