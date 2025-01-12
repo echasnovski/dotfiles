@@ -118,6 +118,8 @@ alias lgit='lazygit --git-dir=$(git rev-parse --git-dir) --work-tree=$(realpath 
 
 alias videodown='yt-dlp -o "~/Videos/%(uploader)s - %(upload_date)s - %(title)s.%(ext)s" -f "bestvideo[height<=720]+bestaudio/best[height<=720]" -r "100M" --write-sub --sub-lang "en"'
 
+alias rm-nvim-repro='yes | rm -r ~/.local/share/nvim-repro ~/.local/state/nvim-repro'
+
 # Add custom completions
 fpath=($ZSH/completions $fpath)
 autoload -U compinit && compinit
@@ -128,6 +130,7 @@ export PATH="$PATH:$HOME/.local/bin"
 # NNN file manager
 export NNN_PLUG="p:preview-tui"
 export NNN_BMS="n:$HOME/.config/nvim;m:$HOME/.config/nvim/pack/plugins/opt/mini"
+export NNN_FCOLORS="c1e204020005060203d6ab01"
 
 n ()
 {
@@ -172,7 +175,7 @@ export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/.ripgreprc"
 # `z` CLI
 . ~/scripts/z/z.sh
 
-export MANPAGER='nvim -u NORC +Man!'
-export PAGER='nvim -u NORC +Man!'
+export MANPAGER='nvim --clean +Man!'
+export PAGER='nvim --clean +Man!'
 
 export GHOSTTY_RESOURCES_DIR="$HOME/.local/share/ghostty/ghostty"

@@ -1,3 +1,5 @@
+theme = NvimDark
+
 # The font families to use
 font-family = "Input"
 font-family = "Symbols Nerd Font Mono"
@@ -5,10 +7,17 @@ font-family = "Symbols Nerd Font Mono"
 # Font size in points
 font-size = 12
 
+# Adjust line thickness/position to work better with "Input:12" font
+# adjust-underline-position = 20%
+adjust-underline-thickness = -50%
+# adjust-strikethrough-thickness = 100%
+adjust-cursor-thickness = 150%
+adjust-box-thickness = -25%
+
 # Possibly adjust cell characteristics if using different font
 adjust-cell-width =
 adjust-cell-height =
-adjust-font-baseline = 
+adjust-font-baseline =
 
 # Adjust cursor appearance
 cursor-invert-fg-bg = true
@@ -17,8 +26,9 @@ cursor-invert-fg-bg = true
 selection-invert-fg-bg = true
 
 # If false, windows won't have native decorations (titlebar and borders).
-window-decoration = false
-gtk-titlebar = false
+window-decoration = true
+gtk-titlebar      = false
+gtk-adwaita       = false
 
 # Whether to automatically copy selected text to the clipboard
 copy-on-select = false
