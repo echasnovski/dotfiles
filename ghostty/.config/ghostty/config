@@ -3,6 +3,7 @@ theme = NvimDark
 # Main font
 font-family = "IosevkaInput"
 # font-family = "Input"
+# font-family = "CommitMono"
 
 # Fallback font for icons
 font-family = "Symbols Nerd Font Mono"
@@ -19,6 +20,10 @@ adjust-cursor-thickness = 150%
 # adjust-underline-thickness = -50%
 # adjust-cursor-thickness = 150%
 # adjust-box-thickness = -25%
+
+# # Adjust line thickness/position to work better with "CommitMono:12" font
+# adjust-underline-position = 7%
+# adjust-cursor-thickness = 150%
 
 # Possibly adjust cell characteristics if using different font
 adjust-cell-width =
