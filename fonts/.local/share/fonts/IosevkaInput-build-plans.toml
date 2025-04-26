@@ -1,0 +1,206 @@
+# Custom build with intention to have similar proportions and most symbols as
+# Input Mono (line height 1, Light+Bold).
+#
+# Build instructions:
+# - `git clone --depth=1 https://github.com/be5invis/Iosevka`
+#   This build plan is tested for v33.2.1 version.
+# - `cd Iosevka`
+# - `npm install`
+# - Copy this file into project's root as 'private-build-plans.toml'.
+# - `npm run build -- --jCmd=4 ttf::IosevkaInput`.
+#   !!! This will probably take a lot of time (at least 4 minutes) with 100%
+#   CPU usage on 4 cores and significant amount of RAM used !!!
+# - Move files from 'dist/IosevkaInput/TTF' to 'fonts' dotfiles directory and
+#   follow its README.
+
+[buildPlans.IosevkaInput]
+family = "IosevkaInput"
+spacing = "fixed"
+serifs = "sans"
+exportGlyphNames = false
+noLigation = true
+
+# Define all available major characters for completeness.
+# Overall approach for choosing a character is to *usually* prefer:
+# "serifless", "straight", "toothless", "earless", "corner", "flat-top",
+# "flat-hook". With some exceptions for readability (like `IijQ`).
+[buildPlans.IosevkaInput.variants.design]
+one = "base"
+two = "curly-neck-serifless"
+three = "flat-top-serifless"
+four = "closed-serifless"
+five = "upright-flat-serifless"
+six = "closed-contour"
+seven = "straight-serifless"
+eight = "two-circles"
+nine = "closed-contour"
+zero = "slashed"
+capital-a = "straight-serifless"
+capital-b = "standard-serifless"
+capital-c = "serifless"
+capital-d = "standard-serifless"
+capital-e = "serifless"
+capital-f = "serifless"
+capital-g = "toothless-corner-serifless-hooked"
+capital-h = "serifless"
+capital-i = "serifed"
+capital-j = "serifless"
+capital-k = "straight-serifless"
+capital-l = "serifless"
+capital-m = "hanging-serifless"
+capital-n = "standard-serifless"
+capital-p = "closed-serifless"
+capital-q = "crossing-curly-tailed"
+capital-r = "straight-serifless"
+capital-s = "serifless"
+capital-t = "serifless"
+capital-u = "toothless-rounded-serifless"
+capital-v = "straight-serifless"
+capital-w = "straight-vertical-sides-serifless"
+capital-x = "straight-serifless"
+capital-y = "straight-serifless"
+capital-z = "straight-serifless"
+a = "double-storey-toothless-corner"
+b = "toothless-corner-serifless"
+c = "serifless"
+d = "toothless-corner-serifless"
+e = "flat-crossbar"
+f = "flat-hook-serifless-crossbar-at-x-height"
+g = "double-storey"
+h = "straight-serifless"
+i = "zshaped"
+j = "flat-hook-serifed"
+k = "straight-serifless"
+l = "zshaped"
+m = "earless-corner-double-arch-serifless"
+n = "earless-corner-straight-serifless"
+p = "earless-corner-serifless"
+q = "earless-corner-straight-serifless"
+r = "earless-corner-serifless"
+s = "serifless"
+t = "flat-hook"
+u = "toothless-corner-serifless"
+v = "straight-serifless"
+w = "rounded-vertical-sides-flat-top-serifless"
+x = "straight-serifless"
+y = "straight-turn-serifless"
+z = "straight-serifless"
+capital-eszet = "corner-serifless"
+long-s = "bent-hook-serifless"
+eszet = "sulzbacher-serifless"
+lower-eth = "straight-bar"
+capital-thorn = "serifless"
+lower-thorn = "serifless"
+lower-alpha = "crossing"
+lower-beta = "standard"
+capital-gamma = "serifless"
+lower-gamma = "casual"
+capital-delta = "straight"
+lower-delta = "flat-top"
+lower-eta = "earless-corner-serifless"
+lower-theta = "capsule"
+lower-iota = "serifed-semi-tailed"
+lower-kappa = "straight-serifless"
+capital-lambda = "straight-serifless"
+lower-lambda = "straight"
+lower-mu = "toothless-corner-serifless"
+lower-nu = "casual"
+lower-xi = "flat-top"
+lower-pi = "tailless"
+lower-tau = "semi-tailed"
+lower-upsilon = "casual-serifless"
+lower-phi = "cursive"
+lower-chi = "semi-chancery-straight-serifless"
+lower-psi = "flat-top-serifless"
+partial-derivative = "straight-bar"
+cyrl-a = "single-storey-earless-corner-tailed"
+cyrl-ve = "standard-serifless"
+cyrl-capital-zhe = "symmetric-connected"
+cyrl-zhe = "symmetric-connected"
+cyrl-capital-ze = "serifless"
+cyrl-ze = "serifless"
+cyrl-capital-ka = "symmetric-connected-serifless"
+cyrl-ka = "symmetric-connected-serifless"
+cyrl-el = "straight"
+cyrl-em = "flat-bottom-serifless"
+cyrl-capital-en = "serifless"
+cyrl-en = "serifless"
+cyrl-capital-er = "closed-serifless"
+cyrl-er = "eared-serifless"
+cyrl-capital-u = "straight-serifless"
+cyrl-u = "straight-serifless"
+cyrl-ef = "serifless"
+cyrl-che = "standard"
+cyrl-yeri = "corner"
+cyrl-yery = "corner"
+cyrl-capital-e = "serifless"
+cyrl-e = "serifless"
+cyrl-capital-ya = "straight-serifless"
+cyrl-ya = "straight-serifless"
+tittle = "round"
+diacritic-dot = "round"
+punctuation-dot = "round"
+braille-dot = "round"
+tilde = "low"
+asterisk = "hex-low"
+underscore = "above-baseline"
+caret = "medium"
+ascii-grave = "straight"
+ascii-single-quote = "straight"
+paren = "flat-arc"
+brace = "curly-flat-boundary"
+guillemet = "straight"
+number-sign = "upright"
+ampersand = "closed"
+at = "fourfold"
+dollar = "through"
+cent = "through"
+percent = "rings-continuous-slash"
+bar = "force-upright"
+question = "corner"
+pilcrow = "high"
+micro-sign = "tailed-serifless"
+decorative-angle-brackets = "middle"
+
+# Use two weights with more visible bolds
+[buildPlans.IosevkaInput.weights.SemiRegular]
+shape = 350
+menu = 350
+css = 350
+
+[buildPlans.IosevkaInput.weights.SemiHeavy]
+shape = 850
+menu = 850
+css = 850
+
+# Make upright upright and obligue with maximum angle for visibility
+[buildPlans.IosevkaInput.slopes.Upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+[buildPlans.IosevkaInput.slopes.Oblique]
+angle = 15
+shape = "oblique"
+menu = "oblique"
+css = "oblique"
+
+# Make font more square-ish with about 1:2 ratio
+# Notes:
+# - Adjusting sidebearings (`sb`) seems to lead to slightly worse results.
+#   Instead opt-in for adjusting overall dimensions, increasing various glyph
+#   height (capital, ascending, x), and using smaller size.
+[buildPlans.IosevkaInput.widths.Normal]
+shape = 575
+menu = 5
+css = "normal"
+
+[buildPlans.IosevkaInput.metricOverride]
+leading = 1100  # Overall "cell" height
+parenSize = 950 # Height of parenthesis
+cap = 800       # Height of capital (`H`)
+ascender = 800  # Height of ascending (`b`)
+xHeight = 600   # Height of lowercase (`x`)
+dotSize = "blend(weight, [100, 50], [350, 140], [850, 185], [900, 190])"    # Size of dots in diacritic marks (!?ij)
+periodSize = "blend(weight, [100, 55], [350, 160], [850, 210], [900, 215])" # Size of dots in period (.,;:)

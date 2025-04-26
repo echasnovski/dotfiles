@@ -1,18 +1,24 @@
 theme = NvimDark
 
-# The font families to use
-font-family = "Input"
+# Main font
+font-family = "IosevkaInput"
+# font-family = "Input"
+
+# Fallback font for icons
 font-family = "Symbols Nerd Font Mono"
 
 # Font size in points
-font-size = 12
+font-size = 11
+# font-size = 12
 
-# Adjust line thickness/position to work better with "Input:12" font
-# adjust-underline-position = 20%
-adjust-underline-thickness = -50%
-# adjust-strikethrough-thickness = 100%
+# Adjust line thickness/position to work better with "IosevkaInput:11" font
+adjust-underline-position = 7%
 adjust-cursor-thickness = 150%
-adjust-box-thickness = -25%
+
+# # Adjust line thickness/position to work better with "Input:12" font
+# adjust-underline-thickness = -50%
+# adjust-cursor-thickness = 150%
+# adjust-box-thickness = -25%
 
 # Possibly adjust cell characteristics if using different font
 adjust-cell-width =
