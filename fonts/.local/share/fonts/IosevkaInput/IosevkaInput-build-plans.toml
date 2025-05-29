@@ -23,7 +23,9 @@ noLigation = true
 # Define all available major characters for completeness.
 # Overall approach for choosing a character is to *usually* prefer:
 # "serifless", "straight", "toothless", "earless", "corner", "flat-top",
-# "flat-hook". With some exceptions for readability (like `IijQ`).
+# "flat-hook". With some exceptions for readability:
+# - Serifed `Iij`.
+# - Serifed or curly captial letter if similar to lowercase. Like `CSVXYZ`.
 [buildPlans.IosevkaInput.variants.design]
 one = "base"
 two = "curly-neck-serifless"
@@ -34,10 +36,10 @@ six = "closed-contour"
 seven = "straight-serifless"
 eight = "two-circles"
 nine = "closed-contour"
-zero = "slashed"
+zero = "oval-long-dotted"
 capital-a = "straight-serifless"
 capital-b = "standard-serifless"
-capital-c = "serifless"
+capital-c = "bilateral-inward-serifed"
 capital-d = "standard-serifless"
 capital-e = "serifless"
 capital-f = "serifless"
@@ -45,21 +47,21 @@ capital-g = "toothless-corner-serifless-hooked"
 capital-h = "serifless"
 capital-i = "serifed"
 capital-j = "serifless"
-capital-k = "straight-serifless"
+capital-k = "symmetric-connected-serifless"
 capital-l = "serifless"
 capital-m = "hanging-serifless"
 capital-n = "standard-serifless"
 capital-p = "closed-serifless"
 capital-q = "crossing-curly-tailed"
 capital-r = "straight-serifless"
-capital-s = "serifless"
+capital-s = "bilateral-inward-serifed"
 capital-t = "serifless"
 capital-u = "toothless-rounded-serifless"
-capital-v = "straight-serifless"
+capital-v = "curly-serifless"
 capital-w = "straight-vertical-sides-serifless"
-capital-x = "straight-serifless"
-capital-y = "straight-serifless"
-capital-z = "straight-serifless"
+capital-x = "curly-serifless"
+capital-y = "curly-serifless"
+capital-z = "straight-serifed"
 a = "double-storey-toothless-corner"
 b = "toothless-corner-serifless"
 c = "serifless"
@@ -72,7 +74,7 @@ i = "zshaped"
 j = "flat-hook-serifed"
 k = "straight-serifless"
 l = "zshaped"
-m = "earless-corner-double-arch-serifless"
+m = "earless-rounded-double-arch-short-leg-serifless"
 n = "earless-corner-straight-serifless"
 p = "earless-corner-serifless"
 q = "earless-corner-straight-serifless"
@@ -81,7 +83,7 @@ s = "serifless"
 t = "flat-hook"
 u = "toothless-corner-serifless"
 v = "straight-serifless"
-w = "rounded-vertical-sides-flat-top-serifless"
+w = "rounded-vertical-sides-serifless"
 x = "straight-serifless"
 y = "straight-turn-serifless"
 z = "straight-serifless"
@@ -117,37 +119,37 @@ cyrl-a = "single-storey-earless-corner-tailed"
 cyrl-ve = "standard-serifless"
 cyrl-capital-zhe = "symmetric-connected"
 cyrl-zhe = "symmetric-connected"
-cyrl-capital-ze = "serifless"
+cyrl-capital-ze = "bilateral-inward-serifed"
 cyrl-ze = "serifless"
-cyrl-capital-ka = "symmetric-connected-serifless"
+cyrl-capital-ka = "symmetric-connected-bottom-right-serifed"
 cyrl-ka = "symmetric-connected-serifless"
 cyrl-el = "straight"
 cyrl-em = "flat-bottom-serifless"
-cyrl-capital-en = "serifless"
+cyrl-capital-en = "serifed"
 cyrl-en = "serifless"
-cyrl-capital-er = "closed-serifless"
-cyrl-er = "eared-serifless"
-cyrl-capital-u = "straight-serifless"
-cyrl-u = "straight-serifless"
+cyrl-capital-er = "closed-serifed"
+cyrl-er = "eared-serifed"
+cyrl-capital-u = "cursive-serifless"
+cyrl-u = "cursive-serifless"
 cyrl-ef = "serifless"
 cyrl-che = "standard"
 cyrl-yeri = "corner"
 cyrl-yery = "corner"
-cyrl-capital-e = "serifless"
+cyrl-capital-e = "bilateral-inward-serifed"
 cyrl-e = "serifless"
-cyrl-capital-ya = "straight-serifless"
-cyrl-ya = "straight-serifless"
+cyrl-capital-ya = "standing-serifless"
+cyrl-ya = "standing-serifless"
 tittle = "round"
 diacritic-dot = "round"
 punctuation-dot = "round"
-braille-dot = "round"
+braille-dot = "square"
 tilde = "low"
 asterisk = "hex-low"
 underscore = "above-baseline"
 caret = "medium"
 ascii-grave = "straight"
 ascii-single-quote = "straight"
-paren = "flat-arc"
+paren = "normal"
 brace = "curly-flat-boundary"
 guillemet = "straight"
 number-sign = "upright"
@@ -163,15 +165,15 @@ micro-sign = "tailed-serifless"
 decorative-angle-brackets = "middle"
 
 # Use two weights with more visible bolds
-[buildPlans.IosevkaInput.weights.SemiRegular]
-shape = 350
-menu = 350
-css = 350
+[buildPlans.IosevkaInput.weights.W360]
+shape = 360
+menu = 360
+css = 360
 
-[buildPlans.IosevkaInput.weights.SemiHeavy]
-shape = 850
-menu = 850
-css = 850
+[buildPlans.IosevkaInput.weights.Heavy]
+shape = 900
+menu = 900
+css = 900
 
 # Make upright upright and obligue with maximum angle for visibility
 [buildPlans.IosevkaInput.slopes.Upright]
@@ -202,5 +204,5 @@ parenSize = 950 # Height of parenthesis
 cap = 800       # Height of capital (`H`)
 ascender = 800  # Height of ascending (`b`)
 xHeight = 600   # Height of lowercase (`x`)
-dotSize = "blend(weight, [100, 50], [350, 140], [850, 185], [900, 190])"    # Size of dots in diacritic marks (!?ij)
-periodSize = "blend(weight, [100, 55], [350, 160], [850, 210], [900, 215])" # Size of dots in period (.,;:)
+dotSize = "blend(weight, [100, 50], [360, 140], [900, 190])"    # Size of dots in diacritic marks (!?ij)
+periodSize = "blend(weight, [100, 55], [360, 160], [900, 215])" # Size of dots in period (.,;:)
