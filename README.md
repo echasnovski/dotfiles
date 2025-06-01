@@ -15,23 +15,24 @@ A (probably not full) list of (at least once in a while) used tools (in alphabet
 - [btop](https://github.com/aristocratos/btop)
 - [dunst](https://dunst-project.org/)
 - [fzf](https://github.com/junegunn/fzf)
-- [Git](http://git-scm.com/) \*
-- [GnuPG](https://gnupg.org/) \*
+- [ghostty](https://ghostty.org/) \*
+- [git](http://git-scm.com/) \*
+- [gnuPG](https://gnupg.org/) \*
 - [i3](https://i3wm.org/) \*
-- [Ipython](https://ipython.org/)
-- [Kitty](https://sw.kovidgoyal.net/kitty/binary/#manually-installing)
+- [ipython](https://ipython.org/)
 - [lazygit](https://github.com/jesseduffield/lazygit) \*
-- [Neovim](https://github.com/neovim/neovim) \*
+- [neovim](https://github.com/neovim/neovim) \*
 - [nnn](https://github.com/jarun/nnn) \*
+- [nushell](https://www.nushell.sh/) \*
 - [pass](https://www.passwordstore.org/) \*
 - [polybar](https://github.com/polybar/polybar) \*
-- [Powerlevel10k](https://github.com/romkatv/powerlevel10k) \*
+- [powerlevel10k](https://github.com/romkatv/powerlevel10k) \*
+- [RStudio](https://www.rstudio.com/)
 - [radian](https://github.com/randy3k/radian)
 - [rofi](https://github.com/davatorium/rofi) \*
-- [RStudio](https://www.rstudio.com/)
-- [Stow](https://www.gnu.org/software/stow/) \*
-- [Vim](https://www.vim.org/) \*
+- [stow](https://www.gnu.org/software/stow/) \*
 - [VS Code](https://code.visualstudio.com/)
+- [Vim](https://www.vim.org/) \*
 - [xfce4-terminal](https://docs.xfce.org/apps/terminal/start)
 - [Zathura](https://wiki.archlinux.org/title/Zathura)
 - [Zsh](https://www.zsh.org/) \*
@@ -58,7 +59,7 @@ Approximate guidance steps for Arch-based system:
 sudo pacman -Syu
 yay -Syu
 
-sudo pacman -S acpilight btop dunst fd feh fzf git gnupg i3-wm i3lock imagemagick lazygit maim mupdf openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal xsel zathura zathura-djvu zathura-pdf-mupdf zsh
+sudo pacman -S acpilight btop dunst fd feh fzf ghostty git gnupg i3-wm i3lock imagemagick lazygit maim mupdf nushell openssl pass picom polybar pyenv python-pip r ripgrep rofi stow vim vlc xdotool xfce4-terminal xsel zathura zathura-djvu zathura-pdf-mupdf zsh
 yay -S pyenv-virtualenv skypeforlinux-stable-bin visual-studio-code-bin pandoc-bin
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 python -m pip install pipx
@@ -82,7 +83,7 @@ git submodule update --init --recursive --depth 1
 - Stow dotfiles Run from `~/dotfiles` (something may fail due to some files being auto-created during app installation; remove them):
 
 ```bash
-stow -t ~ -vS bash btop dunst fonts fzf git gpg i3 ipython lazygit neovim nnn picom polybar r radian ripgrep rofi st vim wallpapers xfce4 xorg zathura zsh
+stow -t ~ -vS bash btop dunst fonts fzf ghostty git gpg i3 ipython lazygit neovim nnn nushell picom polybar r radian ripgrep rofi st vim wallpapers xfce4 xorg zathura zsh
 ```
 
 - Enable fonts with `fc-cache -fv`.
@@ -137,11 +138,6 @@ export DPI=168
 ### st
 
 Whole source code for "simple terminal" is shipped with these dotfiles in 'st' directory ('~/st' after applying `stow`). Build and install system-wide from that source.
-
-### Kitty
-
-- Image preview requires [imagemagick](https://imagemagick.org/script/download.php). Use appimage.
-- Use `kitty +kitten ssh <path>` to make ssh connection. Among other things, it makes `tmux` work.
 
 ### Xfce4 terminal
 

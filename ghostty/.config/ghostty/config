@@ -1,3 +1,7 @@
+# Use nushell
+command = nu
+
+# Use the best dark theme ever existed
 theme = NvimDark
 
 # Main font
@@ -37,7 +41,7 @@ cursor-invert-fg-bg = true
 selection-invert-fg-bg = true
 
 # If false, windows won't have native decorations (titlebar and borders).
-window-decoration = true
+window-decoration = false
 gtk-titlebar      = false
 gtk-adwaita       = false
 

@@ -128,6 +128,9 @@ for_window [title="Popup-Calendar"] floating enable, resize set 40ppt 40ppt, mov
 # Show screenkey in floating window
 for_window [title="^screenkey$"] floating enable, border none
 
+# Show Ghostty with i3wm title bar
+for_window [class="com.mitchellh.ghostty"] border normal
+
 # Appearance ==================================================================
 
 # Use tabbed layout by default
