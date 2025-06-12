@@ -3,6 +3,8 @@ command = nu
 
 # Use the best dark theme ever existed
 theme = NvimDark
+# - Adjust "dimmed white" to be different from "white"
+palette = 7=#9b9ea4
 
 # Main font
 font-family = "IosevkaInput"

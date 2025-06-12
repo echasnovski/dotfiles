@@ -10,7 +10,7 @@ $env.config.table.missing_value_symbol = '×'
 # Vi mode =====================================================================
 $env.config.edit_mode = 'vi'
 $env.config.cursor_shape.vi_insert = 'line'
-$env.config.cursor_shape.vi_normal = 'blink_block'
+$env.config.cursor_shape.vi_normal = 'block'
 
 $env.config.keybindings ++= [
   {
@@ -44,8 +44,8 @@ $env.PATH = $env.PATH | prepend ['~/.local/bin']
 
 # XDG_***
 $env.XDG_CONFIG_HOME = $nu.home-path | path join '.config'
-$env.XDG_DATA_HOME = $nu.home-path | path join '.local/share'
-$env.XDG_STATE_HOME = $nu.home-path | path join '.local/state'
+$env.XDG_DATA_HOME = $nu.home-path | path join '.local' 'share'
+$env.XDG_STATE_HOME = $nu.home-path | path join '.local' 'state'
 $env.XDG_CACHE_HOME = $nu.home-path | path join '.cache'
 
 # Pager
@@ -56,28 +56,48 @@ $env.PAGER = 'nvim --clean +Man!'
 $env.RIPGREP_CONFIG_PATH = $nu.home-path | path join '.config/ripgrep/.ripgreprc'
 
 # Ghostty config
-$env.GHOSTTY_RESOURCES_DIR = '~/.local/share/ghostty/ghostty'
+$env.GHOSTTY_RESOURCES_DIR = $env.XDG_DATA_HOME | path join 'ghostty' 'ghostty'
 
 # GnuPG
 $env.GPG_TTY = $'(tty)'
 
 # Prompt ======================================================================
 plugin add nu_plugin_gstat
-use ($nu.default-config-dir | path join "prompt.nu") [left_prompt right_prompt]
+# use ($nu.default-config-dir | path join "prompt.nu") [left_prompt right_prompt]
+use ($nu.default-config-dir | path join "prompt2.nu") *
 
-$env.PROMPT_COMMAND = { left_prompt }
-$env.PROMPT_COMMAND_RIGHT = { right_prompt }
-$env.PROMPT_INDICATOR = '> '
-$env.PROMPT_INDICATOR_VI_NORMAL = '< '
-$env.PROMPT_INDICATOR_VI_INSERT = '> '
-$env.PROMPT_MULTILINE_INDICATOR = ': '
+let prompt_parts = [
+  # Think about making it work. Right now it results in extra ' ' and affects
+  # the overall budget during part combination. Ideally it should start just
+  # add an empty line before the full prompt.
+  # {part: {(char newline)}, priority : infinity}
+
+  (prompt_part_pwd --priority infinity),
+  (prompt_part_gitbranch --priority 4),
+  (prompt_part_gitstatus --priority 0),
+  (prompt_part_fill --char '╌'),
+  (prompt_part_cmdduration --priority 1),
+  (prompt_part_time --priority 2),
+]
+let prompt = $prompt_parts | prompt_make
+
+def make_prompt_indicator [char: string]: nothing -> string {
+  (ansi green_bold) + $char + (ansi reset) + ' '
+}
+
+$env.PROMPT_COMMAND = $prompt
+$env.PROMPT_COMMAND_RIGHT = ''
+$env.PROMPT_INDICATOR = make_prompt_indicator '>'
+$env.PROMPT_INDICATOR_VI_INSERT = make_prompt_indicator '>'
+$env.PROMPT_INDICATOR_VI_NORMAL = make_prompt_indicator '<'
+$env.PROMPT_MULTILINE_INDICATOR = make_prompt_indicator ':'
 $env.config.render_right_prompt_on_last_line = true
 
-$env.TRANSIENT_PROMPT_COMMAND = { left_prompt }
+$env.TRANSIENT_PROMPT_COMMAND = $prompt
 $env.TRANSIENT_PROMPT_COMMAND_RIGHT = ''
-$env.TRANSIENT_PROMPT_INDICATOR = '> '
-$env.TRANSIENT_PROMPT_INDICATOR_VI_NORMAL = '> '
-$env.TRANSIENT_PROMPT_INDICATOR_VI_INSERT = '> '
+$env.TRANSIENT_PROMPT_INDICATOR = ''
+$env.TRANSIENT_PROMPT_INDICATOR_VI_INSERT = (ansi default) + '> '
+$env.TRANSIENT_PROMPT_INDICATOR_VI_NORMAL = ''
 $env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = ''
 
 # Completions =================================================================
@@ -97,7 +117,10 @@ alias rm-nvim-pack-demo = rm -r ~/.local/share/nvim-pack-demo ~/.local/state/nvi
 
 # NNN file manager ============================================================
 $env.NNN_PLUG = 'p:preview-tui'
-$env.NNN_BMS = 'n:$HOME/.config/nvim;m:$HOME/.loca/share/site/nvim/pack/deps/start/mini.nvim'
+$env.NNN_BMS = [
+  $'n:($env.XDG_CONFIG_HOME)/nvim'
+  $'m:($env.XDG_DATA_HOME)/nvim/site/pack/deps/start/mini.nvim'
+] | str join ';'
 $env.NNN_FCOLORS = 'c1e204020005060203d6ab01'
 
 # Run `nnn` with useful flags. Press `<C-g>` to change working directory to the
