@@ -1,3 +1,8 @@
+# Dynamicly adjusted prompt
+#
+# Requires Nu>=0.105.0
+use ($nu.default-config-dir | path join "project-root.nu") [ get_project_root get_lang_icon ]
+
 const default_priorty = 100.0
 const default_fill_priorty = -100.0
 
@@ -15,7 +20,7 @@ export def prompt_make []: list -> closure {
   )
   let parts = $data | get part
   let inv_id = $data | lift_index inv_id | sort-by orig_id | get inv_id
-  { combine_parts $parts $inv_id}
+  { combine_parts $parts $inv_id }
 }
 
 # `parts`  - list of closures each taking integer width `budget` as input and
@@ -25,7 +30,7 @@ export def prompt_make []: list -> closure {
 # `inv_id` - indexes that rearrange `parts` in the original "display order".
 def combine_parts [parts: list<closure>, inv_id: list<int>]: nothing -> string {
   # Cache Git info for better performance of git parts
-  $env.prompt_latest_gstat = gstat
+  $env.prompt_latest_gstat = gstat --no-tag
 
   # Iteratively process parts in their priority order
   let init = { strparts: [], budget: (term size).columns, offset: 0 }
@@ -67,55 +72,72 @@ def append_part [
 # Parts =======================================================================
 # Working directory -----------------------------------------------------------
 export def prompt_part_pwd [
-  --color: closure
-  --icon: closure
+  --color: closure,
+  --icon: closure,
   --priority: float = $default_priorty,
+  --root: closure,
+  --trunc_dir_width: int = 2,
+  --trunc_char: string = '…',
 ]: nothing -> record<part: closure, priority: float> {
-  let color = $color | default { "blue" }
-  let icon = $icon | default { |p| make_path_icon $p }
-  { part: { |budget| make_pwd $budget $icon $color }, priority: $priority }
+  let color = $color | default { { "blue" } }
+  let icon = $icon | default { { |p, l| make_path_icon $p $l } }
+  let root = $root | default { { |p| get_project_root $p } }
+  { part: { |budget| make_pwd $budget $icon $color $root $trunc_dir_width $trunc_char }, priority: $priority }
 }
 
-def format_path [p: string, color: string]: nothing -> string {
-  # TODO: if it is inside Git repo, make it "fancy short". As in:
-  # - All repo's parent directories with 4+ chars are truncated to first two
-  #   plus grey '…'.
-  # - Repo basename is bold.
-  # - Repo's subdirectores are in full.
-  # Maybe consider always dynamically shorten directories if not enough budget?
-  # Examples:
-  # - '~/directory/aaa/repo/subdir/subdir-2' ->
-  #   '~/di(ansi grey)…(ansi reset)/aaa/(ansi bold)repo(ansi reset)/subdir/subdir-2'
-  #
-  # TODO: Maybe introduce a more general concept of "project" and "root_markers"
-  # that can compute parent path as "project root" *and* its "source". Like:
-  # - Root markers can be an array of something like:
-  #   [
-  #     { kind: 'lua', markers: [ 'stylua.toml', 'luarc.json' ] },
-  #     { kind: 'git', markers: [ '.git' ] },
-  #     { kind: 'editorconfig', markers: [ '.editorconfig' ] },
-  #   ]
-  # - Returned project kind can be forwarded to icon computation.
-  # - Returned project root path can be used to shorten path.
-  let home = $nu.home-path
-  let path_sep = char path_sep
-  let colored_path_sep = $"(ansi attr_bold)($path_sep)(ansi reset)(ansi $color)"
-  if ($p | str starts-with $home) { return ($p | str replace $home '~') }
-  $p
+# Make path "fancy short" relative to the root:
+# - Home directory is shortened to '~'.
+# - All root parent directories are shortened to `trunc_dir_width` visible
+#   characters and appended with grey `trunc_char` character.
+# - Root basename is made bold.
+# - Root children are shown in full.
+def format_path [
+  path: path,
+  color: string,
+  root: string,
+  trunc_dir_width: int,
+  trunc_char: string,
+]: nothing -> string {
+  let p = $path | hide_home_path
+  if ($root == '') { return $p }
+
+  let r = $root | hide_home_path
+  let p_rel = try { $p | path relative-to $r } catch { return $p }
+
+  let root_parts = $r | path split
+  let prefix = $root_parts | slice ..-2 | each { |d| $d | trunc_dirname $trunc_dir_width $trunc_char $color } | path join
+  let root_name = $root_parts | slice (-1).. | get 0
+  let root_name_colored = $"(ansi attr_bold)($root_name)(ansi reset)(ansi $color)"
+
+  let parts = if ($p_rel == '') { [$prefix, $root_name_colored] } else { [$prefix, $root_name_colored, $p_rel] }
+  $parts | path join
 }
 
-def make_path_icon [p: string]: nothing -> string {
-  if ($p == $nu.home-path) { return '󰋜 ' }
-  if ($p | path split | any { |d| $d == 'nvim' }) { return ' ' }
+def make_path_icon [path: path, langs: list<string>]: nothing -> string {
+  if ($path == $nu.home-path) { return '󰋜 ' }
+  if ($path | path split | any { |d| $d == 'nvim' }) { return ' ' }
+
+  let l_icons = $langs | each { |l| $l | get_lang_icon } | compact
+  if ($l_icons | is-not-empty) { return ($l_icons | str join '') }
+
   if ($env.prompt_latest_gstat.stashes >= 0) { return '󰊢 ' }
   '󰉋 '
 }
 
-def make_pwd [budget: int, icon: closure, color: any]: nothing -> string {
+def make_pwd [
+  budget: int,
+  icon: closure,
+  color: closure,
+  root: closure
+  trunc_dir_width: int
+  trunc_char: string
+]: nothing -> string {
   let pwd = $env.PWD
   let col = do $color $pwd
-  let path = format_path $pwd $col
-  $"(do $icon $pwd)($path)" | fit_to_width $budget | add_color $col
+  let r = do $root $pwd
+  let path = format_path $pwd $col ($r | get path) $trunc_dir_width $trunc_char
+  let i = do $icon $pwd ($r | get langs)
+  $"($i)($path)" | trunc_path $budget | add_color $col
 }
 
 # Git -------------------------------------------------------------------------
@@ -124,9 +146,24 @@ export def prompt_part_gitbranch [
   --icon: closure
   --priority: float = $default_priorty,
 ]: nothing -> record<part: closure, priority: float> {
-  let color = $color | default { 'cyan' }
-  let icon = $icon | default { || ' ' }
+  let color = $color | default { { 'cyan' } }
+  let icon = $icon | default { { || ' ' } }
   { part: { |budget| make_gitbranch $budget $icon $color}, priority: $priority }
+}
+
+const repo_states = {
+  "Clean": "",
+  "Merge": "merge",
+  "Revert": "revert",
+  "RevertSequence": "revert-s",
+  "CherryPick": "cherry-pick",
+  "CherryPickSequence": "cherry-pick-s",
+  "Bisect": "bisect",
+  "Rebase": "rebase",
+  "RebaseInteractive": "rebase-i",
+  "RebaseMerge": "rebase-m",
+  "ApplyMailbox": "am",
+  "ApplyMailboxOrRebase": "am-rebase",
 }
 
 def make_gitbranch [budget: int, icon: closure, color: any]: nothing -> string {
@@ -136,7 +173,11 @@ def make_gitbranch [budget: int, icon: closure, color: any]: nothing -> string {
   let behind = if ($gs.behind > 0) { $"<($gs.behind)" } else { "" }
   let ahead = if ($gs.ahead > 0) { $">($gs.ahead)" } else { "" }
   let compare = (if ($behind != "" or $ahead != "") { " " } else { "" }) + $behind + $ahead
-  $"(do $icon $gs)($gs.branch)($compare)" | add_color (do $color $gs)
+
+  let gs_state = $gs | default 'None' state | get state
+  let state = $repo_states | default "" $gs_state | get $gs_state
+  let state = if ($state == "") {""} else {$" &($state)"}
+  $"(do $icon $gs)($gs.branch)($state)($compare)" | add_color (do $color $gs)
 }
 
 export def prompt_part_gitstatus [
@@ -144,8 +185,8 @@ export def prompt_part_gitstatus [
   --icon: closure
   --priority: float = $default_priorty,
 ]: nothing -> record<part: closure, priority: float> {
-  let color = $color | default { 'cyan' }
-  let icon = $icon | default { || ' ' }
+  let color = $color | default { { 'cyan' } }
+  let icon = $icon | default { { || ' ' } }
   { part: { |budget| make_gitstatus $budget $icon $color}, priority: $priority }
 }
 
@@ -188,8 +229,8 @@ export def prompt_part_time [
   --icon: closure
   --priority: float = $default_priorty,
 ]: nothing -> record<part: closure, priority: float> {
-  let color = $color | default { "yellow" }
-  let icon = $icon | default (make_time_icon)
+  let color = $color | default { { "yellow" } }
+  let icon = $icon | default { (make_time_icon) }
   { part: { |budget| make_time $budget $icon $color}, priority: $priority }
 }
 
@@ -211,6 +252,7 @@ def make_time_icon []: nothing -> closure {
   }
   { |now| $hour_icons | get ($now | format date '%I') }
 }
+
 def make_time [budget: int, icon: closure, color: closure]: nothing -> string {
   let now = date now
   let time = date now | format date "%H:%M:%S"
@@ -222,8 +264,8 @@ export def prompt_part_cmdduration [
   --icon: closure
   --priority: float = $default_priorty,
 ]: nothing -> record<part: closure, priority: float> {
-  let color = $color | default { || if ($env.LAST_EXIT_CODE == 0) { "green" } else { "red" } }
-  let icon = $icon | default (make_cmdduration_icon)
+  let color = $color | default { { || if ($env.LAST_EXIT_CODE == 0) { "green" } else { "red" } } }
+  let icon = $icon | default { (make_cmdduration_icon) }
   { part: { |budget| make_cmdduration $budget $icon $color}, priority: $priority }
 }
 
@@ -270,9 +312,31 @@ def add_color [color]: string -> string { (ansi $color) + $in + (ansi reset) }
 
 # Fit string into width by removing characters from left (designed for
 # shortening path). Should also account for possible ansi sequences.
-def fit_to_width [width: int]: string -> string {
+def trunc_path [width: int]: string -> string {
   let s = $in
-  let res_width = $s | ansi strip | str length --grapheme-clusters
-  if ($res_width <= $width or $width <= 0) { return $s }
-  $s | str substring --grapheme-clusters 1..(-1) | fit_to_width $width
+  let s_width = $s | ansi strip | str length --grapheme-clusters
+  if ($s_width <= $width or $width <= 0) { return $s }
+
+  for i in 1..($s | str length) {
+    let res = $s | str substring --grapheme-clusters ($i)..(-1)
+    let res_width = $res | ansi strip | str length --grapheme-clusters
+    if ($res_width <= $width) { return $res }
+  }
+  return ''
+}
+
+def trunc_dirname [width: int, trunc_char: string, main_color: any]: string -> string {
+  let s = $in
+  let res_width = $s | str length --grapheme-clusters
+  let trunc_width = $trunc_char | ansi strip | str length --grapheme-clusters
+  if ($res_width <= ($width + $trunc_width) or $width <= 0) { return $s }
+  let prefix = $s | str substring --grapheme-clusters 0..($width - 1)
+  $"($prefix)($trunc_char)(ansi reset)(ansi $main_color)"
+}
+
+def hide_home_path []: path -> path {
+  let home = $nu.home-path
+  let $p = $in
+  if ($p | str starts-with $home) { return ($p | str replace $home '~') }
+  $p
 }

@@ -63,7 +63,7 @@ $env.GPG_TTY = $'(tty)'
 
 # Prompt ======================================================================
 plugin add nu_plugin_gstat
-# use ($nu.default-config-dir | path join "prompt.nu") [left_prompt right_prompt]
+
 use ($nu.default-config-dir | path join "prompt2.nu") *
 
 let prompt_parts = [
@@ -72,7 +72,7 @@ let prompt_parts = [
   # add an empty line before the full prompt.
   # {part: {(char newline)}, priority : infinity}
 
-  (prompt_part_pwd --priority infinity),
+  (prompt_part_pwd --priority infinity --trunc_char $"(ansi white_dimmed)…"),
   (prompt_part_gitbranch --priority 4),
   (prompt_part_gitstatus --priority 0),
   (prompt_part_fill --char '╌'),
