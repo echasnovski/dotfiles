@@ -1,5 +1,11 @@
-# Root markers are glob patterns to be checked for each ancestor.
+# Finding root ================================================================
+# Root markers are file/directory relative paths (i.e. just name or path in
+# subdirectory) or glob patterns to be checked for each ancestor.
+#
 # Each marker marks a root for a project of particular set of languages.
+# Each marker can be one of:
+# - "name": just check file existence; fast but rigid.
+# - "glob": try to match with `glob`; flexible but slow.
 # Each marker's languages has a score showing how confident this marker is
 # for a particular language (bigger value -> bigger confidence).
 #
@@ -9,10 +15,11 @@
 #
 # Example of root markers data structure:
 #   [
-#     { marker: '.git',         langs: { '*': 5 } }
-#     { marker: 'README',       langs: { '*': 2 } }
-#     { marker: 'Cargo.toml',   langs: { 'rust': 2 } },
-#     { marker: 'node_modules', langs: { javascript: 1, typescript: 1 } },
+#     { marker: '.git',         type: "name", langs: { '*': 5 } }
+#     { marker: 'README',       type: "name", langs: { '*': 2 } }
+#     { marker: 'Cargo.toml',   type: "name", langs: { 'rust': 2 } },
+#     { marker: 'node_modules', type: "name", langs: { javascript: 1, typescript: 1 } },
+#     { marker: "*.csproj",     type: "glob", langs: { "csharp": 1 } },
 #   ]
 #
 # Finding project and its language for a `path` is done as follows:
@@ -30,408 +37,408 @@
 #     {}                    # for '/'
 #   ]
 #
+#   NOTE: language scores for each path is cached in the in-memory database
+#   to speed up the process.
+#
 # - The output path is the one with the highest total language score:
 #   `score of "*"` + `maximum of other scores`. The output language is the
 #   language (not `*`) with maximum score. If only '*' is present, return
-#   language 'none'.
+#   language 'none'. NOTE: to reduce possibility of ties, use slightly
+#   different languages scores (can be floats instead of integers).
 #   Based on example output, project root is '/home/user/repos/rust-project'
 #   with language 'rust'.
-#   TODO: decide how to maybe better handle ties.
 
+# Built-in root markers. Not very common glob root markers are commented out
+# for performance. Uncomment to respect them also at the cost of the more delay
+# after the first (and at most the first) computation for a particular path.
 const root_markers = [
   # Generally adopted files in project root
-  { marker: ".editorconfig", langs: { "*": 2 } },
-  { marker: ".git",          langs: { "*": 5 } },
-  { marker: ".root",         langs: { "*": 2 } },
-  { marker: "CHANGELOG*",    langs: { "*": 2 } },
-  { marker: "CONTRIBUTING*", langs: { "*": 2 } },
-  { marker: "LICENSE*",      langs: { "*": 2 } },
-  { marker: "NEWS*",         langs: { "*": 2 } },
-  { marker: "README*",       langs: { "*": 2 } },
+  { marker: ".editorconfig", type: "name", langs: { "*": 2 } },
+  { marker: ".git",          type: "name", langs: { "*": 5 } },
+  { marker: ".root",         type: "name", langs: { "*": 2 } },
+  { marker: "CHANGELOG*",    type: "glob", langs: { "*": 2 } },
+  { marker: "CONTRIBUTING*", type: "glob", langs: { "*": 2 } },
+  { marker: "LICENSE*",      type: "glob", langs: { "*": 2 } },
+  { marker: "NEWS*",         type: "glob", langs: { "*": 2 } },
+  { marker: "README*",       type: "glob", langs: { "*": 2 } },
 
   # Build files, usually located in project root
-  { marker: "*.mk",              langs: { "*": 2 } },
-  { marker: ".buckconfig",       langs: { "*": 2 } },
-  { marker: ".gn",               langs: { "*": 2 } },
-  { marker: ".plzconfig",        langs: { "*": 2 } },
-  { marker: ".plzconfig.*",      langs: { "*": 2 } },
-  { marker: "BUILD",             langs: { "*": 2 } },
-  { marker: "BUILD.bazel",       langs: { "*": 2 } },
-  { marker: "CMakePresets.json", langs: { "*": 2 } },
-  { marker: "Dockerfile",        langs: { "*": 2 } },
-  { marker: "MODULE.bazel",      langs: { "*": 2 } },
-  { marker: "Makefile",          langs: { "*": 2 } },
-  { marker: "WORKSPACE.bazel",   langs: { "*": 2 } },
-  { marker: "build",             langs: { "*": 2 } },
-  { marker: "build.zig",         langs: { "*": 2 } },
-  { marker: "cmake",             langs: { "*": 2 } },
-  { marker: "meson.build",       langs: { "*": 2 } },
-  { marker: "meson.options",     langs: { "*": 2 } },
-  { marker: "meson_options.txt", langs: { "*": 2 } },
+  # { marker: "*.mk",              type: "glob", langs: { "*": 2 } },
+  { marker: ".buckconfig",       type: "name", langs: { "*": 2 } },
+  { marker: ".gn",               type: "name", langs: { "*": 2 } },
+  { marker: ".plzconfig",        type: "name", langs: { "*": 2 } },
+  # { marker: ".plzconfig.*",      type: "glob", langs: { "*": 2 } },
+  { marker: "BUILD",             type: "name", langs: { "*": 2 } },
+  { marker: "BUILD.bazel",       type: "name", langs: { "*": 2 } },
+  { marker: "CMakePresets.json", type: "name", langs: { "*": 2 } },
+  { marker: "Dockerfile",        type: "name", langs: { "*": 2 } },
+  { marker: "MODULE.bazel",      type: "name", langs: { "*": 2 } },
+  { marker: "Makefile",          type: "name", langs: { "*": 2 } },
+  { marker: "WORKSPACE.bazel",   type: "name", langs: { "*": 2 } },
+  { marker: "build",             type: "name", langs: { "*": 2 } },
+  { marker: "build.zig",         type: "name", langs: { "*": 2 } },
+  { marker: "cmake",             type: "name", langs: { "*": 2 } },
+  { marker: "meson.build",       type: "name", langs: { "*": 2 } },
+  { marker: "meson.options",     type: "name", langs: { "*": 2 } },
+  { marker: "meson_options.txt", type: "name", langs: { "*": 2 } },
 
   # More or less single-language globs
-  { marker: "*.adc",      langs: { "ada": 1 } },
-  { marker: "*.gpr",      langs: { "ada": 1 } },
-  { marker: "alire.toml", langs: { "ada": 1 } },
+  # { marker: "*.adc",      type: "glob", langs: { "ada": 1 } },
+  # { marker: "*.gpr",      type: "glob", langs: { "ada": 1 } },
+  { marker: "alire.toml", type: "name", langs: { "ada": 1 } },
 
-  { marker: "*.ino", langs: { "arduino": 1 } },
+  # { marker: "*.ino", type: "glob", langs: { "arduino": 1 } },
 
-  { marker: ".asm-lsp.toml", langs: { "asm": 1 } },
-  { marker: ".hlasmplugin",  langs: { "asm": 1 } },
+  { marker: ".asm-lsp.toml", type: "name", langs: { "asm": 1 } },
+  { marker: ".hlasmplugin",  type: "name", langs: { "asm": 1 } },
 
-  { marker: ".ccls",             langs: { "c": 1, "cpp": 1 } },
-  { marker: ".clang-format",     langs: { "c": 1, "cpp": 1 } },
-  { marker: ".clang-tidy",       langs: { "c": 1, "cpp": 1 } },
-  { marker: ".clangd",           langs: { "c": 1, "cpp": 1 } },
-  { marker: "compile_flags.txt", langs: { "c": 1, "cpp": 1 } },
-  { marker: "configure.ac",      langs: { "c": 1, "cpp": 1 } },
+  { marker: ".ccls",             type: "name", langs: { "c": 1, "cpp": 1 } },
+  { marker: ".clang-format",     type: "name", langs: { "c": 1, "cpp": 1 } },
+  { marker: ".clang-tidy",       type: "name", langs: { "c": 1, "cpp": 1 } },
+  { marker: ".clangd",           type: "name", langs: { "c": 1, "cpp": 1 } },
+  { marker: "compile_flags.txt", type: "name", langs: { "c": 1, "cpp": 1 } },
+  { marker: "configure.ac",      type: "name", langs: { "c": 1, "cpp": 1 } },
 
-  { marker: "Scarb.toml",         langs: { "cairo": 1 } },
-  { marker: "cairo_project.toml", langs: { "cairo": 1 } },
+  { marker: "Scarb.toml",         type: "name", langs: { "cairo": 1 } },
+  { marker: "cairo_project.toml", type: "name", langs: { "cairo": 1 } },
 
-  { marker: "bb.edn",          langs: { "clojure": 1 } },
-  { marker: "build.boot",      langs: { "clojure": 1 } },
-  { marker: "deps.edn",        langs: { "clojure": 1 } },
-  { marker: "project.clj",     langs: { "clojure": 1 } },
-  { marker: "shadow-cljs.edn", langs: { "clojure": 1 } },
+  { marker: "bb.edn",          type: "name", langs: { "clojure": 1 } },
+  { marker: "build.boot",      type: "name", langs: { "clojure": 1 } },
+  { marker: "deps.edn",        type: "name", langs: { "clojure": 1 } },
+  { marker: "project.clj",     type: "name", langs: { "clojure": 1 } },
+  { marker: "shadow-cljs.edn", type: "name", langs: { "clojure": 1 } },
 
-  { marker: "shard.yml", langs: { "crystal": 1 } },
+  { marker: "shard.yml", type: "name", langs: { "crystal": 1 } },
 
-  { marker: "*.csproj",       langs: { "csharp": 1 } },
-  { marker: "*.fsproj",       langs: { "fsharp": 1 } },
-  { marker: "*.sln",          langs: { "csharp": 1, "fsharp": 1 } },
-  { marker: "*.slnx",         langs: { "csharp": 1 } },
-  { marker: "function.json",  langs: { "csharp": 1, "visualbasic": 1 } },
-  { marker: "omnisharp.json", langs: { "csharp": 1, "visualbasic": 1 } },
+  # { marker: "*.csproj",       type: "glob", langs: { "csharp": 1 } },
+  # { marker: "*.fsproj",       type: "glob", langs: { "fsharp": 1 } },
+  # { marker: "*.sln",          type: "glob", langs: { "csharp": 1, "fsharp": 1 } },
+  # { marker: "*.slnx",         type: "glob", langs: { "csharp": 1 } },
+  { marker: "function.json",  type: "name", langs: { "csharp": 1, "visualbasic": 1 } },
+  { marker: "omnisharp.json", type: "name", langs: { "csharp": 1, "visualbasic": 1 } },
 
-  { marker: "uno.config.js",    langs: { "css": 1, "javascript": 1 } },
-  { marker: "uno.config.ts",    langs: { "css": 1, "typescript": 1 } },
-  { marker: "unocss.config.js", langs: { "css": 1, "javascript": 1 } },
-  { marker: "unocss.config.ts", langs: { "css": 1, "typescript": 1 } },
+  { marker: "Camera.src",     type: "name", langs: { "d": 1 } },
+  { marker: "Gothic.src",     type: "name", langs: { "d": 1 } },
+  { marker: "Menu.src",       type: "name", langs: { "d": 1 } },
+  { marker: "Music.src",      type: "name", langs: { "d": 1 } },
+  { marker: "ParticleFX.src", type: "name", langs: { "d": 1 } },
+  { marker: "SFX.src",        type: "name", langs: { "d": 1 } },
+  { marker: "VisualFX.src",   type: "name", langs: { "d": 1 } },
+  { marker: "dub.json",       type: "name", langs: { "d": 1 } },
+  { marker: "dub.sdl",        type: "name", langs: { "d": 1 } },
 
-  { marker: "Camera.src",     langs: { "d": 1 } },
-  { marker: "Gothic.src",     langs: { "d": 1 } },
-  { marker: "Menu.src",       langs: { "d": 1 } },
-  { marker: "Music.src",      langs: { "d": 1 } },
-  { marker: "ParticleFX.src", langs: { "d": 1 } },
-  { marker: "SFX.src",        langs: { "d": 1 } },
-  { marker: "VisualFX.src",   langs: { "d": 1 } },
-  { marker: "dub.json",       langs: { "d": 1 } },
-  { marker: "dub.sdl",        langs: { "d": 1 } },
+  { marker: "pubspec.yaml", type: "name", langs: { "dart": 1 } },
 
-  { marker: "pubspec.yaml", langs: { "dart": 1 } },
+  { marker: "mix.exs", type: "name", langs: { "elixir": 1 } },
 
-  { marker: "mix.exs", langs: { "elixir": 1 } },
+  { marker: "elm.json", type: "name", langs: { "elm": 1 } },
 
-  { marker: "elm.json", langs: { "elm": 1 } },
+  { marker: "package.er", type: "name", langs: { "erg": 1 } },
 
-  { marker: "package.er", langs: { "erg": 1 } },
+  { marker: "erlang.mk",    type: "name", langs: { "erlang": 1 } },
+  { marker: "rebar.config", type: "name", langs: { "erlang": 1 } },
 
-  { marker: "erlang.mk",    langs: { "erlang": 1 } },
-  { marker: "rebar.config", langs: { "erlang": 1 } },
+  { marker: "flsproject.fnl", type: "name", langs: { "fennel": 1 } },
 
-  { marker: "flsproject.fnl", langs: { "fennel": 1 } },
+  { marker: "config.fish", type: "name", langs: { "fish": 1 } },
 
-  { marker: "config.fish", langs: { "fish": 1 } },
+  { marker: ".fortls", type: "name", langs: { "fortran": 1 } },
 
-  { marker: ".fortls", langs: { "fortran": 1 } },
+  { marker: "gleam.toml", type: "name", langs: { "gleam": 1 } },
 
-  { marker: "gleam.toml", langs: { "gleam": 1 } },
+  { marker: ".golangci.json", type: "name", langs: { "go": 1 } },
+  { marker: ".golangci.toml", type: "name", langs: { "go": 1 } },
+  { marker: ".golangci.yaml", type: "name", langs: { "go": 1 } },
+  { marker: ".golangci.yml",  type: "name", langs: { "go": 1 } },
+  { marker: "go.mod",         type: "name", langs: { "go": 2 } },
+  { marker: "go.work",        type: "name", langs: { "go": 2 } },
 
-  { marker: ".golangci.json", langs: { "go": 1 } },
-  { marker: ".golangci.toml", langs: { "go": 1 } },
-  { marker: ".golangci.yaml", langs: { "go": 1 } },
-  { marker: ".golangci.yml",  langs: { "go": 1 } },
-  { marker: "go.mod",         langs: { "go": 1 } },
-  { marker: "go.work",        langs: { "go": 1 } },
+  { marker: "project.godot", type: "name", langs: { "godot": 2 } },
 
-  { marker: "project.godot", langs: { "godot": 1 } },
+  # { marker: ".graphql.config.*", type: "glob", langs: { "graphql": 1 } },
+  # { marker: ".graphqlrc*",       type: "glob", langs: { "graphql": 1 } },
+  # { marker: "graphql.config.*",  type: "glob", langs: { "graphql": 1 } },
 
-  { marker: ".graphql.config.*", langs: { "graphql": 1 } },
-  { marker: ".graphqlrc*",       langs: { "graphql": 1 } },
-  { marker: "graphql.config.*",  langs: { "graphql": 1 } },
+  # { marker: "*.cabal",       type: "glob", langs: { "haskell": 1 } },
+  { marker: "cabal.config",  type: "name", langs: { "haskell": 1 } },
+  { marker: "cabal.project", type: "name", langs: { "haskell": 1 } },
+  { marker: "hie-bios",      type: "name", langs: { "haskell": 1 } },
+  { marker: "hie.yaml",      type: "name", langs: { "haskell": 1 } },
+  { marker: "package.yaml",  type: "name", langs: { "haskell": 1 } },
+  { marker: "stack.yaml",    type: "name", langs: { "haskell": 1 } },
 
-  { marker: "*.cabal",       langs: { "haskell": 1 } },
-  { marker: "cabal.config",  langs: { "haskell": 1 } },
-  { marker: "cabal.project", langs: { "haskell": 1 } },
-  { marker: "hie-bios",      langs: { "haskell": 1 } },
-  { marker: "hie.yaml",      langs: { "haskell": 1 } },
-  { marker: "package.yaml",  langs: { "haskell": 1 } },
-  { marker: "stack.yaml",    langs: { "haskell": 1 } },
+  { marker: "project.janet", type: "name", langs: { "janet": 1 } },
 
-  { marker: "project.janet", langs: { "janet": 1 } },
+  { marker: "build.gradle",        type: "name", langs: { "java": 1, "kotlin": 1, "scala": 1 } },
+  { marker: "build.gradle.kts",    type: "name", langs: { "java": 1, "kotlin": 1, "smithy": 1 } },
+  { marker: "build.sbt",           type: "name", langs: { "scala": 1 } },
+  { marker: "build.sc",            type: "name", langs: { "scala": 1 } },
+  { marker: "build.xml",           type: "name", langs: { "java": 1, "kotlin": 1 } },
+  { marker: "pom.xml",             type: "name", langs: { "java": 1, "kotlin": 1, "scala": 1 } },
+  { marker: "settings.gradle",     type: "name", langs: { "java": 1, "kotlin": 1 } },
+  { marker: "settings.gradle.kts", type: "name", langs: { "java": 1, "kotlin": 1 } },
+  { marker: "smithy-build.json",   type: "name", langs: { "smithy": 1 } },
+  { marker: "workspace.json",      type: "name", langs: { "kotlin": 1 } },
 
-  { marker: "build.gradle",        langs: { "java": 1, "kotlin": 1, "scala": 1 } },
-  { marker: "build.gradle.kts",    langs: { "java": 1, "kotlin": 1, "smithy": 1 } },
-  { marker: "build.sbt",           langs: { "scala": 1 } },
-  { marker: "build.sc",            langs: { "scala": 1 } },
-  { marker: "build.xml",           langs: { "java": 1, "kotlin": 1 } },
-  { marker: "pom.xml",             langs: { "java": 1, "kotlin": 1, "scala": 1 } },
-  { marker: "settings.gradle",     langs: { "java": 1, "kotlin": 1 } },
-  { marker: "settings.gradle.kts", langs: { "java": 1, "kotlin": 1 } },
-  { marker: "smithy-build.json",   langs: { "smithy": 1 } },
-  { marker: "workspace.json",      langs: { "kotlin": 1 } },
+  { marker: ".flowconfig",        type: "name", langs: { "javascript": 1 } },
+  { marker: ".oxlintrc.json",     type: "name", langs: { "javascript": 1, "typescript": 1 } },
+  { marker: "angular.json",       type: "name", langs: { "typescript": 1 } },
+  { marker: "deno.json",          type: "name", langs: { "javascript": 1, "typescript": 1 } },
+  { marker: "deno.jsonc",         type: "name", langs: { "javascript": 1, "typescript": 1 } },
+  { marker: "ember-cli-build.js", type: "name", langs: { "javascript": 1, "typescript": 1 } },
+  { marker: "jsconfig.json",      type: "name", langs: { "javascript": 2, "typescript": 1 } },
+  { marker: "node_modules",       type: "name", langs: { "javascript": 1, "typescript": 1 } },
+  { marker: "nx.json",            type: "name", langs: { "typescript": 1 } },
+  { marker: "sfdx-project.json",  type: "name", langs: { "javascript": 1 } },
+  { marker: "tsconfig.json",      type: "name", langs: { "typescript": 2 } },
 
-  { marker: ".flowconfig",        langs: { "javascript": 1 } },
-  { marker: ".oxlintrc.json",     langs: { "javascript": 1, "typescript": 1 } },
-  { marker: "angular.json",       langs: { "typescript": 1 } },
-  { marker: "deno.json",          langs: { "javascript": 1, "typescript": 1 } },
-  { marker: "deno.jsonc",         langs: { "javascript": 1, "typescript": 1 } },
-  { marker: "ember-cli-build.js", langs: { "javascript": 1, "typescript": 1 } },
-  { marker: "jsconfig.json",      langs: { "javascript": 2, "typescript": 1 } },
-  { marker: "node_modules",       langs: { "javascript": 1, "typescript": 1 } },
-  { marker: "nx.json",            langs: { "typescript": 1 } },
-  { marker: "sfdx-project.json",  langs: { "javascript": 1 } },
-  { marker: "tsconfig.json",      langs: { "typescript": 2 } },
+  { marker: "Jenkinsfile", type: "name", langs: { "jenkins": 1 } },
 
-  { marker: "Jenkinsfile", langs: { "jenkins": 1 } },
+  { marker: "JuliaProject.toml", type: "name", langs: { "julia": 1 } },
+  { marker: "Project.toml",      type: "name", langs: { "julia": 1 } },
 
-  { marker: "JuliaProject.toml", langs: { "julia": 1 } },
-  { marker: "Project.toml",      langs: { "julia": 1 } },
+  { marker: "lean/library", type: "name", langs: { "lean": 1 } },
+  { marker: "leanpkg.path", type: "name", langs: { "lean": 1 } },
+  { marker: "leanpkg.toml", type: "name", langs: { "lean": 1 } },
 
-  { marker: "lean/library", langs: { "lean": 1 } },
-  { marker: "leanpkg.path", langs: { "lean": 1 } },
-  { marker: "leanpkg.toml", langs: { "lean": 1 } },
+  { marker: ".emmyrc.json", type: "name", langs: { "lua": 1 } },
+  { marker: ".luacheckrc",  type: "name", langs: { "lua": 1 } },
+  { marker: ".luarc.json",  type: "name", langs: { "lua": 1 } },
+  { marker: ".luarc.jsonc", type: "name", langs: { "lua": 1 } },
+  { marker: ".stylua.toml", type: "name", langs: { "lua": 1 } },
+  { marker: "selene.toml",  type: "name", langs: { "lua": 1 } },
+  { marker: "selene.yml",   type: "name", langs: { "lua": 1 } },
+  { marker: "stylua.toml",  type: "name", langs: { "lua": 1 } },
 
-  { marker: ".emmyrc.json", langs: { "lua": 1 } },
-  { marker: ".luacheckrc",  langs: { "lua": 1 } },
-  { marker: ".luarc.json",  langs: { "lua": 1 } },
-  { marker: ".luarc.jsonc", langs: { "lua": 1 } },
-  { marker: ".stylua.toml", langs: { "lua": 1 } },
-  { marker: "selene.toml",  langs: { "lua": 1 } },
-  { marker: "selene.yml",   langs: { "lua": 1 } },
-  { marker: "stylua.toml",  langs: { "lua": 1 } },
+  { marker: "nginx.conf", type: "name", langs: { "nginx": 1 } },
 
-  { marker: "nginx.conf", langs: { "nginx": 1 } },
+  # { marker: "*.nimble", type: "glob", langs: { "nim": 1 } },
 
-  { marker: "*.nimble", langs: { "nim": 1 } },
+  { marker: "flake.nix", type: "name", langs: { "nix": 1 } },
+  { marker: "shell.nix", type: "name", langs: { "nix": 1 } },
 
-  { marker: "flake.nix", langs: { "nix": 1 } },
-  { marker: "shell.nix", langs: { "nix": 1 } },
+  { marker: "config.nu", type: "name", langs: { "nu": 1 } },
 
-  { marker: "config.nu", langs: { "nu": 1 } },
+  # { marker: "*.opam",         type: "glob", langs: { "ocaml": 1 } },
+  { marker: "dune-project",   type: "name", langs: { "ocaml": 1 } },
+  { marker: "dune-workspace", type: "name", langs: { "ocaml": 1 } },
+  { marker: "esy.json",       type: "name", langs: { "ocaml": 1 } },
 
-  { marker: "*.opam",         langs: { "ocaml": 1 } },
-  { marker: "dune-project",   langs: { "ocaml": 1 } },
-  { marker: "dune-workspace", langs: { "ocaml": 1 } },
-  { marker: "esy.json",       langs: { "ocaml": 1 } },
+  # { marker: "*.odin",   type: "glob", langs: { "odin": 1 } },
+  { marker: "ols.json", type: "name", langs: { "odin": 1 } },
 
-  { marker: "*.odin",   langs: { "odin": 1 } },
-  { marker: "ols.json", langs: { "odin": 1 } },
+  # { marker: "*.lpi", type: "glob", langs: { "pascal": 1 } },
+  # { marker: "*.lpk", type: "glob", langs: { "pascal": 1 } },
 
-  { marker: "*.lpi", langs: { "pascal": 1 } },
-  { marker: "*.lpk", langs: { "pascal": 1 } },
+  # { marker: "*.p8", type: "glob", langs: { "pico-8": 1 } },
 
-  { marker: "*.p8", langs: { "pico-8": 1 } },
+  { marker: ".hhconfig",      type: "name", langs: { "php": 1 } },
+  { marker: ".phpactor.json", type: "name", langs: { "php": 1 } },
+  { marker: ".phpactor.yml",  type: "name", langs: { "php": 1 } },
+  { marker: "Gemfile",        type: "name", langs: { "php": 1, "ruby": 1 } },
+  { marker: "artisan",        type: "name", langs: { "php": 1 } },
+  { marker: "composer.json",  type: "name", langs: { "php": 1 } },
+  { marker: "composer.lock",  type: "name", langs: { "php": 1 } },
+  { marker: "phpunit.xml",    type: "name", langs: { "php": 1 } },
+  { marker: "psalm.xml",      type: "name", langs: { "php": 1 } },
+  { marker: "psalm.xml.dist", type: "name", langs: { "php": 1 } },
 
-  { marker: ".hhconfig",      langs: { "php": 1 } },
-  { marker: ".phpactor.json", langs: { "php": 1 } },
-  { marker: ".phpactor.yml",  langs: { "php": 1 } },
-  { marker: "Gemfile",        langs: { "php": 1, "ruby": 1 } },
-  { marker: "artisan",        langs: { "php": 1 } },
-  { marker: "composer.json",  langs: { "php": 1 } },
-  { marker: "composer.lock",  langs: { "php": 1 } },
-  { marker: "phpunit.xml",    langs: { "php": 1 } },
-  { marker: "psalm.xml",      langs: { "php": 1 } },
-  { marker: "psalm.xml.dist", langs: { "php": 1 } },
+  { marker: ".pliplugin", type: "name", langs: { "pli": 1 } },
 
-  { marker: ".pliplugin", langs: { "pli": 1 } },
+  { marker: "pack.pl", type: "name", langs: { "prolog": 1 } },
 
-  { marker: "pack.pl", langs: { "prolog": 1 } },
+  { marker: "bower.json",       type: "name", langs: { "purescript": 1 } },
+  { marker: "psc-package.json", type: "name", langs: { "purescript": 1 } },
+  { marker: "spago.dhall",      type: "name", langs: { "purescript": 1 } },
+  { marker: "spago.yaml",       type: "name", langs: { "purescript": 1 } },
 
-  { marker: "bower.json",       langs: { "purescript": 1 } },
-  { marker: "psc-package.json", langs: { "purescript": 1 } },
-  { marker: "spago.dhall",      langs: { "purescript": 1 } },
-  { marker: "spago.yaml",       langs: { "purescript": 1 } },
+  { marker: ".pyre_configuration", type: "name", langs: { "python": 1 } },
+  { marker: ".ruff.toml",          type: "name", langs: { "python": 1 } },
+  { marker: "Pipfile",             type: "name", langs: { "python": 1 } },
+  { marker: "conda.yaml",          type: "name", langs: { "python": 1 } },
+  { marker: "pyproject.toml",      type: "name", langs: { "python": 1 } },
+  { marker: "pyrefly.toml",        type: "name", langs: { "python": 1 } },
+  { marker: "pyrightconfig.json",  type: "name", langs: { "python": 1 } },
+  { marker: "requirements.txt",    type: "name", langs: { "python": 1 } },
+  { marker: "ruff.toml",           type: "name", langs: { "python": 1 } },
+  { marker: "setup.cfg",           type: "name", langs: { "python": 1 } },
+  { marker: "setup.py",            type: "name", langs: { "python": 1 } },
+  { marker: "tox.ini",             type: "name", langs: { "python": 1 } },
+  { marker: "ty.toml",             type: "name", langs: { "python": 1 } },
 
-  { marker: ".pyre_configuration", langs: { "python": 1 } },
-  { marker: ".ruff.toml",          langs: { "python": 1 } },
-  { marker: "Pipfile",             langs: { "python": 1 } },
-  { marker: "conda.yaml",          langs: { "python": 1 } },
-  { marker: "pyproject.toml",      langs: { "python": 1 } },
-  { marker: "pyrefly.toml",        langs: { "python": 1 } },
-  { marker: "pyrightconfig.json",  langs: { "python": 1 } },
-  { marker: "requirements.txt",    langs: { "python": 1 } },
-  { marker: "ruff.toml",           langs: { "python": 1 } },
-  { marker: "setup.cfg",           langs: { "python": 1 } },
-  { marker: "setup.py",            langs: { "python": 1 } },
-  { marker: "tox.ini",             langs: { "python": 1 } },
-  { marker: "ty.toml",             langs: { "python": 1 } },
+  { marker: ".air.toml",   type: "name", langs: { "r": 1 } },
+  { marker: "DESCRIPTION", type: "name", langs: { "r": 2 } },
+  { marker: "NAMESPACE",   type: "name", langs: { "r": 2 } },
+  { marker: "air.toml",    type: "name", langs: { "r": 1 } },
 
-  { marker: ".air.toml",   langs: { "r": 1 } },
-  { marker: "DESCRIPTION", langs: { "r": 1 } },
-  { marker: "NAMESPACE",   langs: { "r": 1 } },
-  { marker: "air.toml",    langs: { "r": 1 } },
+  { marker: "bsconfig.json", type: "name", langs: { "rescript": 1 } },
+  { marker: "rescript.json", type: "name", langs: { "rescript": 1 } },
 
-  { marker: "bsconfig.json", langs: { "rescript": 1 } },
-  { marker: "rescript.json", langs: { "rescript": 1 } },
+  { marker: "robot.toml",    type: "name", langs: { "robot": 1 } },
+  { marker: "robot.yaml",    type: "name", langs: { "robot": 1 } },
+  { marker: "robotidy.toml", type: "name", langs: { "robot": 1 } },
 
-  { marker: "robot.toml",    langs: { "robot": 1 } },
-  { marker: "robot.yaml",    langs: { "robot": 1 } },
-  { marker: "robotidy.toml", langs: { "robot": 1 } },
+  { marker: ".streerc",  type: "name", langs: { "ruby": 1 } },
+  { marker: "Steepfile", type: "name", langs: { "ruby": 1 } },
 
-  { marker: ".streerc",  langs: { "ruby": 1 } },
-  { marker: "Steepfile", langs: { "ruby": 1 } },
+  { marker: ".bacon-locations",  type: "name", langs: { "rust": 1 } },
+  { marker: ".rustfmt.toml",     type: "name", langs: { "rust": 1 } },
+  { marker: "Cargo.toml",        type: "name", langs: { "rust": 2 } },
+  { marker: "build.rs",          type: "name", langs: { "rust": 2 } },
+  { marker: "rust-project.json", type: "name", langs: { "rust": 2 } },
+  { marker: "rustfmt.toml",      type: "name", langs: { "rust": 1 } },
 
-  { marker: ".bacon-locations",  langs: { "rust": 1 } },
-  { marker: ".rustfmt.toml",     langs: { "rust": 1 } },
-  { marker: "Cargo.toml",        langs: { "rust": 2 } },
-  { marker: "rust-project.json", langs: { "rust": 2 } },
-  { marker: "rustfmt.toml",      langs: { "rust": 1 } },
+  { marker: "Akku.manifest", type: "name", langs: { "scheme": 1 } },
+  { marker: "guix.scm",      type: "name", langs: { "scheme": 1 } },
 
-  { marker: "Akku.manifest", langs: { "scheme": 1 } },
-  { marker: "guix.scm",      langs: { "scheme": 1 } },
+  { marker: "millet.toml", type: "name", langs: { "sml": 1 } },
 
-  { marker: "millet.toml", langs: { "sml": 1 } },
+  { marker: "ape-config.yaml",   type: "name", langs: { "solidity": 1 } },
+  { marker: "foundry.toml",      type: "name", langs: { "solidity": 1 } },
+  # { marker: "hardhat.config.*",  type: "glob", langs: { "solidity": 1 } },
+  { marker: "remappings.txt",    type: "name", langs: { "solidity": 1 } },
+  { marker: "truffle-config.js", type: "name", langs: { "solidity": 1 } },
+  { marker: "truffle.js",        type: "name", langs: { "solidity": 1 } },
 
-  { marker: "ape-config.yaml",   langs: { "solidity": 1 } },
-  { marker: "foundry.toml",      langs: { "solidity": 1 } },
-  { marker: "hardhat.config.*",  langs: { "solidity": 1 } },
-  { marker: "remappings.txt",    langs: { "solidity": 1 } },
-  { marker: "truffle-config.js", langs: { "solidity": 1 } },
-  { marker: "truffle.js",        langs: { "solidity": 1 } },
+  { marker: ".sqllsrc.json",       type: "name", langs: { "sql": 1 } },
+  { marker: ".sqruff",             type: "name", langs: { "sql": 1 } },
+  { marker: "config.yml",          type: "name", langs: { "sql": 1 } },
+  { marker: "postgrestools.jsonc", type: "name", langs: { "sql": 1 } },
 
-  { marker: ".sqllsrc.json",       langs: { "sql": 1 } },
-  { marker: ".sqruff",             langs: { "sql": 1 } },
-  { marker: "config.yml",          langs: { "sql": 1 } },
-  { marker: "postgrestools.jsonc", langs: { "sql": 1 } },
+  # { marker: "*.xcodeproj",           type: "glob", langs: { "swift": 1 } },
+  # { marker: "*.xcworkspace",         type: "glob", langs: { "swift": 1 } },
+  { marker: "Package.swift",         type: "name", langs: { "swift": 1 } },
+  { marker: "buildServer.json",      type: "name", langs: { "swift": 1 } },
+  { marker: "compile_commands.json", type: "name", langs: { "swift": 1, "c": 1, "cpp": 1 } },
 
-  { marker: "*.xcodeproj",           langs: { "swift": 1 } },
-  { marker: "*.xcworkspace",         langs: { "swift": 1 } },
-  { marker: "Package.swift",         langs: { "swift": 1 } },
-  { marker: "buildServer.json",      langs: { "swift": 1 } },
-  { marker: "compile_commands.json", langs: { "swift": 1, "c": 1, "cpp": 1 } },
+  { marker: "tlconfig.lua", type: "name", langs: { "teal": 1 } },
 
-  { marker: "tlconfig.lua", langs: { "teal": 1 } },
+  { marker: ".terraform",  type: "name", langs: { "terraform": 1 } },
+  { marker: ".tflint.hcl", type: "name", langs: { "terraform": 1 } },
 
-  { marker: ".terraform",  langs: { "terraform": 1 } },
-  { marker: ".tflint.hcl", langs: { "terraform": 1 } },
+  { marker: ".latexmkrc",    type: "name", langs: { "tex": 1 } },
+  { marker: ".texlabroot",   type: "name", langs: { "tex": 1 } },
+  { marker: ".vale.ini",     type: "name", langs: { "tex": 1 } },
+  { marker: "Tectonic.toml", type: "name", langs: { "tex": 1 } },
+  { marker: "latexmkrc",     type: "name", langs: { "tex": 1 } },
+  { marker: "texlabroot",    type: "name", langs: { "tex": 1 } },
 
-  { marker: ".latexmkrc",    langs: { "tex": 1 } },
-  { marker: ".texlabroot",   langs: { "tex": 1 } },
-  { marker: ".vale.ini",     langs: { "tex": 1 } },
-  { marker: "Tectonic.toml", langs: { "tex": 1 } },
-  { marker: "latexmkrc",     langs: { "tex": 1 } },
-  { marker: "texlabroot",    langs: { "tex": 1 } },
+  { marker: ".fmt.ua", type: "name", langs: { "uiua": 1 } },
+  { marker: "main.ua", type: "name", langs: { "uiua": 1 } },
 
-  { marker: ".fmt.ua", langs: { "uiua": 1 } },
-  { marker: "main.ua", langs: { "uiua": 1 } },
+  { marker: "v.mod", type: "name", langs: { "v": 1 } },
 
-  { marker: "v.mod", langs: { "v": 1 } },
+  { marker: ".svlangserver", type: "name", langs: { "verilog": 1 } },
 
-  { marker: ".svlangserver", langs: { "verilog": 1 } },
+  { marker: ".vhdl_ls.toml", type: "name", langs: { "vhdl": 1 } },
+  { marker: "hdl-prj.json",  type: "name", langs: { "vhdl": 1 } },
+  { marker: "vhdl_ls.toml",  type: "name", langs: { "vhdl": 1 } },
 
-  { marker: ".vhdl_ls.toml", langs: { "vhdl": 1 } },
-  { marker: "hdl-prj.json",  langs: { "vhdl": 1 } },
-  { marker: "vhdl_ls.toml",  langs: { "vhdl": 1 } },
+  { marker: "css",              type: "name", langs: { "web": 1, "javascript": 1 } },
+  { marker: "uno.config.js",    type: "name", langs: { "web": 1, "javascript": 1 } },
+  { marker: "uno.config.ts",    type: "name", langs: { "web": 1, "typescript": 1 } },
+  { marker: "unocss.config.js", type: "name", langs: { "web": 1, "javascript": 1 } },
+  { marker: "unocss.config.ts", type: "name", langs: { "web": 1, "typescript": 1 } },
 
-  { marker: "zls.json", langs: { "zig": 1 } },
+  { marker: "zls.json", type: "name", langs: { "zig": 1 } },
 
   # Multi-language globs
-  { marker: "package.json", langs: { "javascript": 2, "typescript": 2 } },
+  { marker: "package.json", type: "name", langs: { "javascript": 2, "typescript": 2 } },
 
-  { marker: ".dprint.json",  langs: { "graphql": 1, "javascript": 1, "python": 1, "csharp": 1, "rust": 1, "typescript": 1 } },
-  { marker: ".dprint.jsonc", langs: { "graphql": 1, "javascript": 1, "python": 1, "csharp": 1, "rust": 1, "typescript": 1 } },
+  { marker: ".dprint.json",  type: "name", langs: { "graphql": 1, "javascript": 1, "python": 1, "csharp": 1, "rust": 1, "typescript": 1 } },
+  { marker: ".dprint.jsonc", type: "name", langs: { "graphql": 1, "javascript": 1, "python": 1, "csharp": 1, "rust": 1, "typescript": 1 } },
 
-  { marker: ".eslintrc",      langs: { "javascript": 1, "typescript": 1 } },
-  { marker: ".eslintrc.cjs",  langs: { "javascript": 1 } },
-  { marker: ".eslintrc.js",   langs: { "javascript": 1 } },
-  { marker: ".eslintrc.json", langs: { "javascript": 1, "typescript": 1 } },
-  { marker: ".eslintrc.yaml", langs: { "javascript": 1, "typescript": 1 } },
-  { marker: ".eslintrc.yml",  langs: { "javascript": 1, "typescript": 1 } },
+  { marker: ".eslintrc",      type: "name", langs: { "javascript": 1, "typescript": 1 } },
+  { marker: ".eslintrc.cjs",  type: "name", langs: { "javascript": 1 } },
+  { marker: ".eslintrc.js",   type: "name", langs: { "javascript": 1 } },
+  { marker: ".eslintrc.json", type: "name", langs: { "javascript": 1, "typescript": 1 } },
+  { marker: ".eslintrc.yaml", type: "name", langs: { "javascript": 1, "typescript": 1 } },
+  { marker: ".eslintrc.yml",  type: "name", langs: { "javascript": 1, "typescript": 1 } },
 
-  { marker: ".snyk", langs: { "go": 1, "javascript": 1, "python": 1, "terraform": 1, "typescript": 1 } },
+  { marker: ".snyk", type: "name", langs: { "go": 1, "javascript": 1, "python": 1, "terraform": 1, "typescript": 1 } },
 
-  { marker: ".stylelintrc",         langs: { "css": 1 } },
-  { marker: ".stylelintrc.cjs",     langs: { "css": 1, "javascript": 1 } },
-  { marker: ".stylelintrc.js",      langs: { "css": 1, "javascript": 1 } },
-  { marker: ".stylelintrc.json",    langs: { "css": 1 } },
-  { marker: ".stylelintrc.mjs",     langs: { "css": 1, "javascript": 1 } },
-  { marker: ".stylelintrc.yaml",    langs: { "css": 1 } },
-  { marker: ".stylelintrc.yml",     langs: { "css": 1 } },
-  { marker: "stylelint.config.cjs", langs: { "css": 1 } },
-  { marker: "stylelint.config.js",  langs: { "css": 1 } },
-  { marker: "stylelint.config.mjs", langs: { "css": 1 } },
+  { marker: ".stylelintrc",         type: "name", langs: { "web": 1 } },
+  { marker: ".stylelintrc.cjs",     type: "name", langs: { "web": 1, "javascript": 1 } },
+  { marker: ".stylelintrc.js",      type: "name", langs: { "web": 1, "javascript": 1 } },
+  { marker: ".stylelintrc.json",    type: "name", langs: { "web": 1 } },
+  { marker: ".stylelintrc.mjs",     type: "name", langs: { "web": 1, "javascript": 1 } },
+  { marker: ".stylelintrc.yaml",    type: "name", langs: { "web": 1 } },
+  { marker: ".stylelintrc.yml",     type: "name", langs: { "web": 1 } },
+  { marker: "stylelint.config.cjs", type: "name", langs: { "web": 1 } },
+  { marker: "stylelint.config.js",  type: "name", langs: { "web": 1 } },
+  { marker: "stylelint.config.mjs", type: "name", langs: { "web": 1 } },
 
-  { marker: "app/assets/stylesheets/application.tailwind.css", langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "app/assets/tailwind/application.css",             langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "assets/tailwind.config.cjs",                      langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "assets/tailwind.config.js",                       langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "assets/tailwind.config.mjs",                      langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "assets/tailwind.config.ts",                       langs: { "css": 1, "typescript": 1, "php": 1 } },
-  { marker: "tailwind.config.cjs",                             langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "tailwind.config.js",                              langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "tailwind.config.mjs",                             langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "tailwind.config.ts",                              langs: { "css": 1, "typescript": 1, "php": 1 } },
-  { marker: "theme/static_src/tailwind.config.cjs",            langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "theme/static_src/tailwind.config.js",             langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "theme/static_src/tailwind.config.mjs",            langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "theme/static_src/tailwind.config.ts",             langs: { "css": 1, "typescript": 1, "php": 1 } },
+  { marker: "app/assets/stylesheets/application.tailwind.css", type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "app/assets/tailwind/application.css",             type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "assets/tailwind.config.cjs",                      type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "assets/tailwind.config.js",                       type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "assets/tailwind.config.mjs",                      type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "assets/tailwind.config.ts",                       type: "name", langs: { "web": 1, "typescript": 1, "php": 1 } },
+  { marker: "tailwind.config.cjs",                             type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "tailwind.config.js",                              type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "tailwind.config.mjs",                             type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "tailwind.config.ts",                              type: "name", langs: { "web": 1, "typescript": 1, "php": 1 } },
+  { marker: "theme/static_src/tailwind.config.cjs",            type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "theme/static_src/tailwind.config.js",             type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "theme/static_src/tailwind.config.mjs",            type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "theme/static_src/tailwind.config.ts",             type: "name", langs: { "web": 1, "typescript": 1, "php": 1 } },
 
-  { marker: "biome.json",  langs: { "css": 1, "graphql": 1, "javascript": 1, "typescript": 1 } },
-  { marker: "biome.jsonc", langs: { "css": 1, "graphql": 1, "javascript": 1, "typescript": 1 } },
+  { marker: "biome.json",  type: "name", langs: { "web": 1, "graphql": 1, "javascript": 1, "typescript": 1 } },
+  { marker: "biome.jsonc", type: "name", langs: { "web": 1, "graphql": 1, "javascript": 1, "typescript": 1 } },
 
-  { marker: "dprint.json",  langs: { "graphql": 1, "javascript": 1, "python": 1, "csharp": 1, "rust": 1, "typescript": 1 } },
-  { marker: "dprint.jsonc", langs: { "graphql": 1, "javascript": 1, "python": 1, "csharp": 1, "rust": 1, "typescript": 1 } },
+  { marker: "dprint.json",  type: "name", langs: { "graphql": 1, "javascript": 1, "python": 1, "csharp": 1, "rust": 1, "typescript": 1 } },
+  { marker: "dprint.jsonc", type: "name", langs: { "graphql": 1, "javascript": 1, "python": 1, "csharp": 1, "rust": 1, "typescript": 1 } },
 
-  { marker: "eslint.config.cjs", langs: { "javascript": 1, "typescript": 1 } },
-  { marker: "eslint.config.cts", langs: { "typescript": 1 } },
-  { marker: "eslint.config.js",  langs: { "javascript": 1 } },
-  { marker: "eslint.config.mjs", langs: { "javascript": 1 } },
-  { marker: "eslint.config.mts", langs: { "typescript": 1 } },
-  { marker: "eslint.config.ts",  langs: { "typescript": 1 } },
+  { marker: "eslint.config.cjs", type: "name", langs: { "javascript": 1, "typescript": 1 } },
+  { marker: "eslint.config.cts", type: "name", langs: { "typescript": 1 } },
+  { marker: "eslint.config.js",  type: "name", langs: { "javascript": 1 } },
+  { marker: "eslint.config.mjs", type: "name", langs: { "javascript": 1 } },
+  { marker: "eslint.config.mts", type: "name", langs: { "typescript": 1 } },
+  { marker: "eslint.config.ts",  type: "name", langs: { "typescript": 1 } },
 
-  { marker: "postcss.config.cjs",                 langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "postcss.config.js",                  langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "postcss.config.mjs",                 langs: { "css": 1, "javascript": 1, "php": 1 } },
-  { marker: "postcss.config.ts",                  langs: { "css": 1, "typescript": 1, "php": 1 } },
-  { marker: "theme/static_src/postcss.config.js", langs: { "css": 1, "javascript": 1, "php": 1 } },
+  { marker: "postcss.config.cjs",                 type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "postcss.config.js",                  type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "postcss.config.mjs",                 type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
+  { marker: "postcss.config.ts",                  type: "name", langs: { "web": 1, "typescript": 1, "php": 1 } },
+  { marker: "theme/static_src/postcss.config.js", type: "name", langs: { "web": 1, "javascript": 1, "php": 1 } },
 
-  { marker: "sgconfig.yaml", langs: { "c": 1, "cpp": 1, "css": 1, "dart": 1, "go": 1, "java": 1, "javascript": 1, "kotlin": 1, "lua": 1, "python": 1, "rust": 1, "typescript": 1 } },
-  { marker: "sgconfig.yml",  langs: { "c": 1, "cpp": 1, "css": 1, "dart": 1, "go": 1, "java": 1, "javascript": 1, "kotlin": 1, "lua": 1, "python": 1, "rust": 1, "typescript": 1 } },
+  {
+    marker: "sgconfig.yaml",
+    type: "name",
+    langs: { "c": 1, "cpp": 1, "web": 1, "dart": 1, "go": 1, "java": 1, "javascript": 1, "kotlin": 1, "lua": 1, "python": 1, "rust": 1, "typescript": 1 }
+  },
+  {
+    marker: "sgconfig.yml",
+    type: "name",
+    langs: { "c": 1, "cpp": 1, "web": 1, "dart": 1, "go": 1, "java": 1, "javascript": 1, "kotlin": 1, "lua": 1, "python": 1, "rust": 1, "typescript": 1 }
+  },
 ]
 
-export def get_root_markers [] {
-  $root_markers
+export def get_project_root [path: path]: nothing -> record {
+  let init = { cur_root: { path: $path, langs: [], score: 0 }, cur_path: '' }
+  let data = $path | path split | reduce --fold $init {
+    |dir, state|
+    let cur_path = $state.cur_path | path join $dir
+    let cur_path_langs = get_path_langs $cur_path
+    # NOTE: Compare with `<=` to prefer deeper directory if scores are the same.
+    # For example, matters if `root_markers` contains only '.git' glob.
+    let new_root = if ($state.cur_root.score <= $cur_path_langs.score) {$cur_path_langs} else {$state.cur_root}
+    { cur_root: $new_root, cur_path: $cur_path }
+  }
+
+  $data | get cur_root
 }
-
-# TODO: Add in-memory caching (`stor query`) of `get_project_root` output
-
-export def get_project_root [
-  path: path
-  --prefer-git, # Find first ancestor with '.git' file/directory and compute its language
-]: nothing -> record {
-  # TODO
-  # let markers = if (--prefer-git) { git_markers } else { root_markers }
-  #
-  # mut cur_dir = $in
-  # for i in 1..1000 {
-  #   let parent_dir = $cur_dir | path dirname
-  #   if ($parent_dir == $cur_dir) { break }
-  #
-  #   let cur_lang_scores = []
-  #   for marker in $markers {
-  #     let cur_glob: glob = $cur_dir | path join ($marker | get glob)
-  #     let is_present = (glob $cur_glob | length) > 0
-  #   }
-  #
-  #   mut cur_dir = $parent_dir
-  # }
-  #
-  # { path: $in, lang: 'none' }
-
-  # let path = try { git rev-parse --show-toplevel } catch { pwd }
-  let path = (pwd)
-  { path: $path, langs: [ 'none' ] }
-}
-
-# TODO: Add in-memory caching (`stor query`) for path's language scores
 
 export def get_path_langs [path: path]: nothing -> record {
+  # Try to first get from database (to avoid file system checks for performance)
+  let cached = path_langs_cache_get $path
+  if ($cached | is-not-empty) { return $cached }
+
   # Get only matching markers
-  let matching_markers = $root_markers |
-    where { |row| (glob ($path | path join $row.marker) | length) > 0 }
-  if ($matching_markers | is-empty) { return { langs: [], score: 0} }
+  let matching_markers = $root_markers | where { |row| $path | has_root_marker $row }
+  if ($matching_markers | is-empty) {
+    return ({ path: $path, langs: [], score: 0 } | path_langs_cache_set)
+  }
 
   # Get lang-score table
   let scores = $matching_markers |
@@ -447,16 +454,46 @@ export def get_path_langs [path: path]: nothing -> record {
   let generic_score = if ($generic_data | is-empty) { 0 } else { $generic_data | get score.0 }
 
   if ($lang_data | is-empty) {
-    if ($generic_data | is-empty) { return { langs: [], score: 0 } }
-    return { langs: ['none'], score: $generic_score }
+    let res = if ($generic_data | is-empty) {
+      { path: $path, langs: [], score: 0 }
+    } else {
+      { path: $path, langs: ['none'], score: $generic_score }
+    }
+    return ($res | path_langs_cache_set)
   }
 
   let max_lang_score = $lang_data | get score | math max
   let langs = $lang_data | where { |row| $row.score == $max_lang_score } | get lang
 
-  { langs: $langs, score: ($max_lang_score + $generic_score) }
+  # Cache for future performance gains and return
+  { path: $path, langs: $langs, score: ($max_lang_score + $generic_score) } | path_langs_cache_set
 }
 
+def has_root_marker [root_marker: record]: path -> bool {
+  let full = $in | path join $root_marker.marker
+  if ($root_marker.type == "name") { $full | path exists } else { glob $full }
+}
+
+def path_langs_cache_get [path]: nothing -> record {
+  let data = try {
+    stor open | query db "select * from __path_langs WHERE path == :path" --params { path: $path }
+  } catch {
+    stor create --table-name __path_langs --columns { path: str, langs: str, score: int }
+    null
+  }
+  if ($data == null) { return null }
+  $data | update langs { |d| $d.langs | split row ',' } | into record
+}
+
+def path_langs_cache_set []: record -> record {
+  let $res = $in
+  $res |
+    update langs { |d| $d.langs | str join ',' } |
+    stor insert --table-name __path_langs
+  $res
+}
+
+# Language icons ==============================================================
 const lang_icons = {
   'ada': '󱁷 ',
   'arduino': ' ',
@@ -525,6 +562,7 @@ const lang_icons = {
   'verilog': '󰍛 ',
   'vhdl': '󰍛 ',
   'visualbasic': '󰛤 ',
+  'web': '󰖟 ',
   'zig': ' ',
 }
 

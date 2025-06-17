@@ -134,10 +134,35 @@ def make_pwd [
 ]: nothing -> string {
   let pwd = $env.PWD
   let col = do $color $pwd
-  let r = do $root $pwd
-  let path = format_path $pwd $col ($r | get path) $trunc_dir_width $trunc_char
-  let i = do $icon $pwd ($r | get langs)
-  $"($i)($path)" | trunc_path $budget | add_color $col
+
+  # Try first to get from in-memory database for performance (as root
+  # computation is/can be expensive with many disk reads)
+  let res = pwd_string_cache_get $pwd
+  let res = if ($res == null) {
+    let r = do $root $pwd
+    let path = format_path $pwd $col ($r | get path) $trunc_dir_width $trunc_char
+    let i = do $icon $pwd ($r | get langs)
+    $"($i)($path)" | pwd_string_cache_set $pwd
+  } else {$res}
+
+  $res | trunc_path $budget | add_color $col
+}
+
+def pwd_string_cache_get [path: path]: nothing -> record {
+  let data = try {
+    stor open | query db "select * from __prompt_pwd WHERE path == :path" --params { path: $path }
+  } catch {
+    stor create --table-name __prompt_pwd --columns { path: str, pwd_string: str }
+    null
+  }
+  if ($data | is-empty) { return null }
+  $data | get pwd_string.0
+}
+
+def pwd_string_cache_set [path: path]: string -> string {
+  let $res = $in
+  { path: $path, pwd_string: $res } | stor insert --table-name __prompt_pwd
+  $res
 }
 
 # Git -------------------------------------------------------------------------
