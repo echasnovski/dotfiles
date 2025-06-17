@@ -152,9 +152,10 @@ def pull_nvim_nightly [] {
   chmod u+x ~/.local/bin/nvim_new
 }
 
-def nvim_pick --env [] {
+def nvim_pick [command: string] {
   let out_path = '/tmp/nvim/out-file'
-  nvim --noplugin -u ~/.config/nvim/init-cli-pick.lua -c $"lua _G.pick_file_cli\('($out_path)'\)"
+
+  nvim --noplugin -u ~/.config/nvim/init-cli-pick.lua -c $command
 
   if ($out_path | path exists) {
     let text = open $out_path | str trim | str replace "\n" " "
@@ -163,12 +164,40 @@ def nvim_pick --env [] {
   }
 }
 
+def nvim_pick_files [] { nvim_pick "lua _G.pick_file_cli()" }
+
+def nvim_pick_dirs [] { nvim_pick "lua _G.pick_dir_cli()" }
+
+def nvim_pick_input []: list -> list {
+  let in_path = '/tmp/nvim/in-file'
+  let out_path = '/tmp/nvim/out-file'
+
+  $in | save $in_path
+
+  nvim --noplugin -u ~/.config/nvim/init-cli-pick.lua -c "lua _G.pick_from_file()"
+
+  rm -p $in_path
+  if ($out_path | path exists) {
+    let res = open $out_path | str trim | split row "\n"
+    rm -p $out_path
+    return $res
+  }
+  return []
+}
+
 $env.config.keybindings ++= [
   {
     name: clear_line
     modifier: control
     keycode: char_t
     mode: vi_insert
-    event: { send: executehostcommand, cmd: nvim_pick }
+    event: { send: executehostcommand, cmd: nvim_pick_files }
+  },
+  {
+    name: clear_line
+    modifier: control
+    keycode: char_d
+    mode: vi_insert
+    event: { send: executehostcommand, cmd: nvim_pick_dirs }
   }
 ]
