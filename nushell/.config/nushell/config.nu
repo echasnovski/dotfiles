@@ -3,9 +3,15 @@ $env.config.show_banner = false
 $env.config.bracketed_paste = true
 
 # Table view
-$env.config.table.mode = 'reinforced'
+$env.config.table.mode = 'compact_double'
 $env.config.table.header_on_separator = true
 $env.config.table.missing_value_symbol = '×'
+$env.config.table.trim = { methodology: "truncating", truncating_suffix: "…" }
+
+$env.config.datetime_format.table = "%Y-%m-%d %H:%M:%S"
+$env.config.datetime_format.normal = "%Y-%m-%d %H:%M:%S"
+
+$env.config.completions.algorithm = "fuzzy"
 
 # Vi mode =====================================================================
 $env.config.edit_mode = 'vi'
@@ -100,6 +106,9 @@ $env.TRANSIENT_PROMPT_INDICATOR_VI_INSERT = (ansi default) + '> '
 $env.TRANSIENT_PROMPT_INDICATOR_VI_NORMAL = ''
 $env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = ''
 
+# Theme =======================================================================
+source ($nu.default-config-dir | path join "theme.nu")
+
 # Completions =================================================================
 source ($nu.default-config-dir | path join "completion-git.nu")
 source ($nu.default-config-dir | path join "completion-make.nu")
@@ -172,6 +181,7 @@ def nvim_pick_input []: list -> list {
   let in_path = '/tmp/nvim/in-file'
   let out_path = '/tmp/nvim/out-file'
 
+  mkdir ($in_path | path dirname)
   $in | save $in_path
 
   nvim --noplugin -u ~/.config/nvim/init-cli-pick.lua -c "lua _G.pick_from_file()"
