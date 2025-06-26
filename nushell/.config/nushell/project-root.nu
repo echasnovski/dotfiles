@@ -59,6 +59,8 @@ const root_markers = [
   { marker: "CHANGELOG*",    type: "glob", langs: { "*": 2 } },
   { marker: "CONTRIBUTING*", type: "glob", langs: { "*": 2 } },
   { marker: "LICENSE*",      type: "glob", langs: { "*": 2 } },
+  { marker: "COPYING",       type: "glob", langs: { "*": 2 } },
+  { marker: "COPYRIGHT",     type: "glob", langs: { "*": 2 } },
   { marker: "NEWS*",         type: "glob", langs: { "*": 2 } },
   { marker: "README*",       type: "glob", langs: { "*": 2 } },
 

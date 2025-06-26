@@ -2,7 +2,6 @@
 $env.config.show_banner = false
 $env.config.bracketed_paste = true
 
-# Table view
 $env.config.table.mode = 'compact_double'
 $env.config.table.header_on_separator = true
 $env.config.table.missing_value_symbol = '×'
@@ -12,6 +11,8 @@ $env.config.datetime_format.table = "%Y-%m-%d %H:%M:%S"
 $env.config.datetime_format.normal = "%Y-%m-%d %H:%M:%S"
 
 $env.config.completions.algorithm = "fuzzy"
+
+$env.config.history.file_format = "sqlite"
 
 # Vi mode =====================================================================
 $env.config.edit_mode = 'vi'
@@ -70,7 +71,7 @@ $env.GPG_TTY = $'(tty)'
 # Prompt ======================================================================
 plugin add nu_plugin_gstat
 
-use ($nu.default-config-dir | path join "prompt2.nu") *
+use ($nu.default-config-dir | path join "priority-prompt.nu") *
 
 let prompt_parts = [
   # Think about making it work. Right now it results in extra ' ' and affects

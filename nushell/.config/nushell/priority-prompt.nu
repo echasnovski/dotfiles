@@ -1,4 +1,4 @@
-# Dynamicly adjusted prompt
+# Prompt that adjusts based on part priority and available width
 #
 # Requires Nu>=0.105.0
 use ($nu.default-config-dir | path join "project-root.nu") [ get_project_root get_lang_icon ]
@@ -360,8 +360,6 @@ def trunc_dirname [width: int, trunc_char: string, main_color: any]: string -> s
 }
 
 def hide_home_path []: path -> path {
-  let home = $nu.home-path
   let $p = $in
-  if ($p | str starts-with $home) { return ($p | str replace $home '~') }
-  $p
+  try { '~' | path join ($p | path relative-to $nu.home-path) } catch { $p }
 }
