@@ -11,6 +11,7 @@ $env.config.datetime_format.table = "%Y-%m-%d %H:%M:%S"
 $env.config.datetime_format.normal = "%Y-%m-%d %H:%M:%S"
 
 $env.config.completions.algorithm = "fuzzy"
+$env.config.completions.case_sensitive = false
 
 $env.config.history.file_format = "sqlite"
 
@@ -109,6 +110,9 @@ $env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = ''
 
 # Theme =======================================================================
 source ($nu.default-config-dir | path join "theme.nu")
+
+# Directory jumping ===========================================================
+source ($nu.default-config-dir | path join "dirjump.nu")
 
 # Completions =================================================================
 source ($nu.default-config-dir | path join "completion-git.nu")
