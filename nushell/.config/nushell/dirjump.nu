@@ -163,14 +163,15 @@ def dirjump_completer [] {
         )
       }
     | sort-by --reverse rank
-    # Make output more compact
-    | insert result {
+    # Compute candidates with descriptions, making output more compact
+    | insert short_path {
       |row|
-      if ($row.is_bookmark) { return $row.mark }
       if ($row.is_subdir) { return $row.rel_path }
       try { '~' | path join ($row.after | path relative-to $nu.home-path) } catch { $row.after }
     }
-    | get result
+    | insert value { |row| if ($row.is_bookmark) {$row.mark} else {$row.short_path}}
+    | insert description { |row| if ($row.is_bookmark) {$row.short_path} else {''}}
+    | select value description
 
   { options: { sort: false, partial: false }, completions: $candidates }
 }
@@ -227,7 +228,7 @@ def --env dj [
   }
 
   # Jump
-  let $target = $target | default (dirjump_completer | get completions.0)
+  let $target = $target | default (dirjump_completer | get completions.0.value)
 
   let bookmark_path = $db |
     query db "select path from bookmarks where mark = :target" --params { target: $target }

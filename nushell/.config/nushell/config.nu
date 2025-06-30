@@ -12,6 +12,7 @@ $env.config.datetime_format.normal = "%Y-%m-%d %H:%M:%S"
 
 $env.config.completions.algorithm = "fuzzy"
 $env.config.completions.case_sensitive = false
+$env.config.completions.external.max_results = 20
 
 $env.config.history.file_format = "sqlite"
 
@@ -43,6 +44,30 @@ $env.config.keybindings ++= [
     event: { send: HistoryHintWordComplete }
   },
 ]
+
+# Menus =======================================================================
+$env.config.menus ++= [{
+  name: completion_menu
+  only_buffer_difference: false # Match on text typed after menu is activated
+  marker: "| "
+  type: {
+    # Source: https://github.com/nushell/reedline/blob/main/src/menu/ide_menu.rs
+    layout: ide
+    cursor_offset: -10000 # Always show at left edge with desc on right
+    description_mode: 'right'
+    description_offset: 0
+    max_completion_height: 20 # Limit entry number not shift when shown at window bottom
+    border: {
+      top_left: '╔',
+      top_right: '╗',
+      bottom_left: '╚',
+      bottom_right: '╝',
+      horizontal: '═',
+      vertical: '║',
+    }
+  }
+  style: { text: 'green', selected_text: { attr: 'r' }, description_text: 'purple' }
+}]
 
 # Environment variables =======================================================
 $env.EDITOR = 'vim'
