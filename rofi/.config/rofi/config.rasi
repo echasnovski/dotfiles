@@ -17,4 +17,4 @@ configuration {
   display-keys: "Keys";
 }
 
-@theme "minischeme"
+@theme "seabed"

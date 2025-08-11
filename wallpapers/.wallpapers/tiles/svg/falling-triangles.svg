@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 72">
-  <g id="falling-triangles" fill="#FFCC66" fill-opacity="0.05" fill-rule="evenodd" stroke="none" stroke-width="1">
+  <g id="falling-triangles" fill="#E3E5CE" fill-opacity="0.1" fill-rule="evenodd" stroke="none" stroke-width="1">
     <path d="M2 6h12L8 18 2 6zm18 36h12l-6 12-6-12z"/>
   </g>
 </svg>

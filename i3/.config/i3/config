@@ -13,49 +13,64 @@
 # Color scheme ================================================================
 
 # # Ayu dark
-# set $col-fg #E6E1CF
-# set $col-bg #0F1419
-# set $col-bglight #253340
-# set $col-urgent #FF3333
-# set $col-accent #F29718
-# set $col-accent2 #B8CC52
-# set $col-accent3 #36A3D9
+# set $col-fg #BFBDB6
+# set $col-fgdim #636A72
+# set $col-bg #0B0E14
+# set $col-bgdim #000000
+# set $col-urgent #D95757
+# set $col-accent #E6B450
+# set $col-accent2 #AAD94C
+# set $col-accent3 #39BAE6
 
 # # Ayu mirage
-# set $col-fg #D9D7CE
-# set $col-bg #212733
-# set $col-bglight #343F4C
-# set $col-urgent #FF3333
+# set $col-fg #CCCAC2
+# set $col-fgdim #6C7A8B
+# set $col-bg #1F2430
+# set $col-bgdim #101521
+# set $col-urgent #FF6666
 # set $col-accent #FFCC66
-# set $col-accent2 #BBE67E
+# set $col-accent2 #D5FF80
 # set $col-accent3 #5CCFE6
 
 # # Ayu light
-# set $col-fg #5C6773
-# set $col-bg #FAFAFA
-# set $col-bglight #F0EEE4
-# set $col-urgent #FF3333
-# set $col-accent #FF6A00
+# set $col-fg #5C6166
+# set $col-fgdim #ABADB1
+# set $col-bg #F8F9FA
+# set $col-bgdim #F0F0F0
+# set $col-urgent #E65050
+# set $col-accent #FFAA33
 # set $col-accent2 #86B300
-# set $col-accent3 #36A3D9
+# set $col-accent3 #55B4D4
 
-# Minischeme
-set $col-fg #E2E98F
-set $col-bg #112641
-set $col-bglight #606B81
-set $col-urgent #CC7E46
-set $col-accent #46A436
-set $col-accent2 #00A5C5
-set $col-accent3 #CA6ECF
+# # Minischeme
+# set $col-fg #E2E98F
+# set $col-fgdim #8691a7
+# set $col-bg #112641
+# set $col-bgdim #3A475E
+# set $col-urgent #CC7E46
+# set $col-accent #46A436
+# set $col-accent2 #00A5C5
+# set $col-accent3 #CA6ECF
 
 # # Minischeme light
 # set $col-fg #002A83
+# set $col-fgdim #324490
 # set $col-bg #E2E5CA
-# set $col-bglight #979A7E
+# set $col-bgdim #BCBFA4
 # set $col-urgent #A86400
 # set $col-accent #008818
 # set $col-accent2 #0086ae
 # set $col-accent3 #B34AAD
+
+# Seabed
+set $col-fg #E3E5CE
+set $col-fgdim #92937E
+set $col-bg #081823
+set $col-bgdim #4F616E
+set $col-urgent #FFC4BA
+set $col-accent #ABDCFF
+set $col-accent2 #AFE4B9
+set $col-accent3 #F4C2EE
 
 # General =====================================================================
 
@@ -87,7 +102,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 #
 #     colors {
 #         background $col-bg
-#         separator $col-bglight
+#         separator $col-accent
 #
 #         # class            border       bg           text
 #         focused_workspace  $col-accent3 $col-accent3 $col-bg
@@ -143,12 +158,12 @@ new_window normal 2
 hide_edge_borders smart
 
 # Colors
-# class                 border       bground      text    indicator    child_border
-client.focused          $col-accent  $col-accent  $col-bg $col-accent3 $col-accent
-client.focused_inactive $col-accent2 $col-accent2 $col-bg $col-accent3 $col-bglight
-client.unfocused        $col-bglight $col-bglight $col-fg $col-accent3 $col-bglight
-client.urgent           $col-urgent  $col-urgent  $col-bg $col-accent3 $col-bglight
-client.placeholder      $col-bg      $col-bg      $col-fg $col-accent3 $col-bglight
+# class                 border      bground text         indicator    child_border
+client.focused          $col-accent $col-bg $col-fg      $col-accent3 $col-accent
+client.focused_inactive $col-bg     $col-bg $col-accent2 $col-accent3 $col-accent2
+client.unfocused        $col-bg     $col-bg $col-fg      $col-accent3 $col-bgdim
+client.urgent           $col-bg     $col-bg $col-urgent  $col-accent3 $col-urgent
+client.placeholder      $col-bg     $col-bg $col-fg      $col-accent3 $col-bgdim
 
 client.background       $col-bg
 

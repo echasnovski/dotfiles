@@ -1,0 +1,41 @@
+# OKLch: 10-3-240
+background = #081823
+# OKLch: 90-3-110
+foreground = #E3E5CE
+
+# Selection and cursor colors are assumed to be inverted
+# selection-background =
+# selection-foreground =
+# cursor-color =
+
+# Black. OKLch: 3-2-240 and 40-3-240
+palette = 0=#000409
+palette = 8=#4F616E
+
+# Red. OKLch: 85-7-30 and 90-4-30
+palette = 1=#FFC4BA
+palette = 9=#FFD8D1
+
+# Green. OKLch: 85-8-150 and 90-8-150
+palette = 2=#AFE4B9
+palette = 10=#BDF2C7
+
+# Yellow. OKLch: 85-8-110 and 90-8-110
+palette = 3=#D7DA9D
+palette = 11=#E5E8AA
+
+# Blue. OKLch: 85-7-240 and 90-5-240
+palette = 4=#ABDCFF
+palette = 12=#C8E8FF
+
+# Magenta. OKLch: 85-8-330 and 90-8-330
+palette = 5=#F4C2EE
+palette = 13=#FFD2FA
+
+# Cyan. OKLch: 85-8-195 and 90-8-195
+palette = 6=#94E6E5
+palette = 14=#A2F4F3
+
+# White. OKLch: 40-3-110 and 97-3-110
+palette = 7=#92937E
+palette = 15=#F7F9E2

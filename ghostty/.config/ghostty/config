@@ -1,10 +1,13 @@
 # Use nushell
 command = nu
 
-# Use the best dark theme ever existed
-theme = NvimDark
-# - Adjust "dimmed white" to be different from "white"
-palette = 7=#9b9ea4
+# Custom blue-bg-yellow-fg theme
+theme = Seabed
+
+# Or use of the best dark theme ever existed
+# theme = NvimDark
+# # - Adjust "dimmed white" to be different from "white"
+# palette = 7=#9b9ea4
 
 # Main font
 font-family = "IosevkaInput"
