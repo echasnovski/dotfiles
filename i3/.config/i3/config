@@ -14,9 +14,7 @@
 
 # # Ayu dark
 # set $col-fg #BFBDB6
-# set $col-fgdim #636A72
 # set $col-bg #0B0E14
-# set $col-bgdim #000000
 # set $col-urgent #D95757
 # set $col-accent #E6B450
 # set $col-accent2 #AAD94C
@@ -24,9 +22,7 @@
 
 # # Ayu mirage
 # set $col-fg #CCCAC2
-# set $col-fgdim #6C7A8B
 # set $col-bg #1F2430
-# set $col-bgdim #101521
 # set $col-urgent #FF6666
 # set $col-accent #FFCC66
 # set $col-accent2 #D5FF80
@@ -34,9 +30,7 @@
 
 # # Ayu light
 # set $col-fg #5C6166
-# set $col-fgdim #ABADB1
 # set $col-bg #F8F9FA
-# set $col-bgdim #F0F0F0
 # set $col-urgent #E65050
 # set $col-accent #FFAA33
 # set $col-accent2 #86B300
@@ -44,9 +38,7 @@
 
 # # Minischeme
 # set $col-fg #E2E98F
-# set $col-fgdim #8691a7
 # set $col-bg #112641
-# set $col-bgdim #3A475E
 # set $col-urgent #CC7E46
 # set $col-accent #46A436
 # set $col-accent2 #00A5C5
@@ -54,21 +46,17 @@
 
 # # Minischeme light
 # set $col-fg #002A83
-# set $col-fgdim #324490
 # set $col-bg #E2E5CA
-# set $col-bgdim #BCBFA4
 # set $col-urgent #A86400
 # set $col-accent #008818
 # set $col-accent2 #0086ae
 # set $col-accent3 #B34AAD
 
 # Seabed
-set $col-fg #E3E5CE
-set $col-fgdim #92937E
+set $col-fg #D5D7C0
 set $col-bg #081823
-set $col-bgdim #4F616E
-set $col-urgent #FFC4BA
-set $col-accent #ABDCFF
+set $col-urgent #FFC2B6
+set $col-accent #A5DBFF
 set $col-accent2 #AFE4B9
 set $col-accent3 #F4C2EE
 
@@ -158,12 +146,12 @@ new_window normal 2
 hide_edge_borders smart
 
 # Colors
-# class                 border      bground text         indicator    child_border
-client.focused          $col-accent $col-bg $col-fg      $col-accent3 $col-accent
-client.focused_inactive $col-bg     $col-bg $col-accent2 $col-accent3 $col-accent2
-client.unfocused        $col-bg     $col-bg $col-fg      $col-accent3 $col-bgdim
-client.urgent           $col-bg     $col-bg $col-urgent  $col-accent3 $col-urgent
-client.placeholder      $col-bg     $col-bg $col-fg      $col-accent3 $col-bgdim
+# class                 border       bground text         indicator    child_border
+client.focused          $col-accent  $col-bg $col-accent  $col-accent3 $col-accent
+client.focused_inactive $col-accent2 $col-bg $col-accent2 $col-accent3 $col-accent2
+client.unfocused        $col-bg      $col-bg $col-fg      $col-accent3 $col-fg
+client.urgent           $col-urgent  $col-bg $col-urgent  $col-accent3 $col-urgent
+client.placeholder      $col-bg      $col-bg $col-fg      $col-accent3 $col-fg
 
 client.background       $col-bg
 

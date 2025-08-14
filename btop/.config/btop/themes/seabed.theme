@@ -2,16 +2,16 @@
 theme[main_bg]="#081823"
 
 # Main text color
-theme[main_fg]="#E3E5CE"
+theme[main_fg]="#D5D7C0"
 
 # Title color for boxes
-theme[title]="#E3E5CE"
+theme[title]="#D5D7C0"
 
 # Highlight color for keyboard shortcuts
-theme[hi_fg]="#FFC4BA"
+theme[hi_fg]="#FFC2B6"
 
 # Background color of selected item in processes box
-theme[selected_bg]="#E3E5CE"
+theme[selected_bg]="#D5D7C0"
 
 # Foreground color of selected item in processes box
 theme[selected_fg]="#081823"
@@ -20,7 +20,7 @@ theme[selected_fg]="#081823"
 theme[inactive_fg]="#92937E"
 
 # Color of text appearing on top of graphs, i.e uptime and current network graph scaling
-theme[graph_text]="#E3E5CE"
+theme[graph_text]="#D5D7C0"
 
 # Background color of the percentage meters
 theme[meter_bg]="#4F616E"
@@ -35,10 +35,10 @@ theme[cpu_box]="#94E6E5"
 theme[mem_box]="#AFE4B9"
 
 # Net up/down box outline color
-theme[net_box]="#ABDCFF"
+theme[net_box]="#D7DA9C"
 
 # Processes box outline color
-theme[proc_box]="#D7DA9D"
+theme[proc_box]="#ABDCFF"
 
 # Box divider line and small boxes line color
 theme[div_line]="#4F616E"
@@ -74,9 +74,9 @@ theme[used_mid]="#AFE4B9"
 theme[used_end]="#FFD8D1"
 
 # Download graph colors
-theme[download_start]="#D7DA9D"
-theme[download_mid]="#D7DA9D"
-theme[download_end]="#D7DA9D"
+theme[download_start]="#D7DA9C"
+theme[download_mid]="#D7DA9C"
+theme[download_end]="#D7DA9C"
 
 # Upload graph colors
 theme[upload_start]="#ABDCFF"
@@ -84,6 +84,6 @@ theme[upload_mid]="#ABDCFF"
 theme[upload_end]="#ABDCFF"
 
 # Process box color gradient for threads, mem and cpu usage
-theme[process_start]="#D7DA9D"
-theme[process_mid]="#D7DA9D"
-theme[process_end]="#D7DA9D"
+theme[process_start]="#ABDCFF"
+theme[process_mid]="#ABDCFF"
+theme[process_end]="#ABDCFF"
