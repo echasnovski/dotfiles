@@ -15,6 +15,7 @@ $env.config.completions.case_sensitive = false
 $env.config.completions.external.max_results = 20
 
 $env.config.history.file_format = "sqlite"
+$env.config.history.isolation = true
 
 # Vi mode =====================================================================
 $env.config.edit_mode = 'vi'
@@ -151,9 +152,6 @@ alias lgit = lazygit $'--git-dir=(git rev-parse --git-dir)' $'--work-tree=(realp
 
 alias videodown = yt-dlp -o '~/Videos/%(uploader)s - %(upload_date)s - %(title)s.%(ext)s' -f 'bestvideo[height<=720]+bestaudio/best[height<=720]' -r '100M' --write-sub --sub-lang 'en'
 
-alias rm-nvim-repro = rm -r ~/.local/share/nvim-repro ~/.local/state/nvim-repro
-alias rm-nvim-pack-demo = rm -r ~/.local/share/nvim-pack-demo ~/.local/state/nvim-pack-demo
-
 # NNN file manager ============================================================
 $env.NNN_PLUG = 'p:preview-tui'
 $env.NNN_BMS = [
@@ -189,6 +187,12 @@ def pull_nvim_nightly [] {
   cp ~/.local/bin/nvim_new ~/.local/bin/nvim_new_prev
   wget -O ~/.local/bin/nvim_new https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage
   chmod u+x ~/.local/bin/nvim_new
+}
+
+def rm_nvim_cache [appname: string] {
+  try { rm -r $'($env.XDG_DATA_HOME)/($appname)' }
+  try { rm -r $'($env.XDG_STATE_HOME)/($appname)' }
+  try { rm -r $'($env.XDG_CACHE_HOME)/($appname)' }
 }
 
 def nvim_pick [command: string] {

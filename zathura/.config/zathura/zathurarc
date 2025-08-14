@@ -1,5 +1,5 @@
 " Set default fond
-set font "Input 12"
+set font "IosevkaInput 11"
 
 " Enable main clipboard (can paste with `Ctrl-v`)
 set selection-clipboard clipboard

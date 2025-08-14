@@ -132,15 +132,16 @@ for_window [title="Popup-Calendar"] floating enable, resize set 40ppt 40ppt, mov
 for_window [title="^screenkey$"] floating enable, border none
 
 # Show Ghostty with i3wm title bar
-for_window [class="com.mitchellh.ghostty"] border normal
+for_window [class="com.mitchellh.ghostty"] border pixel
 
 # Appearance ==================================================================
 
 # Use tabbed layout by default
 workspace_layout tabbed
 
-# Use thin border while keeping title
-new_window normal 2
+# Show border and title, skip title if single normal window
+default_border pixel 1
+default_floating_border normal 1
 
 # Don't show vertical borders at edges (for better scrollbars)
 hide_edge_borders smart
@@ -168,6 +169,7 @@ floating_modifier $mod
 
 # Start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+t exec thunar
 
 # Force close focused window
 bindsym $mod+q kill

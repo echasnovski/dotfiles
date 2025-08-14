@@ -177,18 +177,18 @@ export def prompt_part_gitbranch [
 }
 
 const repo_states = {
-  "Clean": "",
-  "Merge": "merge",
-  "Revert": "revert",
-  "RevertSequence": "revert-s",
-  "CherryPick": "cherry-pick",
-  "CherryPickSequence": "cherry-pick-s",
-  "Bisect": "bisect",
-  "Rebase": "rebase",
-  "RebaseInteractive": "rebase-i",
-  "RebaseMerge": "rebase-m",
-  "ApplyMailbox": "am",
-  "ApplyMailboxOrRebase": "am-rebase",
+  "clean": "",
+  "merge": "merge",
+  "revert": "revert",
+  "revertsequence": "revert-s",
+  "cherrypick": "cherry-pick",
+  "cherrypicksequence": "cherry-pick-s",
+  "bisect": "bisect",
+  "rebase": "rebase",
+  "rebaseinteractive": "rebase-i",
+  "rebasemerge": "rebase-m",
+  "applymailbox": "am",
+  "applymailboxorrebase": "am-rebase",
 }
 
 def make_gitbranch [budget: int, icon: closure, color: any]: nothing -> string {

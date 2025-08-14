@@ -56,7 +56,7 @@ $env.config.color_config = {
   shape_externalarg: 'default'
   shape_external_resolved: 'default_bold'
   shape_filepath: 'yellow'
-  shape_flag: 'yellow'
+  shape_flag: 'yellow_bold'
   shape_float: 'magenta'
   shape_garbage: { fg: 'red', attr: 'bu' },
   shape_glob_interpolation: 'green_bold'

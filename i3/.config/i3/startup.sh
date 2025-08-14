@@ -6,7 +6,7 @@
 
 # Enable settings ============================================================
 # Manage keyboard layout
-setxkbmap -layout us,ru -option 'grp:alt_shift_toggle'
+setxkbmap -layout us,ua -option 'grp:alt_shift_toggle'
 
 # Start processes ============================================================
 # Disable termporarily because it results into 100% usage of one CPU when

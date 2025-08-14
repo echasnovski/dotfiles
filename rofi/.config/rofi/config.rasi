@@ -1,7 +1,7 @@
 configuration {
   modi: "combi,drun,run,window";
   show-icons: true;
-  terminal: "kitty";
+  terminal: "ghostty";
   run-shell-command: "{terminal} --window -- bash";
   combi-modi: "window,drun,run";
   hide-scrollbar: true;

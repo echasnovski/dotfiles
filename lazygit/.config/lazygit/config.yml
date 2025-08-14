@@ -10,9 +10,11 @@ gui:
   nerdFontsVersion: 3
   skipRewordInEditorWarning: true
   border: 'double'
+  showCommandLog: false
 git:
-  branchLogCmd:      'git log       --graph --color=always --abbrev-commit --decorate --date=iso --pretty=medium {{branchName}} --'
-  allBranchesLogCmd: 'git log --all --graph --color=always --abbrev-commit --decorate --date=iso  --pretty=medium'
+  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=iso --pretty=medium {{branchName}} --
+  allBranchesLogCmds:
+    - git log --all --graph --color=always --abbrev-commit --decorate --date=iso --pretty=medium
 update:
   method: never
 notARepository: 'quit'

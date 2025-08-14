@@ -4,7 +4,7 @@
 }
 
 #window {
-  font: "Ubuntu Mono Nerd Font 13";
+  font: "Iosevka Input W360 12";
   location: center;
   border-color: @col-accent;
   border: 2;
