@@ -6,15 +6,24 @@ gui:
       - reverse
     selectedRangeBgColor:
       - reverse
+    activeBorderColor:
+      - blue
+    inactiveBorderColor:
+      - white
+  authorColors:
+    'Evgeni Chasnovski': cyan
+    '*': magenta
   showFileTree: false
   nerdFontsVersion: 3
   skipRewordInEditorWarning: true
-  border: 'double'
+  border: bold
   showCommandLog: false
 git:
   branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=iso --pretty=medium {{branchName}} --
   allBranchesLogCmds:
     - git log --all --graph --color=always --abbrev-commit --decorate --date=iso --pretty=medium
+  autoFetch: false
+  overrideGpg: true
 update:
   method: never
 notARepository: 'quit'
