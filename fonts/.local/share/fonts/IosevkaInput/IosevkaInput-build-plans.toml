@@ -3,7 +3,7 @@
 #
 # Build instructions:
 # - `git clone --depth=1 https://github.com/be5invis/Iosevka`
-#   This build plan is tested for v33.2.1 version.
+#   This build plan is tested for v34.2.1 version.
 # - `cd Iosevka`
 # - `npm install`
 # - Copy this file into project's root as 'private-build-plans.toml'.
@@ -115,7 +115,7 @@ lower-phi = "cursive"
 lower-chi = "semi-chancery-straight-serifless"
 lower-psi = "flat-top-serifless"
 partial-derivative = "straight-bar"
-cyrl-a = "single-storey-earless-corner-tailed"
+cyrl-a = "double-storey-hook-inward-serifed-tailed"
 cyrl-ve = "standard-serifless"
 cyrl-capital-zhe = "symmetric-connected"
 cyrl-zhe = "symmetric-connected"
