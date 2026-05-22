@@ -2,7 +2,7 @@
 $env.config.show_banner = false
 $env.config.bracketed_paste = true
 
-$env.config.table.mode = 'compact_double'
+$env.config.table.mode = 'heavy'
 $env.config.table.header_on_separator = true
 $env.config.table.missing_value_symbol = '×'
 $env.config.table.trim = { methodology: "truncating", truncating_suffix: "…" }
@@ -77,17 +77,17 @@ $env.EDITOR = 'vim'
 $env.PATH = $env.PATH | prepend ['~/.local/bin']
 
 # XDG_***
-$env.XDG_CONFIG_HOME = $nu.home-path | path join '.config'
-$env.XDG_DATA_HOME = $nu.home-path | path join '.local' 'share'
-$env.XDG_STATE_HOME = $nu.home-path | path join '.local' 'state'
-$env.XDG_CACHE_HOME = $nu.home-path | path join '.cache'
+$env.XDG_CONFIG_HOME = $nu.home-dir | path join '.config'
+$env.XDG_DATA_HOME = $nu.home-dir | path join '.local' 'share'
+$env.XDG_STATE_HOME = $nu.home-dir | path join '.local' 'state'
+$env.XDG_CACHE_HOME = $nu.home-dir | path join '.cache'
 
 # Pager
 $env.MANPAGER = 'nvim --clean +Man!'
 $env.PAGER = 'nvim --clean +Man!'
 
 # `rg` config
-$env.RIPGREP_CONFIG_PATH = $nu.home-path | path join '.config/ripgrep/.ripgreprc'
+$env.RIPGREP_CONFIG_PATH = $nu.home-dir | path join '.config/ripgrep/.ripgreprc'
 
 # Ghostty config
 $env.GHOSTTY_RESOURCES_DIR = $env.XDG_DATA_HOME | path join 'ghostty' 'ghostty'

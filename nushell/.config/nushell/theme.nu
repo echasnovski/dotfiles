@@ -10,7 +10,7 @@ let color_datetime = {
 }
 let color_filesize = {
   |fs|
-  if ($fs == 0b) { return 'dimmed' }
+  if ($fs == 0b) { return 'white_dimmed' }
   if ($fs < 1mb) { return 'blue' }
   'blue_bold'
 }
@@ -33,7 +33,7 @@ $env.config.color_config = {
   range: 'magenta'
   record: 'cyan'
   search_result: 'yellow_bold'
-  separator: 'dimmed'
+  separator: 'white_dimmed'
   string: 'green'
 
   # shape values (syntax coloring). General idea:
@@ -86,8 +86,8 @@ $env.config.color_config = {
   leading_trailing_space_bg: 'bg_red',
   header: 'default_bold',
   empty: 'blue',
-  row_index: 'dimmed',
-  hints: { fg: 'dimmed', attr: 'u' },
+  row_index: 'white_dimmed',
+  hints: { fg: 'white_dimmed', attr: 'u' },
 }
 
 $env.config.highlight_resolved_externals = true

@@ -114,7 +114,7 @@ def format_path [
 }
 
 def make_path_icon [path: path, langs: list<string>]: nothing -> string {
-  if ($path == $nu.home-path) { return '󰋜 ' }
+  if ($path == $nu.home-dir) { return '󰋜 ' }
   if ($path | path split | any { |d| $d == 'nvim' }) { return ' ' }
 
   let l_icons = $langs | each { |l| $l | get_lang_icon } | compact
@@ -361,5 +361,5 @@ def trunc_dirname [width: int, trunc_char: string, main_color: any]: string -> s
 
 def hide_home_path []: path -> path {
   let $p = $in
-  try { '~' | path join ($p | path relative-to $nu.home-path) } catch { $p }
+  try { '~' | path join ($p | path relative-to $nu.home-dir) } catch { $p }
 }

@@ -18,7 +18,7 @@ $env.dirjump = {
       (
         $jump_data.before == '' or
         $jump_data.after == $env.PWD or
-        $jump_data.after == $nu.home-path
+        $jump_data.after == $nu.home-dir
       )
     },
 
@@ -167,7 +167,7 @@ def dirjump_completer [] {
     | insert short_path {
       |row|
       if ($row.is_subdir) { return $row.rel_path }
-      try { '~' | path join ($row.after | path relative-to $nu.home-path) } catch { $row.after }
+      try { '~' | path join ($row.after | path relative-to $nu.home-dir) } catch { $row.after }
     }
     | insert value { |row| if ($row.is_bookmark) {$row.mark} else {$row.short_path}}
     | insert description { |row| if ($row.is_bookmark) {$row.short_path} else {''}}
