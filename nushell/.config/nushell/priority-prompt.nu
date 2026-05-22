@@ -30,7 +30,7 @@ export def prompt_make []: list -> closure {
 # `inv_id` - indexes that rearrange `parts` in the original "display order".
 def combine_parts [parts: list<closure>, inv_id: list<int>]: nothing -> string {
   # Cache Git info for better performance of git parts
-  $env.prompt_latest_gstat = gstat --no-tag
+  $env.prompt_latest_git_data = (compute_git_data)
 
   # Iteratively process parts in their priority order
   let init = { strparts: [], budget: (term size).columns, offset: 0 }
@@ -120,7 +120,7 @@ def make_path_icon [path: path, langs: list<string>]: nothing -> string {
   let l_icons = $langs | each { |l| $l | get_lang_icon } | compact
   if ($l_icons | is-not-empty) { return ($l_icons | str join '') }
 
-  if ($env.prompt_latest_gstat.stashes >= 0) { return '󰊢 ' }
+  if ($env.prompt_latest_git_data.is_git) { return '󰊢 ' }
   '󰉋 '
 }
 
@@ -166,6 +166,59 @@ def pwd_string_cache_set [path: path]: string -> string {
 }
 
 # Git -------------------------------------------------------------------------
+export def compute_git_data []: nothing -> record {
+  let git_dir_cli = (do -i { git rev-parse --git-dir } | complete)
+  if $git_dir_cli.exit_code != 0 { return { is_git: false } }
+  let git_dir = $git_dir_cli.stdout | str trim | path expand
+
+  # Branch
+  let branch = (git rev-parse --abbrev-ref HEAD)
+  let branch = if ($branch == "HEAD") { (git rev-parse --short HEAD) } else {$branch}
+
+  # Status
+  let staged =    (git_count-with-timeout 10 ["diff" "--cached" "--numstat"])
+  let unstaged =  (git_count-with-timeout 10 ["ls-files" "-m" "-d"])
+  let untracked = (git_count-with-timeout 10 ["ls-files" "-o" "--exclude-standard"])
+  let conflicts = (git_count-with-timeout 10 ["diff" "--name-only" "--diff-filter=U"])
+
+  let stash_log = ($git_dir | path join "logs" "refs" "stash" | into string)
+  let stashes = if ($stash_log | path exists) { try { open $stash_log | lines | length } catch { 0 } } else { 0 }
+
+  # "In progress" status
+  let states = [
+    [state,         file];
+    ["apply",       ($git_dir | path join "rebase-apply")]
+    ["bisect",      ($git_dir | path join "BISECT_LOG")]
+    ["cherry-pick", ($git_dir | path join "CHERRY_PICK_HEAD")]
+    ["merge",       ($git_dir | path join "MERGE_HEAD")]
+    ["rebase",      ($git_dir | path join "rebase-merge")]
+    ["revert",      ($git_dir | path join "REVERT_HEAD")]
+  ]
+  let active_actions = $states | where {|it| $it.file | path exists } | get state | uniq
+  let in_progress = if ($active_actions | is-not-empty) { $active_actions | str join "," } else { "" }
+
+  # "Ahead/behind" indicator
+  let counts_cli = (do -i { git rev-list --count --left-right "HEAD...@{upstream}" } | complete)
+  let counts = if $counts_cli.exit_code != 0 { "0\t0" } else { $counts_cli.stdout }
+  let counts_parts = $counts | str trim | split row "\t"
+  let ahead = ($counts_parts | get 0 | into int)
+  let behind = ($counts_parts | get 1 | into int)
+
+  return {
+    is_git: true,
+    git_dir: $git_dir,
+    branch: $branch,
+    in_progress: $in_progress,
+    ahead: $ahead,
+    behind: $behind,
+    staged: $staged,
+    unstaged: $unstaged,
+    untracked: $untracked,
+    conflicts: $conflicts,
+    stashes: $stashes
+  }
+}
+
 export def prompt_part_gitbranch [
   --color: closure
   --icon: closure
@@ -176,33 +229,17 @@ export def prompt_part_gitbranch [
   { part: { |budget| make_gitbranch $budget $icon $color}, priority: $priority }
 }
 
-const repo_states = {
-  "clean": "",
-  "merge": "merge",
-  "revert": "revert",
-  "revertsequence": "revert-s",
-  "cherrypick": "cherry-pick",
-  "cherrypicksequence": "cherry-pick-s",
-  "bisect": "bisect",
-  "rebase": "rebase",
-  "rebaseinteractive": "rebase-i",
-  "rebasemerge": "rebase-m",
-  "applymailbox": "am",
-  "applymailboxorrebase": "am-rebase",
-}
-
 def make_gitbranch [budget: int, icon: closure, color: any]: nothing -> string {
-  let $gs = $env.prompt_latest_gstat
-  if ($gs.stashes < 0) { return null }
+  let $git_data = $env.prompt_latest_git_data
+  if not $git_data.is_git { return null }
 
-  let behind = if ($gs.behind > 0) { $"<($gs.behind)" } else { "" }
-  let ahead = if ($gs.ahead > 0) { $">($gs.ahead)" } else { "" }
-  let compare = (if ($behind != "" or $ahead != "") { " " } else { "" }) + $behind + $ahead
+  let branch = $git_data.branch
+  let state = if ($git_data.in_progress == "") {""} else {$" &($git_data.in_progress)"}
+  let behind = if ($git_data.behind > 0) { $" <($git_data.behind)" } else { "" }
+  let ahead = if ($git_data.ahead > 0) { $" >($git_data.ahead)" } else { "" }
+  let behind = if ($git_data.behind > 0) { $" <($git_data.behind)" } else { "" }
 
-  let gs_state = $gs | default 'None' state | get state
-  let state = $repo_states | default "" $gs_state | get $gs_state
-  let state = if ($state == "") {""} else {$" &($state)"}
-  $"(do $icon $gs)($gs.branch)($state)($compare)" | add_color (do $color $gs)
+  $"(do $icon $git_data)($branch)($state)($ahead)($behind)" | add_color (do $color $git_data)
 }
 
 export def prompt_part_gitstatus [
@@ -217,35 +254,33 @@ export def prompt_part_gitstatus [
 
 # Mostly a replication of how powerlevel10k shows Git status
 def make_gitstatus [budget: int, icon: closure, color: any]: nothing -> string {
-  let $gs = $env.prompt_latest_gstat
-  if ($gs.stashes < 0) { return null }
+  let $git_data = $env.prompt_latest_git_data
+  if not $git_data.is_git { return null }
 
-  let stashes = if ($gs.stashes > 0) {$"*($gs.stashes)"}
-  let conflicts = if ($gs.conflicts > 0) {$"!($gs.conflicts)"}
-
-  let n_staged = (
-    $gs.idx_added_staged +
-    $gs.idx_modified_staged +
-    $gs.idx_deleted_staged +
-    $gs.idx_renamed +
-    $gs.idx_type_changed
-  )
-  let staged = if ($n_staged > 0) {$"@($n_staged)"}
-
-  let n_unstaged = (
-    $gs.wt_modified +
-    $gs.wt_deleted +
-    $gs.wt_renamed +
-    $gs.wt_type_changed
-  )
-  let unstaged = if ($n_unstaged > 0) {$"~($n_unstaged)"}
-
-  let untracked = if ($gs.wt_untracked > 0) { $"?($gs.wt_untracked)" }
+  let staged    = format_for_gitstatus $git_data.staged    "@"
+  let unstaged  = format_for_gitstatus $git_data.unstaged  "~"
+  let untracked = format_for_gitstatus $git_data.untracked "+"
+  let conflicts = format_for_gitstatus $git_data.conflicts "!"
+  let stashes   = format_for_gitstatus $git_data.stashes   "*"
 
   let arr = [$conflicts $staged $unstaged $untracked $stashes] | compact
-
   let status = if (($arr | length) == 0) { "-" } else ($arr | str join " ")
-  $"(do $icon $gs)($status)" | add_color (do $color $gs)
+  $"(do $icon $git_data)($status)" | add_color (do $color $git_data)
+}
+
+def format_for_gitstatus [n: int, prefix: string]: nothing -> string {
+  if ($n == 0) { return null }
+  $prefix + (if ($n < 0) {"?"} else {$n | into string})
+}
+
+def git_count-with-timeout [max_time: int, args: list<string>] {
+  let res = (do -i { timeout ($max_time * 0.001) git ...$args } | complete)
+
+  match $res.exit_code {
+    124 => -1 # Timeout
+    0   => (if ($res.stdout | is-empty) { 0 } else { $res.stdout | lines | uniq | length | into int })
+    _   => -2  # Unknown error
+  }
 }
 
 # Time ------------------------------------------------------------------------
@@ -307,7 +342,8 @@ def make_cmdduration_icon []: nothing -> closure {
 
 def make_cmdduration [budget: int, icon: closure, color: closure]: nothing -> string {
   let dur = (($env.CMD_DURATION_MS | into int) * 1000000) | into duration
-  $"(do $icon $dur)($dur)" | add_color (do $color $dur)
+  let code = if ($env.LAST_EXIT_CODE == 0) { "" } else { $" 󰅖 ($env.LAST_EXIT_CODE)" }
+  $"(do $icon $dur)($dur)($code)" | add_color (do $color $dur)
 }
 
 # Fill ------------------------------------------------------------------------
