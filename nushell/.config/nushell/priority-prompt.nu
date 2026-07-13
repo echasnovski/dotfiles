@@ -148,7 +148,7 @@ def make_pwd [
   $res | trunc_path $budget | add_color $col
 }
 
-def pwd_string_cache_get [path: path]: nothing -> record {
+def pwd_string_cache_get [path: path]: nothing -> any {
   let data = try {
     stor open | query db "select * from __prompt_pwd WHERE path == :path" --params { path: $path }
   } catch {

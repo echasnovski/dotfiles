@@ -101,7 +101,7 @@ def lift_index [into_col: string]: table -> table {
   $in | enumerate | flatten | rename --column { index: $into_col }
 }
 
-def rank_column [col_name: string]: list<any> -> list<int> {
+def rank_column [col_name: string]: list<any> -> list<any> {
   let t = $in
   let rank_name = $"rank_($col_name)"
   let is_bool = ($t | get $col_name | get 0 | describe) == 'bool'

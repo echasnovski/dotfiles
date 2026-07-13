@@ -476,7 +476,7 @@ def has_root_marker [root_marker: record]: path -> bool {
   if ($root_marker.type == "name") { $full | path exists } else { glob $full }
 }
 
-def path_langs_cache_get [path]: nothing -> record {
+def path_langs_cache_get [path]: nothing -> any {
   let data = try {
     stor open | query db "select * from __path_langs WHERE path == :path" --params { path: $path }
   } catch {
