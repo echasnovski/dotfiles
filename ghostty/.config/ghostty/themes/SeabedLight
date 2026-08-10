@@ -1,46 +1,41 @@
-# OKLch: 90-2-240
-background = #D7E5EF
-# OKLch: 20-2-110
-foreground = #2F2F24
-
-# Selection and cursor colors are assumed to be inverted
-# selection-background =
-# selection-foreground =
-# cursor-color =
+# OKLch: 90-3-90
+background = #F9F0DB
+# OKLch: 20-3-270
+foreground = #282E3E
 
 # All rainbow colors have:
 # - Lightness 20 for 0-7 colors and 25 for 8-15.
 # - Chroma to 16.
 # Normalized with 'mini.colors' and 'cusp' gamut clip.
 
-# Black. OKLch: 3-2-240 and 40-3-240
-palette = 0=#000409
-palette = 8=#4F616E
+# Black. The darkest and lightest foreground variant.
+palette = 0=#080D1A
+palette = 8=#636B7D
 
-# Red. Hue 30.
-palette = 1=#700400
-palette = 9=#7B0500
+# Red. Hue 15.
+palette = 1=#700021
+palette = 9=#7B0025
 
-# Green. Hue 150.
-palette = 2=#01642B
-palette = 10=#016A2E
+# Green. Hue 145.
+palette = 2=#005C14
+palette = 10=#016116
 
-# Yellow. Hue 110.
-palette = 3=#696900
-palette = 11=#6E6F00
+# Yellow. Hue 100.
+palette = 3=#746600
+palette = 11=#7A6B00
 
-# Blue. Hue 240.
-palette = 4=#005A87
-palette = 12=#006090
+# Blue. Hue 235.
+palette = 4=#006189
+palette = 12=#006791
 
-# Magenta. Hue 330.
-palette = 5=#5B0058
-palette = 13=#630060
+# Magenta. Hue 325.
+palette = 5=#56015C
+palette = 13=#5F0366
 
-# Cyan. Hue 1950.
+# Cyan. Hue 195.
 palette = 6=#008283
 palette = 14=#008888
 
-# White. OKLch: 40-3-110 and 97-3-110
-palette = 7=#92937E
-palette = 15=#F7F9E2
+# White. The darkest and lightest background variant.
+palette = 7=#B3AA97
+palette = 15=#FFF7E3

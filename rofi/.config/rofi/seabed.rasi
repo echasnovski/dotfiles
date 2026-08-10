@@ -1,7 +1,7 @@
 * {
   col-fg: #D5D7C0;
   col-bg: #081823;
-  col-accent: #A5DBFF;
+  col-accent: #A1DDFF;
 }
 
 @import "general-theme"

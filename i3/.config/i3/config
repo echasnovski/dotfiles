@@ -55,10 +55,10 @@
 # Seabed
 set $col-fg #D5D7C0
 set $col-bg #081823
-set $col-urgent #FFC2B6
-set $col-accent #A5DBFF
-set $col-accent2 #AFE4B9
-set $col-accent3 #F4C2EE
+set $col-urgent #FFC0C4
+set $col-accent #A1DDFF
+set $col-accent2 #B4E3B5
+set $col-accent3 #F0C3F2
 
 # General =====================================================================
 
