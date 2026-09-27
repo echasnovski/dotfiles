@@ -36,7 +36,7 @@
 # set $col-accent2 #86B300
 # set $col-accent3 #55B4D4
 
-# # Minischeme
+# # Miniblue
 # set $col-fg #E2E98F
 # set $col-bg #112641
 # set $col-urgent #CC7E46
@@ -44,7 +44,7 @@
 # set $col-accent2 #00A5C5
 # set $col-accent3 #CA6ECF
 
-# # Minischeme light
+# # Miniblue light
 # set $col-fg #002A83
 # set $col-bg #E2E5CA
 # set $col-urgent #A86400

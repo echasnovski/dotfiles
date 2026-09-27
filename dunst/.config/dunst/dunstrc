@@ -307,12 +307,12 @@
     # foreground = "#86B300"
     # frame_color = "#86B300"
 
-    # # Minischeme
+    # # Miniblue
     # background = "#112641"
     # foreground = "#CA6ECF"
     # frame_color = "#CA6ECF"
 
-    # # Minischeme light
+    # # Miniblue light
     # background = "#E2E5CA"
     # foreground = "#B34AAD"
     # frame_color = "#B34AAD"
@@ -335,12 +335,12 @@
     # foreground = "#36A3D9"
     # frame_color = "#36A3D9"
 
-    # # Minischeme
+    # # Miniblue
     # background = "#112641"
     # foreground = "#46A436"
     # frame_color = "#46A436"
 
-    # # Minischeme light
+    # # Miniblue light
     # background = "#E2E5CA"
     # foreground = "#008818"
     # frame_color = "#008818"
@@ -363,12 +363,12 @@
     # foreground = "#FF3333"
     # frame_color = "#FF3333"
 
-    # # Minischeme
+    # # Miniblue
     # background = "#112641"
     # foreground = "#CC7E46"
     # frame_color = "#CC7E46"
 
-    # # Minischeme light
+    # # Miniblue light
     # background = "#E2E5CA"
     # foreground = "#A86400"
     # frame_color = "#A86400"

@@ -153,7 +153,7 @@ static const char *colorname[] = {
   /* [256] = "#5c6773",// Foreground */
   /* [257] = "#fafafa" // Background */
 
-  // Minischeme (from https://github.com/echasnovski/mini.nvim)
+  // Miniblue (from https://github.com/nvim-mini/mini.nvim)
   [0]   = "#112641",
   [1]   = "#ffcfa0",
   [2]   = "#9ff895",
@@ -173,7 +173,7 @@ static const char *colorname[] = {
   [256] = "#e2e98f", // Foreground
   [257] = "#112641"  // Background
 
-  /* // Minischeme light (from https://github.com/echasnovski/mini.nvim) */
+  /* // Miniblue light (from https://github.com/nvim-mini/mini.nvim) */
   /* [0]   = "#E2E5CA", */
   /* [1]   = "#5e2200", */
   /* [2]   = "#004500", */
