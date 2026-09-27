@@ -48,7 +48,6 @@ selection-invert-fg-bg = true
 # If false, windows won't have native decorations (titlebar and borders).
 window-decoration = false
 gtk-titlebar      = false
-gtk-adwaita       = false
 
 # Whether to automatically copy selected text to the clipboard
 copy-on-select = false

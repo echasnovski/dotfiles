@@ -231,14 +231,14 @@ def nvim_pick_input []: list -> list {
 
 $env.config.keybindings ++= [
   {
-    name: clear_line
+    name: nvim_pick_files
     modifier: control
     keycode: char_t
     mode: vi_insert
     event: { send: executehostcommand, cmd: nvim_pick_files }
   },
   {
-    name: clear_line
+    name: nvim_pick_dirs
     modifier: control
     keycode: char_d
     mode: vi_insert
