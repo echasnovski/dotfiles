@@ -80,8 +80,8 @@ theme[download_end]="#A1DDFF"
 
 # Upload graph colors
 theme[upload_start]="#B4E3B5"
-theme[upload_mid]="#D7DA9C"
-theme[upload_end]="#D7DA9C"
+theme[upload_mid]="#E0D699"
+theme[upload_end]="#E0D699"
 
 # Process box color gradient for threads, mem and cpu usage
 theme[process_start]="#A1DDFF"

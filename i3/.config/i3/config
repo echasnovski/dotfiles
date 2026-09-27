@@ -52,7 +52,7 @@
 # set $col-accent2 #0086ae
 # set $col-accent3 #B34AAD
 
-# Seabed
+# Minischeme
 set $col-fg #D5D7C0
 set $col-bg #081823
 set $col-urgent #FFC0C4

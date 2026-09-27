@@ -1,10 +1,10 @@
 # Use nushell
 command = nu
 
-# Custom blue-bg-yellow-fg theme
-theme = Seabed
+# Main MINI color scheme
+theme = Minischeme
 
-# Or use of the best dark theme ever existed
+# Or use of the best default dark theme ever existed
 # theme = NvimDark
 # # - Adjust "dimmed white" to be different from "white"
 # palette = 7=#9b9ea4

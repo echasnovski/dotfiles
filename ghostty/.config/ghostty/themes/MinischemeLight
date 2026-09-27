@@ -1,0 +1,43 @@
+# OKLch: 90-1-90
+background = #F3F1E9
+# OKLch: 25-3-270
+foreground = #34394A
+
+# All rainbow colors have initially:
+# - Lightness 30 for 0-7 colors and 40 for 8-15.
+# - Chroma to 16.
+# - Some colors are tweaked for better usability.
+#   See https://github.com/nvim-mini/mini.nvim.
+# Normalized with 'mini.colors' and 'cusp' gamut clip.
+
+# Black. The darkest color and darkest background variant.
+palette = 0=#0D111F
+palette = 8=#b2b0a8
+
+# Red. Hue 30.
+palette = 1=#870600
+palette = 9=#A52C1F
+
+# Green. Hue 140.
+palette = 2=#1D7300
+palette = 10=#1D7200
+
+# Yellow. Hue 110.
+palette = 3=#626200
+palette = 11=#808000
+
+# Blue. Hue 240.
+palette = 4=#006699
+palette = 12=#0074AD
+
+# Magenta. Hue 340.
+palette = 5=#780D60
+palette = 13=#952F7A
+
+# Cyan. Hue 170.
+palette = 6=#008064
+palette = 14=#019373
+
+# White. The lightest foreground variant and lightest color.
+palette = 7=#6C7285
+palette = 15=#FDFBF2
